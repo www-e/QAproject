@@ -1,25 +1,26 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import "./globals.css"
-import { ThemeProvider } from "@/lib/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { ThemeProvider } from "@/lib/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 // Enhanced font loading with Arabic support
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: 'swap',
-})
+  display: "swap",
+});
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono", 
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: 'swap',
-})
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "QA Dashboard - Modern Analytics Platform",
-  description: "Advanced QA automation dashboard with real-time analytics and beautiful Arabic interface",
+  description:
+    "Advanced QA automation dashboard with real-time analytics and beautiful Arabic interface",
   keywords: ["QA", "Testing", "Dashboard", "Analytics", "Arabic"],
   authors: [{ name: "QA Dashboard Team" }],
   creator: "QA Dashboard",
@@ -29,34 +30,34 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    type: 'website',
-    locale: 'ar_EG', // Arabic Egypt locale
-    url: 'https://qa-dashboard.com',
-    title: 'QA Dashboard - Modern Analytics Platform',
-    description: 'Advanced QA automation dashboard with stunning animations',
-    siteName: 'QA Dashboard',
+    type: "website",
+    locale: "ar_EG", // Arabic Egypt locale
+    url: "https://qa-dashboard.com",
+    title: "QA Dashboard - Modern Analytics Platform",
+    description: "Advanced QA automation dashboard with stunning animations",
+    siteName: "QA Dashboard",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'QA Dashboard - Modern Analytics Platform',
-    description: 'Advanced QA automation dashboard with stunning animations',
+    card: "summary_large_image",
+    title: "QA Dashboard - Modern Analytics Platform",
+    description: "Advanced QA automation dashboard with stunning animations",
   },
   viewport: {
-    width: 'device-width',
+    width: "device-width",
     initialScale: 1,
     maximumScale: 1,
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="ar" 
-      dir="rtl" 
+    <html
+      lang="ar"
+      dir="rtl"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
@@ -68,7 +69,10 @@ export default function RootLayout({
           as="style"
         />
         {/* Viewport meta for mobile optimization */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         {/* Theme color that matches your OKLCH primary */}
         <meta name="theme-color" content="#2563eb" />
         <meta name="color-scheme" content="light dark" />
@@ -80,31 +84,28 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          {/* Main Application Wrapper with Modern Stack Integration */}
+          {/* Main Application Wrapper */}
           <div className="relative min-h-screen bg-background">
-            {/* Background Pattern (Optional - using your existing variables) */}
-            <div className="fixed inset-0 bg-grid-small-black/[0.2] dark:bg-grid-small-white/[0.2] pointer-events-none" />
-            <div className="fixed inset-0 bg-gradient-to-br from-background via-background to-secondary/20 pointer-events-none" />
-            
-            {/* Main Content with Animation Support */}
-            <div className="relative z-10">
-              {children}
-            </div>
+            {/* Background Pattern (Optional) */}
+            <div className="fixed inset-0 bg-gradient-to-br from-background via-background to-primary/5 pointer-events-none" />
+
+            {/* Main Content */}
+            <div className="relative z-10">{children}</div>
           </div>
-          
-          {/* Toast Notifications (Sonner integration) */}
-          <Toaster 
+
+          {/* Toast Notifications */}
+          <Toaster
             position="top-right"
             toastOptions={{
               style: {
-                background: 'oklch(var(--card))',
-                color: 'oklch(var(--card-foreground))',
-                border: '1px solid oklch(var(--border))',
+                background: "oklch(var(--card))",
+                color: "oklch(var(--card-foreground))",
+                border: "1px solid oklch(var(--border))",
               },
             }}
           />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

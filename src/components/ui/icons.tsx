@@ -18,7 +18,11 @@ import {
   Workflow,
   FileText,
   ChevronRight,
-  Check
+  Check,
+  Send,
+  Paperclip,
+  Play,
+  Clock
 } from "lucide-react"
 
 export const Icons = {
@@ -41,4 +45,8 @@ export const Icons = {
   workflow: Workflow,
   fileText: FileText,
   chevronRight: ChevronRight,
+  send: Send,
+  paperclip: Paperclip,
+  play: Play,
+  clock: Clock,
 } as const

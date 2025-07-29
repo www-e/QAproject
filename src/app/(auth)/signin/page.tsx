@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { SignInForm } from "@/components/auth/signin-form"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { pageTransitions, fadeInUp } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { SignInForm } from "@/components/auth/signin-form";
+import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch";
+import { pageTransitions, fadeInUp } from "@/lib/animations";
 
 export default function SignInPage() {
   return (
@@ -11,7 +11,7 @@ export default function SignInPage() {
       {/* Animated Background Pattern (using your OKLCH variables) */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
       <div className="absolute inset-0 bg-grid-small-black/[0.02] dark:bg-grid-small-white/[0.02]" />
-      
+
       {/* Floating Orbs Animation */}
       <motion.div
         className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
@@ -22,7 +22,7 @@ export default function SignInPage() {
         transition={{
           duration: 20,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
       />
       <motion.div
@@ -34,18 +34,26 @@ export default function SignInPage() {
         transition={{
           duration: 25,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
       />
 
-      {/* Theme Toggle */}
-      <motion.div 
+      {/* Your Beautiful Day-Night Switch */}
+      <motion.div
         className="absolute top-6 right-6 z-50"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <ThemeToggle />
+        <DayNightSwitch
+          defaultChecked={true}
+          onToggle={(checked) => {
+            // Integrate with your theme provider
+            const theme = checked ? "light" : "dark";
+            document.documentElement.className = theme;
+          }}
+          className="border-2 border-border/50 hover:border-primary/50 transition-colors"
+        />
       </motion.div>
 
       {/* Main Authentication Container */}
@@ -54,7 +62,7 @@ export default function SignInPage() {
         {...pageTransitions}
       >
         {/* Logo and Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-8"
           variants={fadeInUp}
           initial="initial"
@@ -66,32 +74,29 @@ export default function SignInPage() {
             whileHover={{ scale: 1.05, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg 
-              className="w-8 h-8 text-primary-foreground" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className="w-8 h-8 text-primary-foreground"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             className="text-3xl font-bold text-foreground mb-2"
             variants={fadeInUp}
           >
             مرحباً بك
           </motion.h1>
-          
-          <motion.p 
-            className="text-muted-foreground"
-            variants={fadeInUp}
-          >
+
+          <motion.p className="text-muted-foreground" variants={fadeInUp}>
             سجل دخولك لمتابعة رحلة الجودة
           </motion.p>
         </motion.div>
@@ -108,7 +113,7 @@ export default function SignInPage() {
         </motion.div>
 
         {/* Footer */}
-        <motion.p 
+        <motion.p
           className="text-center text-sm text-muted-foreground mt-6"
           variants={fadeInUp}
           initial="initial"
@@ -119,5 +124,5 @@ export default function SignInPage() {
         </motion.p>
       </motion.div>
     </div>
-  )
+  );
 }
