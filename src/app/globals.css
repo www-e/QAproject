@@ -1,12 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Import Arabic font - Tajawal for modern Arabic UI (ADDED) */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* Enhanced font stack with Arabic support (MODIFIED) */
+  --font-sans: 'Tajawal', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -41,6 +45,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Custom Animation Variables (ADDED) */
+  --animation-duration: 0.3s;
+  --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :root {
@@ -118,5 +126,203 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Enhanced with Arabic font and better line-height (ADDED) */
+    font-family: 'Tajawal', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Arabic RTL Support (ADDED) */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="rtl"] .flex {
+    flex-direction: row-reverse;
+  }
+
+  /* Enhanced Scrollbar for Modern Stack (ADDED) */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary;
+  }
+}
+
+/* Custom Animation Keyframes (ADDED - Compatible with your modern stack) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px oklch(var(--primary) / 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px oklch(var(--primary) / 0.6);
+  }
+}
+
+/* Sidebar Animations (ADDED - Works with your existing sidebar variables) */
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@layer components {
+  /* Modern Animation Classes (ADDED - Using your OKLCH colors) */
+  .animate-fade-in {
+    animation: fadeIn var(--animation-duration) var(--animation-timing);
+  }
+
+  .animate-slide-up {
+    animation: slideUp var(--animation-duration) var(--animation-timing);
+  }
+
+  .animate-scale-in {
+    animation: scaleIn var(--animation-duration) var(--animation-timing);
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Glass Morphism (ADDED - Compatible with your modern setup) */
+  .glass {
+    backdrop-filter: blur(10px);
+    background: oklch(var(--background) / 0.8);
+    border: 1px solid oklch(var(--border) / 0.2);
+  }
+
+  /* Enhanced Button Styles (ADDED - Using your existing color variables) */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300 transform hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-300;
+  }
+
+  /* Card Hover Effects (ADDED - Works with your card variables) */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
+  }
+
+  /* Loading Spinner (ADDED) */
+  .spinner {
+    @apply inline-block w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin;
+  }
+
+  /* Sidebar Animation Classes (ADDED - Compatible with your sidebar setup) */
+  .sidebar-enter {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  .sidebar-exit {
+    animation: slideOutRight 0.3s ease-in;
+  }
+}
+
+@layer utilities {
+  /* RTL Utilities (ADDED) */
+  .rtl\:mr-auto {
+    margin-right: auto;
+  }
+
+  .rtl\:ml-auto {
+    margin-left: auto;
+  }
+
+  /* Animation Delays (ADDED) */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  /* Mobile Height Fix (ADDED) */
+  .h-screen-mobile {
+    height: 100vh;
+    height: 100svh;
+  }
+
+  /* Arabic Number Fonts (ADDED) */
+  .font-arabic-numbers {
+    font-variant-numeric: lining-nums;
+  }
+}
+
+/* Print Styles (ADDED) */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced Motion Support (ADDED - Accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
