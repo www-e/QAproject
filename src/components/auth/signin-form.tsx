@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ export function SignInForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   });
   const router = useRouter();
 
@@ -25,8 +26,22 @@ export function SignInForm() {
     // Simulate authentication
     setTimeout(() => {
       setIsLoading(false);
+      
+      // Handle remember me functionality
+      if (formData.rememberMe) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('userEmail', formData.email);
+        // Set longer session duration
+        localStorage.setItem('sessionExpiry', (Date.now() + 30 * 24 * 60 * 60 * 1000).toString()); // 30 days
+      } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('userEmail');
+        // Set shorter session duration
+        localStorage.setItem('sessionExpiry', (Date.now() + 24 * 60 * 60 * 1000).toString()); // 1 day
+      }
+      
       toast.success("تم تسجيل الدخول بنجاح!", {
-        description: "مرحباً بك في نظام إدارة الجودة",
+        description: formData.rememberMe ? "سيتم تذكر بياناتك للمرة القادمة" : "مرحباً بك في نظام إدارة الجودة",
         icon: <Icons.check className="w-5 h-5" />,
         classNames: {
           toast:
@@ -45,9 +60,23 @@ export function SignInForm() {
     }, 2000);
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  // Load remembered email on component mount
+  useEffect(() => {
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    const savedEmail = localStorage.getItem('userEmail') || '';
+    
+    if (rememberMe && savedEmail) {
+      setFormData(prev => ({
+        ...prev,
+        email: savedEmail,
+        rememberMe: true
+      }));
+    }
+  }, []);
 
   return (
     <motion.form
@@ -123,6 +152,8 @@ export function SignInForm() {
         <label className="flex items-center space-x-2 space-x-reverse cursor-pointer">
           <input
             type="checkbox"
+            checked={formData.rememberMe}
+            onChange={(e) => handleInputChange("rememberMe", e.target.checked)}
             className="rounded border-input focus:ring-primary focus:ring-2"
           />
           <span className="text-muted-foreground">تذكرني</span>

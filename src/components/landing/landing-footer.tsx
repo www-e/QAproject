@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
-import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
+import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 const footerLinks = {
   product: {
@@ -12,8 +12,8 @@ const footerLinks = {
       { name: "المميزات", href: "#features" },
       { name: "التسعير", href: "#pricing" },
       { name: "الأمان", href: "#security" },
-      { name: "التحديثات", href: "#updates" }
-    ]
+      { name: "التحديثات", href: "#updates" },
+    ],
   },
   company: {
     title: "الشركة",
@@ -21,8 +21,8 @@ const footerLinks = {
       { name: "من نحن", href: "#about" },
       { name: "فريق العمل", href: "#team" },
       { name: "الوظائف", href: "#careers" },
-      { name: "اتصل بنا", href: "#contact" }
-    ]
+      { name: "اتصل بنا", href: "#contact" },
+    ],
   },
   resources: {
     title: "الموارد",
@@ -30,8 +30,8 @@ const footerLinks = {
       { name: "الوثائق", href: "#docs" },
       { name: "دلائل المستخدم", href: "#guides" },
       { name: "واجهة برمجة التطبيقات", href: "#api" },
-      { name: "المجتمع", href: "#community" }
-    ]
+      { name: "المجتمع", href: "#community" },
+    ],
   },
   legal: {
     title: "القانونية",
@@ -39,10 +39,10 @@ const footerLinks = {
       { name: "الخصوصية", href: "#privacy" },
       { name: "الخدمة", href: "#terms" },
       { name: "ملفات تعريف الارتباط", href: "#cookies" },
-      { name: "التراخيص", href: "#licenses" }
-    ]
-  }
-}
+      { name: "التراخيص", href: "#licenses" },
+    ],
+  },
+};
 
 export function LandingFooter() {
   // The useTheme hook and handleThemeToggle function have been removed.
@@ -69,14 +69,16 @@ export function LandingFooter() {
                   <Icons.check className="w-6 h-6 text-primary-foreground" />
                 </motion.div>
                 <div>
-                  <h3 className="text-2xl font-bold text-foreground">نظام الجودة</h3>
+                  <h3 className="text-2xl font-bold text-foreground">
+                    نظام الجودة
+                  </h3>
                   <p className="text-sm text-muted-foreground">إدارة متقدمة</p>
                 </div>
               </div>
-              
+
               <p className="text-muted-foreground leading-relaxed max-w-md">
-                حلول متطورة لإدارة اختبارات الجودة مع واجهات عربية حديثة وذكاء اصطناعي متقدم
-                لتحسين كفاءة المشاريع وضمان الجودة العالية.
+                حلول متطورة لإدارة اختبارات الجودة مع واجهات عربية حديثة وذكاء
+                اصطناعي متقدم لتحسين كفاءة المشاريع وضمان الجودة العالية.
               </p>
 
               {/* The DayNightSwitch has been removed from here */}
@@ -98,11 +100,13 @@ export function LandingFooter() {
             {/* Links Sections */}
             {Object.entries(footerLinks).map(([key, section]) => (
               <motion.div key={key} variants={fadeInUp} className="space-y-4">
-                <h4 className="font-semibold text-foreground">{section.title}</h4>
+                <h4 className="font-semibold text-foreground">
+                  {section.title}
+                </h4>
                 <ul className="space-y-3">
                   {section.links.map((link) => (
                     <li key={link.name}>
-                      <a 
+                      <a
                         href={link.href}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
@@ -128,19 +132,20 @@ export function LandingFooter() {
             <p className="text-sm text-muted-foreground">
               © 2025 نظام إدارة الجودة. جميع الحقوق محفوظة.
             </p>
-            
+
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <span>صنع بـ ❤️ في مصر</span>
-              <div className="flex items-center gap-2">
-                <span>مدعوم بـ</span>
-                <span className="font-semibold text-foreground">Tailwind v4</span>
-                <span>و</span>
-                <span className="font-semibold text-foreground">Next.js 15</span>
-              </div>
+              <a
+                href="https://omar-flax.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-foreground transition-colors cursor-pointer"
+              >
+                Developed by Omar
+              </a>
             </div>
           </div>
         </motion.div>
       </div>
     </footer>
-  )
+  );
 }

@@ -22,25 +22,25 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
       icon: Icons.alert,
       color: "red",
       content: (
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>أخطاء الاتصال</span>
-              <Badge variant="destructive">23</Badge>
+        <div className="space-y-3 h-full flex flex-col overflow-hidden">
+          <div className="space-y-2 flex-1 min-h-0">
+            <div className="flex justify-between items-center text-sm">
+              <span className="truncate flex-1 ml-2">أخطاء الاتصال</span>
+              <Badge variant="destructive" className="text-xs shrink-0">23</Badge>
             </div>
             <Progress value={65} className="h-2" />
           </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>أخطاء التحقق</span>
-              <Badge variant="destructive">18</Badge>
+          <div className="space-y-2 flex-1 min-h-0">
+            <div className="flex justify-between items-center text-sm">
+              <span className="truncate flex-1 ml-2">أخطاء التحقق</span>
+              <Badge variant="destructive" className="text-xs shrink-0">18</Badge>
             </div>
             <Progress value={45} className="h-2" />
           </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>أخطاء الأداء</span>
-              <Badge variant="destructive">12</Badge>
+          <div className="space-y-2 flex-1 min-h-0">
+            <div className="flex justify-between items-center text-sm">
+              <span className="truncate flex-1 ml-2">أخطاء الأداء</span>
+              <Badge variant="destructive" className="text-xs shrink-0">12</Badge>
             </div>
             <Progress value={30} className="h-2" />
           </div>
@@ -53,24 +53,24 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
       icon: Icons.users,
       color: "blue",
       content: (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm">فريق الواجهات</span>
-            <div className="flex items-center gap-2">
+        <div className="space-y-3 h-full flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between min-h-0">
+            <span className="text-sm truncate flex-1 ml-2">فريق الواجهات</span>
+            <div className="flex items-center gap-2 shrink-0">
               <Progress value={92} className="w-16 h-2" />
               <span className="text-sm font-medium">92%</span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm">فريق الخدمات</span>
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between min-h-0">
+            <span className="text-sm truncate flex-1 ml-2">فريق الخدمات</span>
+            <div className="flex items-center gap-2 shrink-0">
               <Progress value={88} className="w-16 h-2" />
               <span className="text-sm font-medium">88%</span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm">فريق قواعد البيانات</span>
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between min-h-0">
+            <span className="text-sm truncate flex-1 ml-2">فريق قواعد البيانات</span>
+            <div className="flex items-center gap-2 shrink-0">
               <Progress value={95} className="w-16 h-2" />
               <span className="text-sm font-medium">95%</span>
             </div>
@@ -84,17 +84,17 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
       icon: Icons.settings,
       color: "green",
       content: (
-        <div className="space-y-4">
-          <div className="text-center">
+        <div className="space-y-4 h-full flex flex-col overflow-hidden">
+          <div className="text-center flex-shrink-0">
             <div className="text-3xl font-bold text-green-600">
               <NumberTicker value={156} />
             </div>
             <div className="text-sm text-muted-foreground">اختبار آلي</div>
           </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>معدل الأتمتة</span>
-              <span className="font-medium">75%</span>
+          <div className="space-y-2 flex-1 min-h-0">
+            <div className="flex justify-between items-center text-sm">
+              <span className="truncate flex-1 ml-2">معدل الأتمتة</span>
+              <span className="font-medium shrink-0">75%</span>
             </div>
             <Progress value={75} className="h-2" />
           </div>
@@ -107,8 +107,8 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
       icon: Icons.clock,
       color: "orange",
       content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 text-center">
+        <div className="space-y-4 h-full flex flex-col overflow-hidden">
+          <div className="grid grid-cols-2 gap-4 text-center flex-shrink-0">
             <div>
               <div className="text-2xl font-bold text-orange-600">
                 <NumberTicker value={2.3} />s
@@ -122,10 +122,10 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
               <div className="text-xs text-muted-foreground">استهلاك الذاكرة</div>
             </div>
           </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>تحسن الأداء</span>
-              <Badge variant="default">+15%</Badge>
+          <div className="space-y-2 flex-1 min-h-0">
+            <div className="flex justify-between items-center text-sm">
+              <span className="truncate flex-1 ml-2">تحسن الأداء</span>
+              <Badge variant="default" className="shrink-0">+15%</Badge>
             </div>
           </div>
         </div>
@@ -155,11 +155,13 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
                 </div>
               }
               description={
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
+                <div className="space-y-4 h-full flex flex-col overflow-hidden">
+                  <p className="text-sm text-muted-foreground line-clamp-2 flex-shrink-0">
                     {metric.description}
                   </p>
-                  {metric.content}
+                  <div className="flex-1 min-h-0 overflow-hidden">
+                    {metric.content}
+                  </div>
                 </div>
               }
               header={

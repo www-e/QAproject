@@ -183,7 +183,7 @@ export function FeaturesShowcase() {
                     index === 0 ? "md:col-span-2" : 
                     index === 3 ? "md:col-span-1" : 
                     index === 4 ? "md:col-span-1" :
-                    index === 5 ? "md:col-span-2" : ""
+                    index === 5 ? "md:col-span-3" : ""
                   } card-hover group`}
                 />
               ))}

@@ -62,12 +62,10 @@ export function CTASection() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Link href="/signin">
-                      <BackgroundGradient className="rounded-xl p-0">
-                        <div className="flex items-center gap-2 bg-background text-foreground hover:bg-background/90 px-8 py-4 text-lg font-semibold rounded-xl">
-                          <Icons.play className="ml-2 h-5 w-5" />
-                          ابدأ التجربة المجانية
-                        </div>
-                      </BackgroundGradient>
+                      <div className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-xl transition-colors duration-200 flex items-center gap-2">
+                        <Icons.play className="ml-2 h-5 w-5" />
+                        ابدأ التجربة المجانية
+                      </div>
                     </Link>
                   </motion.div>
 
