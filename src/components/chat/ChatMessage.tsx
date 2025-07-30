@@ -3,10 +3,10 @@
 import { motion } from "framer-motion"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
 import { GlowingEffect } from "@/components/ui/glowing-effect"
 import { Icons } from "@/components/ui/icons"
 import { Message } from "@/types/chat"
+import { useState, useEffect } from "react"
 
 interface ChatMessageProps {
   message: Message
@@ -14,6 +14,27 @@ interface ChatMessageProps {
 }
 
 export default function ChatMessage({ message, index }: ChatMessageProps) {
+  const [formattedTime, setFormattedTime] = useState<string>("")
+  
+  // Fix hydration mismatch by formatting time on client side only
+  useEffect(() => {
+    setFormattedTime(
+      message.timestamp.toLocaleTimeString("ar-EG", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    )
+  }, [message.timestamp])
+
+  // Debug logging to see if component receives data
+  console.log('ChatMessage rendering:', { 
+    id: message.id, 
+    type: message.type, 
+    content: message.content.substring(0, 50) + '...',
+    hasContent: !!message.content 
+  })
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -37,30 +58,29 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
           message.type === "user" ? "order-first" : ""
         }`}
       >
-        <GlowingEffect>
+        <div className="relative">
+          <GlowingEffect 
+            disabled={false}
+            glow={true}
+            className="absolute inset-0"
+          />
           <Card
-            className={`
-              ${
-                message.type === "user"
-                  ? "bg-primary text-primary-foreground ml-auto"
-                  : "bg-card border-border/50"
-              }
-            `}
+            className={`relative z-10 ${
+              message.type === "user"
+                ? "bg-primary text-primary-foreground ml-auto"
+                : "bg-card border-border/50"
+            }`}
           >
             <CardContent className="p-4">
-              {message.type === "ai" ? (
-                <TextGenerateEffect
-                  words={message.content}
-                  className="text-sm leading-relaxed"
-                />
-              ) : (
-                <p className="text-sm leading-relaxed">
-                  {message.content}
-                </p>
-              )}
+              <div 
+                className="text-sm leading-relaxed whitespace-pre-wrap"
+                style={{ minHeight: '20px' }}
+              >
+                {message.content || 'No content available'}
+              </div>
             </CardContent>
           </Card>
-        </GlowingEffect>
+        </div>
 
         <div
           className={`flex items-center gap-2 mt-2 text-xs text-muted-foreground ${
@@ -68,11 +88,7 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
           }`}
         >
           <span>
-            {message.timestamp.toLocaleTimeString("ar-EG", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })}
+            {formattedTime}
           </span>
           {message.type === "user" && (
             <Icons.check className={`w-3 h-3 ${

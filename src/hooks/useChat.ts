@@ -3,15 +3,24 @@ import { Message } from '@/types/chat'
 import { initialMessages } from '@/constants/chat'
 
 export function useChat() {
-  const [messages, setMessages] = useState<Message[]>(initialMessages)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isInitialized, setIsInitialized] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const isMountedRef = useRef(true)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
+
+  // Initialize messages on client side to avoid hydration mismatch
+  useEffect(() => {
+    if (!isInitialized) {
+      setMessages(initialMessages)
+      setIsInitialized(true)
+    }
+  }, [isInitialized])
 
   useEffect(() => {
     scrollToBottom()

@@ -27,7 +27,7 @@ export default function TypingIndicator({ isTyping }: TypingIndicatorProps) {
           <Card className="bg-card border-border/50">
             <CardContent className="p-4">
               <div className="flex items-center gap-2">
-                <LoaderOne className="w-5 h-5" />
+                <LoaderOne />
                 <span className="text-sm text-muted-foreground">
                   يكتب...
                 </span>

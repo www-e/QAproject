@@ -8,10 +8,13 @@ import { Message } from "@/types/chat"
 interface MessagesListProps {
   messages: Message[]
   isTyping: boolean
-  messagesEndRef: React.RefObject<HTMLDivElement>
+  messagesEndRef: React.RefObject<HTMLDivElement | null>
 }
 
 export default function MessagesList({ messages, isTyping, messagesEndRef }: MessagesListProps) {
+  // Debug logging
+  console.log('MessagesList rendering with messages:', messages.length, messages)
+  
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-6">
       <AnimatePresence>

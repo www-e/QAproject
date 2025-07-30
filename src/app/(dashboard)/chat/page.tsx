@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect } from "react"
 import ChatHeader from "@/components/chat/ChatHeader"
 import MessagesList from "@/components/chat/MessagesList"
 import QuickReplies from "@/components/chat/QuickReplies"
