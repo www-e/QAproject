@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@google/genai": "^1.11.0",
-    "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.14",

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import ChatHeader from "@/components/chat/ChatHeader"
 import MessagesList from "@/components/chat/MessagesList"
 import QuickReplies from "@/components/chat/QuickReplies"
@@ -19,6 +20,10 @@ export default function ChatPage() {
     sendMessage(reply)
   }
 
+  const handleSendMessage = (message: string) => {
+    sendMessage(message)
+  }
+
   return (
     <div className="flex flex-col h-full bg-background">
       <ChatHeader messageCount={messages.length} />
@@ -35,7 +40,7 @@ export default function ChatPage() {
       />
       
       <ChatInput 
-        onSendMessage={sendMessage}
+        onSendMessage={handleSendMessage}
         isLoading={isLoading}
       />
     </div>

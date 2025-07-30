@@ -17,7 +17,8 @@ export default function ChatInput({ onSendMessage, isLoading }: ChatInputProps) 
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      onSendMessage(inputValue)
+      console.log('Sending from input:', inputValue) // Debug log
+      onSendMessage(inputValue.trim())
       setInputValue("")
     }
   }
@@ -31,42 +32,64 @@ export default function ChatInput({ onSendMessage, isLoading }: ChatInputProps) 
 
   return (
     <motion.div
-      className="mobile-nav-spacing border-t border-sidebar-border bg-background safe-area-bottom p-4"
+      className="border-t border-sidebar-border bg-background p-6"
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.3 }}
     >
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
-        <div className="flex-1">
+      <div className="flex flex-col gap-4">
+        {/* Multi-row Textarea */}
+        <div className="relative">
           <Textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="اكتب رسالتك هنا... (Enter للإرسال، Shift+Enter لسطر جديد)"
-            className="min-h-[80px] max-h-[200px] resize-none bg-sidebar-accent/50 border-sidebar-border focus:bg-background text-responsive-sm"
+            className="min-h-[100px] max-h-[200px] resize-none bg-sidebar-accent/50 border-sidebar-border focus:bg-background text-base leading-relaxed"
             dir="rtl"
             disabled={isLoading}
             onKeyDown={handleKeyDown}
             rows={3}
           />
+          
+          {/* Character count */}
+          <div className="absolute bottom-2 left-3 text-xs text-muted-foreground">
+            {inputValue.length}/1000
+          </div>
         </div>
 
-        <div className="flex gap-2 justify-end sm:justify-start">
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={isLoading}
-            className="touch-target"
-            title="إرفاق ملف"
-          >
-            <Icons.paperclip className="w-4 h-4" />
-          </Button>
+        {/* Action buttons */}
+        <div className="flex items-center justify-between">
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={isLoading}
+              className="h-9"
+              title="إرفاق ملف"
+            >
+              <Icons.paperclip className="w-4 h-4 ml-2" />
+              إرفاق
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={isLoading}
+              className="h-9"
+              title="مسح النص"
+              onClick={() => setInputValue("")}
+            >
+              <Icons.close className="w-4 h-4 ml-2" />
+              مسح
+            </Button>
+          </div>
 
           <StatefulButton
             onClick={handleSend}
-            disabled={!inputValue.trim() || isLoading}
-            className="btn-primary btn-mobile flex-1 sm:flex-none sm:min-w-[100px]"
+            disabled={!inputValue.trim() || isLoading || inputValue.length > 1000}
+            className="btn-primary min-w-[120px] h-9"
             idleText="إرسال"
-            loadingText="جاري الإرسال"
+            loadingText="جاري الإرسال..."
             successText="تم الإرسال"
             isLoading={isLoading}
           >
