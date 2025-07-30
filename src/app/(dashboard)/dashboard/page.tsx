@@ -69,7 +69,7 @@ const recentTests = [
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto p-6 space-y-8 animate-fade-in">
+    <div className="container mx-auto container-responsive space-y-6 sm:space-y-8 animate-fade-in">
       {/* Welcome Section using Your Text Generate Effect */}
       <motion.div
         variants={staggerChildren}
@@ -171,9 +171,9 @@ export default function DashboardPage() {
         </BentoGrid>
       </motion.div>
 
-      {/* Quick Actions using Your Hover Border Gradient */}
+      {/* Enhanced Mobile-Responsive Quick Actions */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-responsive-2 gap-4 sm:gap-6"
         variants={staggerChildren}
         initial="initial"
         animate="animate"

@@ -12,33 +12,47 @@ import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 export function CTASection() {
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-primary/5">
-      <div className="container mx-auto px-6">
+    <section className="py-24 bg-gradient-to-b from-background to-primary/5 flex items-center justify-center min-h-[80vh]">
+      <div className="container mx-auto px-6 flex items-center justify-center">
         <motion.div
           variants={staggerChildren}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center space-y-12"
+          className="max-w-5xl w-full text-center space-y-12"
         >
-          {/* Main CTA */}
-          <motion.div variants={fadeInUp}>
-            <HoverBorderGradient as="div" containerClassName="rounded-3xl">
-              <div className="bg-background border-0 p-12 space-y-8">
-                <div className="space-y-6">
-                  <Badge variant="secondary" className="text-sm px-4 py-2">
-                    🎯 ابدأ رحلتك اليوم
-                  </Badge>
+          {/* Centered Main CTA */}
+          <motion.div variants={fadeInUp} className="flex justify-center">
+            <HoverBorderGradient
+              as="div"
+              containerClassName="rounded-3xl w-full max-w-4xl"
+            >
+              <div className="bg-background border-0 p-12 space-y-8 text-center">
+                <div className="space-y-6 flex flex-col items-center">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Badge variant="secondary" className="text-sm px-6 py-3">
+                      🎯 ابدأ رحلتك اليوم
+                    </Badge>
+                  </motion.div>
 
                   <TextGenerateEffect
                     words="جاهز لتحويل إدارة الجودة في مشروعك؟"
-                    className="text-3xl md:text-4xl font-bold text-foreground"
+                    className="text-4xl md:text-5xl font-bold text-foreground text-center"
                   />
 
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  <motion.p
+                    className="text-xl text-muted-foreground max-w-3xl leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
                     انضم إلى المئات من الشركات التي تثق في نظامنا لإدارة
                     اختبارات الجودة بكفاءة عالية
-                  </p>
+                  </motion.p>
                 </div>
 
                 {/* CTA Buttons */}

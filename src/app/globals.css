@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -7,7 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Tajawal', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-sans: "Tajawal", var(--font-geist-sans), system-ui, -apple-system,
+    sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -42,7 +43,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
+
   /* Custom Animation Variables (ADDED) */
   --animation-duration: 0.3s;
   --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
@@ -124,7 +125,8 @@
   body {
     @apply bg-background text-foreground;
     /* Enhanced with Arabic font and better line-height (ADDED) */
-    font-family: 'Tajawal', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+    font-family: "Tajawal", var(--font-geist-sans), system-ui, -apple-system,
+      sans-serif;
     line-height: 1.6;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
@@ -159,27 +161,31 @@
 
 /* Custom Animation Keyframes (ADDED - Compatible with your modern stack) */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes scaleIn {
-  from { 
+  from {
     opacity: 0;
     transform: scale(0.95);
   }
-  to { 
+  to {
     opacity: 1;
     transform: scale(1);
   }
@@ -304,8 +310,74 @@
   .font-arabic-numbers {
     font-variant-numeric: lining-nums;
   }
-}
+  /* Mobile-First Container Spacing */
+  .container-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
 
+  /* Enhanced Mobile Navigation */
+  .mobile-nav-spacing {
+    @apply p-4 sm:p-6;
+  }
+
+  /* Responsive Text Scaling */
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl xl:text-4xl;
+  }
+
+  /* Mobile-Optimized Cards */
+  .card-mobile {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  /* Better Mobile Table Handling */
+  .table-mobile {
+    @apply text-xs sm:text-sm;
+  }
+
+  /* Mobile-Friendly Button Sizing */
+  .btn-mobile {
+    @apply h-10 sm:h-9 px-3 sm:px-4 text-sm;
+  }
+
+  /* Responsive Grid Improvements */
+  .grid-responsive-1 {
+    @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .grid-responsive-2 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Touch-Friendly Interactive Elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Safe Areas for Mobile */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+/* Dark Mode Mobile Optimizations */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .glass {
+    backdrop-filter: blur(8px);
+    background: oklch(var(--background) / 0.9);
+  }
+}
 /* Print Styles (ADDED) */
 @media print {
   .no-print {

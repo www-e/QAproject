@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
-import { BackgroundGradient } from "@/components/ui/background-gradient"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
@@ -92,9 +91,9 @@ export function FeaturesShowcase() {
             </p>
           </motion.div>
 
-          {/* Features Bento Grid */}
+          {/* Features Bento Grid - Cleaned up version */}
           <motion.div variants={fadeInUp}>
-            <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[24rem]">
+            <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[28rem] gap-6">
               {features.map((feature, index) => (
                 <BentoGridItem
                   key={feature.title}
@@ -112,59 +111,74 @@ export function FeaturesShowcase() {
                     </div>
                   }
                   description={
-                    // Flex container to manage space and prevent overflow
-                    <div className="flex flex-col justify-between h-full">
-                      <p className="text-muted-foreground leading-relaxed text-base flex-shrink">
-                        {feature.description}
-                      </p>
-                      
-                      <div className="mt-4 space-y-4">
-                        {/* Statistics */}
-                        <div className="flex items-center gap-3 p-3 bg-sidebar-accent/30 rounded-lg">
-                          <NumberTicker 
-                            value={feature.stats.value} 
-                            className="text-2xl font-bold text-foreground" 
-                          />
-                          <span className="text-muted-foreground text-sm">{feature.stats.label}</span>
-                        </div>
+                    <div className="flex flex-col h-full min-h-0">
+                      {/* Description with proper text wrapping */}
+                      <div className="flex-1 mb-4">
+                        <p className="text-muted-foreground leading-relaxed text-sm line-clamp-3 mb-3">
+                          {feature.description}
+                        </p>
+                      </div>
 
-                        {/* Benefits */}
-                        <div className="space-y-2">
-                          {feature.benefits.map((benefit, benefitIndex) => (
-                            <div key={benefitIndex} className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                              <span className="text-sm text-muted-foreground">{benefit}</span>
-                            </div>
-                          ))}
+                      {/* Statistics Card */}
+                      <motion.div 
+                        className="bg-gradient-to-r from-sidebar-accent/20 to-sidebar-accent/10 rounded-xl p-4 mb-4"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-baseline gap-2">
+                            <NumberTicker 
+                              value={feature.stats.value} 
+                              className="text-3xl font-bold text-primary" 
+                            />
+                            <span className="text-sm text-muted-foreground font-medium">
+                              {feature.stats.label}
+                            </span>
+                          </div>
+                          <div className={`p-2 rounded-lg bg-${feature.color}-500/10`}>
+                            <feature.icon className={`w-5 h-5 text-${feature.color}-500`} />
+                          </div>
                         </div>
+                      </motion.div>
+
+                      {/* Benefits with better spacing */}
+                      <div className="space-y-2">
+                        {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
+                          <motion.div 
+                            key={benefitIndex} 
+                            className="flex items-center gap-3"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: benefitIndex * 0.1 }}
+                          >
+                            <div className={`w-2 h-2 bg-${feature.color}-500 rounded-full flex-shrink-0`} />
+                            <span className="text-sm text-muted-foreground leading-tight">
+                              {benefit}
+                            </span>
+                          </motion.div>
+                        ))}
                       </div>
                     </div>
                   }
                   header={
-                    <BackgroundGradient 
-                      className="rounded-lg p-4 h-full"
-                      containerClassName="h-full"
-                    >
-                      <div className={`w-full h-full bg-gradient-to-br ${colorVariants[feature.color as keyof typeof colorVariants]} rounded-lg flex items-center justify-center relative overflow-hidden`}>
-                        {/* Animated Icon */}
-                        <motion.div
-                          animate={{ 
-                            scale: [1, 1.1, 1],
-                            rotate: [0, 5, -5, 0]
-                          }}
-                          transition={{ 
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: index * 0.5
-                          }}
-                        >
-                          <feature.icon className={`w-20 h-20 text-${feature.color}-500/80`} />
-                        </motion.div>
-                      </div>
-                    </BackgroundGradient>
+                    <div className={`w-full h-full bg-gradient-to-br ${colorVariants[feature.color as keyof typeof colorVariants]} rounded-lg flex items-center justify-center relative overflow-hidden`}>
+                      {/* Animated Icon */}
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          rotate: [0, 5, -5, 0]
+                        }}
+                        transition={{ 
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.5
+                        }}
+                      >
+                        <feature.icon className={`w-20 h-20 text-${feature.color}-500/80`} />
+                      </motion.div>
+                    </div>
                   }
-                  // New layout logic for the bento grid
                   className={`${
                     index === 0 ? "md:col-span-2" : 
                     index === 3 ? "md:col-span-1" : 

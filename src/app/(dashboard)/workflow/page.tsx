@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
-import { BackgroundGradient } from "@/components/ui/background-gradient"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-import { GlowingEffect } from "@/components/ui/glowing-effect"
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
-import { NumberTicker } from "@/components/magicui/number-ticker"
-import { StatefulButton } from "@/components/ui/stateful-button"
-import { Icons } from "@/components/ui/icons"
-import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { NumberTicker } from "@/components/magicui/number-ticker";
+import { StatefulButton } from "@/components/ui/stateful-button";
+import { Icons } from "@/components/ui/icons";
+import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 // Workflow steps data
 const workflowSteps = [
@@ -31,8 +31,8 @@ const workflowSteps = [
     tasks: [
       { name: "تحليل المتطلبات", completed: true },
       { name: "إعداد خطة الاختبار", completed: true },
-      { name: "تحديد البيئات", completed: true }
-    ]
+      { name: "تحديد البيئات", completed: true },
+    ],
   },
   {
     id: 2,
@@ -47,8 +47,8 @@ const workflowSteps = [
     tasks: [
       { name: "كتابة حالات الاختبار", completed: true },
       { name: "مراجعة الحالات", completed: true },
-      { name: "اعتماد النهائي", completed: true }
-    ]
+      { name: "اعتماد النهائي", completed: true },
+    ],
   },
   {
     id: 3,
@@ -63,8 +63,8 @@ const workflowSteps = [
     tasks: [
       { name: "إعداد الخوادم", completed: true },
       { name: "تثبيت الأدوات", completed: true },
-      { name: "اختبار الاتصال", completed: false }
-    ]
+      { name: "اختبار الاتصال", completed: false },
+    ],
   },
   {
     id: 4,
@@ -79,8 +79,8 @@ const workflowSteps = [
     tasks: [
       { name: "اختبارات الوحدة", completed: false },
       { name: "اختبارات التكامل", completed: false },
-      { name: "اختبارات النظام", completed: false }
-    ]
+      { name: "اختبارات النظام", completed: false },
+    ],
   },
   {
     id: 5,
@@ -95,8 +95,8 @@ const workflowSteps = [
     tasks: [
       { name: "تحليل النتائج", completed: false },
       { name: "إعداد التقرير", completed: false },
-      { name: "التوصيات", completed: false }
-    ]
+      { name: "التوصيات", completed: false },
+    ],
   },
   {
     id: 6,
@@ -111,43 +111,45 @@ const workflowSteps = [
     tasks: [
       { name: "مراجعة التقرير", completed: false },
       { name: "الموافقة النهائية", completed: false },
-      { name: "الإعلان عن الإصدار", completed: false }
-    ]
-  }
-]
+      { name: "الإعلان عن الإصدار", completed: false },
+    ],
+  },
+];
 
 const statusColors = {
-  "مكتمل": "default",
+  مكتمل: "default",
   "قيد التنفيذ": "secondary",
-  "معلق": "outline",
-  "لم يبدأ": "secondary"
-} as const
+  معلق: "outline",
+  "لم يبدأ": "secondary",
+} as const;
 
 const colorVariants = {
   green: "from-green-500/20 to-emerald-500/30",
   blue: "from-blue-500/20 to-cyan-500/30",
   orange: "from-orange-500/20 to-amber-500/30",
-  gray: "from-gray-500/20 to-slate-500/30"
-}
+  gray: "from-gray-500/20 to-slate-500/30",
+};
 
 export default function WorkflowPage() {
-  const [selectedStep, setSelectedStep] = useState<number | null>(null)
-  const [isExecuting, setIsExecuting] = useState<number | null>(null)
+  const [selectedStep, setSelectedStep] = useState<number | null>(null);
+  const [isExecuting, setIsExecuting] = useState<number | null>(null);
 
   const handleExecuteStep = async (stepId: number) => {
-    setIsExecuting(stepId)
+    setIsExecuting(stepId);
     // Simulate execution
     setTimeout(() => {
-      setIsExecuting(null)
-    }, 3000)
-  }
+      setIsExecuting(null);
+    }, 3000);
+  };
 
-  const completedSteps = workflowSteps.filter(step => step.status === "مكتمل").length
-  const totalSteps = workflowSteps.length
-  const overallProgress = Math.round((completedSteps / totalSteps) * 100)
+  const completedSteps = workflowSteps.filter(
+    (step) => step.status === "مكتمل"
+  ).length;
+  const totalSteps = workflowSteps.length;
+  const overallProgress = Math.round((completedSteps / totalSteps) * 100);
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto container-responsive space-y-6 sm:space-y-8">
       {/* Header with Progress Overview */}
       <motion.div
         variants={staggerChildren}
@@ -174,12 +176,19 @@ export default function WorkflowPage() {
                 <div>
                   <h3 className="text-2xl font-bold mb-2">التقدم الإجمالي</h3>
                   <div className="flex items-center justify-center gap-4 mb-4">
-                    <NumberTicker value={overallProgress} className="text-4xl font-bold text-primary" />
+                    <NumberTicker
+                      value={overallProgress}
+                      className="text-4xl font-bold text-primary"
+                    />
                     <span className="text-2xl text-muted-foreground">%</span>
                   </div>
                   <Progress value={overallProgress} className="h-3 mb-4" />
                   <p className="text-muted-foreground">
-                    <NumberTicker value={completedSteps} className="font-bold" /> من {totalSteps} مراحل مكتملة
+                    <NumberTicker
+                      value={completedSteps}
+                      className="font-bold"
+                    />{" "}
+                    من {totalSteps} مراحل مكتملة
                   </p>
                 </div>
               </CardContent>
@@ -194,11 +203,13 @@ export default function WorkflowPage() {
         initial="initial"
         animate="animate"
       >
-        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[25rem]">
+        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[25rem] gap-4 sm:gap-6">
           {workflowSteps.map((step, index) => {
-            const isSelected = selectedStep === step.id
-            const completedTasks = step.tasks.filter(task => task.completed).length
-            
+            const isSelected = selectedStep === step.id;
+            const completedTasks = step.tasks.filter(
+              (task) => task.completed
+            ).length;
+
             return (
               <motion.div
                 key={step.id}
@@ -209,18 +220,47 @@ export default function WorkflowPage() {
                   title={
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg bg-${step.color === 'green' ? 'green' : step.color === 'blue' ? 'blue' : step.color === 'orange' ? 'orange' : 'gray'}-500/10`}>
-                          <step.icon className={`w-5 h-5 text-${step.color === 'green' ? 'green' : step.color === 'blue' ? 'blue' : step.color === 'orange' ? 'orange' : 'gray'}-500`} />
+                        <div
+                          className={`p-2 rounded-lg bg-${
+                            step.color === "green"
+                              ? "green"
+                              : step.color === "blue"
+                              ? "blue"
+                              : step.color === "orange"
+                              ? "orange"
+                              : "gray"
+                          }-500/10`}
+                        >
+                          <step.icon
+                            className={`w-5 h-5 text-${
+                              step.color === "green"
+                                ? "green"
+                                : step.color === "blue"
+                                ? "blue"
+                                : step.color === "orange"
+                                ? "orange"
+                                : "gray"
+                            }-500`}
+                          />
                         </div>
                         <div>
                           <h3 className="font-bold text-lg">{step.title}</h3>
-                          <Badge variant={statusColors[step.status as keyof typeof statusColors]} className="text-xs mt-1">
+                          <Badge
+                            variant={
+                              statusColors[
+                                step.status as keyof typeof statusColors
+                              ]
+                            }
+                            className="text-xs mt-1"
+                          >
                             {step.status}
                           </Badge>
                         </div>
                       </div>
                       <div className="text-left">
-                        <div className="text-sm text-muted-foreground">{step.duration}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {step.duration}
+                        </div>
                       </div>
                     </div>
                   }
@@ -229,7 +269,7 @@ export default function WorkflowPage() {
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {step.description}
                       </p>
-                      
+
                       {/* Progress */}
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
@@ -243,13 +283,30 @@ export default function WorkflowPage() {
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>المهام</span>
-                          <span className="font-bold">{completedTasks}/{step.tasks.length}</span>
+                          <span className="font-bold">
+                            {completedTasks}/{step.tasks.length}
+                          </span>
                         </div>
                         <div className="space-y-1">
                           {step.tasks.map((task, taskIndex) => (
-                            <div key={taskIndex} className="flex items-center gap-2 text-xs">
-                              <div className={`w-2 h-2 rounded-full ${task.completed ? 'bg-green-500' : 'bg-gray-300'}`} />
-                              <span className={task.completed ? 'text-green-600' : 'text-muted-foreground'}>
+                            <div
+                              key={taskIndex}
+                              className="flex items-center gap-2 text-xs"
+                            >
+                              <div
+                                className={`w-2 h-2 rounded-full ${
+                                  task.completed
+                                    ? "bg-green-500"
+                                    : "bg-gray-300"
+                                }`}
+                              />
+                              <span
+                                className={
+                                  task.completed
+                                    ? "text-green-600"
+                                    : "text-muted-foreground"
+                                }
+                              >
                                 {task.name}
                               </span>
                             </div>
@@ -278,12 +335,19 @@ export default function WorkflowPage() {
                             <step.icon className="w-4 h-4 ml-2" />
                           </StatefulButton>
                         ) : step.status === "قيد التنفيذ" ? (
-                          <Button variant="secondary" className="w-full" disabled>
+                          <Button
+                            variant="secondary"
+                            className="w-full"
+                            disabled
+                          >
                             <Icons.spinner className="w-4 h-4 ml-2 animate-spin" />
                             قيد التنفيذ...
                           </Button>
                         ) : (
-                          <Button variant="outline" className="w-full text-green-600 border-green-200">
+                          <Button
+                            variant="outline"
+                            className="w-full text-green-600 border-green-200"
+                          >
                             <Icons.check className="w-4 h-4 ml-2" />
                             مكتمل
                           </Button>
@@ -292,29 +356,47 @@ export default function WorkflowPage() {
                     </div>
                   }
                   header={
-                    <BackgroundGradient 
+                    <BackgroundGradient
                       className="rounded-lg p-4 h-full"
                       containerClassName="h-full"
                     >
-                      <div className={`w-full h-full bg-gradient-to-br ${colorVariants[step.color as keyof typeof colorVariants]} rounded-lg flex flex-col items-center justify-center relative overflow-hidden`}>
+                      <div
+                        className={`w-full h-full bg-gradient-to-br ${
+                          colorVariants[
+                            step.color as keyof typeof colorVariants
+                          ]
+                        } rounded-lg flex flex-col items-center justify-center relative overflow-hidden`}
+                      >
                         {/* Step Number */}
                         <div className="absolute top-2 right-2 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                           <span className="text-sm font-bold">{step.id}</span>
                         </div>
-                        
+
                         {/* Icon */}
                         <motion.div
-                          animate={{ 
-                            scale: step.status === "قيد التنفيذ" ? [1, 1.1, 1] : 1,
-                            rotate: step.status === "مكتمل" ? [0, 360] : 0
+                          animate={{
+                            scale:
+                              step.status === "قيد التنفيذ" ? [1, 1.1, 1] : 1,
+                            rotate: step.status === "مكتمل" ? [0, 360] : 0,
                           }}
-                          transition={{ 
+                          transition={{
                             duration: step.status === "قيد التنفيذ" ? 2 : 1,
-                            repeat: step.status === "قيد التنفيذ" ? Infinity : 0,
-                            ease: "easeInOut"
+                            repeat:
+                              step.status === "قيد التنفيذ" ? Infinity : 0,
+                            ease: "easeInOut",
                           }}
                         >
-                          <step.icon className={`w-16 h-16 text-${step.color === 'green' ? 'green' : step.color === 'blue' ? 'blue' : step.color === 'orange' ? 'orange' : 'gray'}-500/80`} />
+                          <step.icon
+                            className={`w-16 h-16 text-${
+                              step.color === "green"
+                                ? "green"
+                                : step.color === "blue"
+                                ? "blue"
+                                : step.color === "orange"
+                                ? "orange"
+                                : "gray"
+                            }-500/80`}
+                          />
                         </motion.div>
 
                         {/* Connection Line */}
@@ -324,10 +406,12 @@ export default function WorkflowPage() {
                       </div>
                     </BackgroundGradient>
                   }
-                  className={`${index % 2 === 0 ? "md:col-span-2" : ""} card-hover`}
+                  className={`${
+                    index % 2 === 0 ? "md:col-span-2" : ""
+                  } card-hover`}
                 />
               </motion.div>
-            )
+            );
           })}
         </BentoGrid>
       </motion.div>
@@ -345,14 +429,14 @@ export default function WorkflowPage() {
             تصدير التقرير
           </Button>
         </motion.div>
-        
+
         <motion.div variants={fadeInUp}>
           <Button variant="outline">
             <Icons.settings className="ml-2 h-4 w-4" />
             إعدادات سير العمل
           </Button>
         </motion.div>
-        
+
         <motion.div variants={fadeInUp}>
           <Button variant="secondary">
             <Icons.bell className="ml-2 h-4 w-4" />
@@ -361,5 +445,5 @@ export default function WorkflowPage() {
         </motion.div>
       </motion.div>
     </div>
-  )
+  );
 }
