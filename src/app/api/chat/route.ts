@@ -20,11 +20,15 @@ export async function POST(request: Request) {
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `أنت مساعد ذكي متخصص في إدارة الجودة واختبار البرمجيات. 
-      تعمل في شركة تقنية وتساعد فرق التطوير في تحسين جودة منتجاتهم.
-      أجب باللغة العربية بطريقة مهنية ومفيدة ومختصرة.
-      
-      السؤال: ${message}`,
+      contents: [{
+        parts: [{
+          text: `أنت مساعد ذكي متخصص في إدارة الجودة واختبار البرمجيات. 
+          تعمل في شركة تقنية وتساعد فرق التطوير في تحسين جودة منتجاتهم.
+          أجب باللغة العربية بطريقة مهنية ومفيدة ومختصرة.
+          
+          السؤال: ${message}`
+        }]
+      }],
       config: {
         temperature: 0.7,
         topP: 0.8,
@@ -33,15 +37,29 @@ export async function POST(request: Request) {
       }
     })
 
-    console.log('Gemini response:', response.text)
+    // Correct way to access text in new SDK
+    let responseText = ''
+    if (response.candidates && response.candidates.length > 0) {
+      const candidate = response.candidates[0]
+      if (candidate.content && candidate.content.parts && candidate.content.parts.length > 0) {
+        responseText = candidate.content.parts[0].text || ''
+      }
+    }
+
+    console.log('Gemini response:', responseText)
+
+    if (!responseText) {
+      throw new Error('Empty response from Gemini')
+    }
 
     return NextResponse.json({ 
-      content: response.text,
+      content: responseText,
       timestamp: new Date().toISOString()
     })
 
   } catch (error: any) {
     console.error('Gemini API Error:', error)
+    console.error('Error details:', JSON.stringify(error, null, 2))
     
     return NextResponse.json({ 
       content: "عذراً، أواجه صعوبة تقنية حالياً. يمكنك إعادة المحاولة خلال لحظات.",
