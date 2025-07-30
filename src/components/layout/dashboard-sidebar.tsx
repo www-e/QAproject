@@ -2,19 +2,19 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
+import Link from "next/link" // Import Link for navigation
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Icons } from "@/components/ui/icons"
 import { 
   Sidebar, 
   SidebarBody, 
-  SidebarProvider, 
   SidebarLink, 
-  DesktopSidebar 
 } from "@/components/ui/sidebar"
 import { fadeInUp } from "@/lib/animations"
 
-// Navigation items matching your Figma designs
+// 1. Corrected navigation items with full paths
 const navigationItems = [
   {
     label: "لوحة التحكم",
@@ -55,24 +55,29 @@ const navigationItems = [
 ]
 
 export function DashboardSidebar() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
 
   return (
     <div className="h-full">
       <Sidebar open={open} setOpen={setOpen} animate={true}>
-        <SidebarBody className="justify-between gap-10 bg-sidebar border-l border-sidebar-border">
+        <SidebarBody className={cn(
+          "gap-10", // Removed justify-between to allow natural flex layout
+          !open && "items-center py-4" 
+        )}>
           {/* Enhanced Header */}
           <motion.div 
-            className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden"
+            className="flex flex-col overflow-y-auto overflow-x-hidden"
             variants={fadeInUp}
             initial="initial"
             animate="animate"
           >
             {/* Logo Section */}
             <motion.div 
-              className="flex items-center gap-3 px-6 py-6 border-b border-sidebar-border"
+              className={cn(
+                "flex items-center gap-3",
+                open ? "px-6 py-6 border-b border-sidebar-border" : "p-0"
+              )}
               whileHover={{ scale: 1.02 }}
             >
               <motion.div
@@ -86,6 +91,7 @@ export function DashboardSidebar() {
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   className="overflow-hidden"
                 >
                   <h2 className="text-lg font-bold text-sidebar-foreground">
@@ -98,11 +104,12 @@ export function DashboardSidebar() {
               )}
             </motion.div>
 
-            {/* Navigation Links Using Your Aceternity SidebarLink */}
+            {/* Navigation Links */}
             <div className="flex flex-col gap-2 px-4 py-4">
               {navigationItems.map((item, idx) => {
-                const isActive = pathname === item.href
-                
+                // 2. Corrected isActive logic
+                const isActive = item.href === "/dashboard" ? pathname === item.href : pathname.startsWith(item.href);
+
                 return (
                   <motion.div
                     key={item.href}
@@ -111,21 +118,24 @@ export function DashboardSidebar() {
                     transition={{ delay: idx * 0.1 }}
                     className="relative"
                   >
-                    <SidebarLink 
-                      link={item}
-                      className={`
-                        relative h-12 rounded-xl transition-all duration-300 
-                        ${isActive 
-                          ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-lg' 
-                          : 'hover:bg-sidebar-accent text-sidebar-foreground hover:text-sidebar-accent-foreground'
-                        }
-                      `}
-                    />
+                    {/* Wrap SidebarLink with Next.js Link */}
+                    <Link href={item.href} passHref legacyBehavior>
+                      <SidebarLink 
+                        link={item}
+                        className={cn(
+                          "relative h-12 rounded-xl transition-all duration-300",
+                          // 3. Corrected active link styling
+                          isActive 
+                            ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-lg' 
+                            : 'hover:bg-sidebar-accent text-sidebar-foreground hover:text-sidebar-accent-foreground',
+                          !open && "justify-center"
+                        )}
+                      />
+                    </Link>
                     
-                    {/* Badge for notifications */}
                     {item.badge && open && (
                       <Badge 
-                        variant={isActive ? "secondary" : "outline"}
+                        variant={isActive ? "secondary" : "default"}
                         className="absolute top-2 left-2 text-xs font-medium"
                       >
                         {item.badge}
@@ -139,37 +149,39 @@ export function DashboardSidebar() {
 
           {/* User Profile Section */}
           <motion.div 
-            className="px-4 pb-6"
+            className={cn("mt-auto", open ? "px-4 pb-6" : "p-0")} // Use mt-auto for alignment
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
-            <div className="p-4 bg-sidebar-accent rounded-xl border border-sidebar-border">
-              <div className="flex items-center gap-3">
+            <div className={cn(
+              "flex items-center gap-3",
+              open && "p-4 bg-sidebar-accent rounded-xl border border-sidebar-border"
+            )}>
+              <motion.div
+                className="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+                whileHover={{ scale: 1.05 }}
+              >
+                <span className="text-primary-foreground font-medium text-sm">
+                  م ع
+                </span>
+              </motion.div>
+              
+              {open && (
                 <motion.div
-                  className="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
-                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="flex-1 min-w-0"
                 >
-                  <span className="text-primary-foreground font-medium text-sm">
-                    م ع
-                  </span>
+                  <p className="text-sm font-medium text-sidebar-foreground truncate">
+                    محمد علي
+                  </p>
+                  <p className="text-xs text-sidebar-foreground/70 truncate">
+                    مدير الجودة
+                  </p>
                 </motion.div>
-                
-                {open && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex-1 min-w-0"
-                  >
-                    <p className="text-sm font-medium text-sidebar-foreground truncate">
-                      محمد علي
-                    </p>
-                    <p className="text-xs text-sidebar-foreground/70 truncate">
-                      مدير الجودة
-                    </p>
-                  </motion.div>
-                )}
-              </div>
+              )}
             </div>
           </motion.div>
         </SidebarBody>

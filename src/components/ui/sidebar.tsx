@@ -88,11 +88,14 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] shrink-0",
+          // Corrected: Gradient is now applied here
+          "h-full px-4 py-4 hidden md:flex md:flex-col w-[300px] shrink-0",
+          // Subtle gradient classes
+          "bg-gradient-to-b from-sidebar to-background dark:from-sidebar dark:to-black",
           className
         )}
         animate={{
-          width: animate ? (open ? "300px" : "60px") : "300px",
+          width: animate ? (open ? "300px" : "75px") : "300px", // Adjusted collapsed width
         }}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}

@@ -190,7 +190,7 @@ export function FeaturesShowcase() {
                       </div>
                     </BackgroundGradient>
                   }
-                  className={`${index === 0 || index === 2 || index === 4 ? "md:col-span-2" : ""} card-hover group`}
+                  className={`${index === 0 || index === 5 ? "md:col-span-2" : ""} card-hover group`}
                 />
               ))}
             </BentoGrid>

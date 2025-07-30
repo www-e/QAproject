@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { usePathname } from "next/navigation"
+import { useTheme } from "next-themes" // Correct import
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -25,7 +26,6 @@ import {
 import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp } from "@/lib/animations"
-import { useTheme } from "next-themes"
 
 // Breadcrumb mapping for Arabic navigation
 const breadcrumbMap: Record<string, { label: string; href: string }[]> = {
@@ -56,7 +56,8 @@ const breadcrumbMap: Record<string, { label: string; href: string }[]> = {
 
 export function TopNavigation() {
   const pathname = usePathname()
-  const { setTheme } = useTheme()
+  // Use the centralized theme hook
+  const { setTheme, resolvedTheme } = useTheme()
   const breadcrumbs = breadcrumbMap[pathname] || []
 
   const handleThemeToggle = (checked: boolean) => {
@@ -153,14 +154,14 @@ export function TopNavigation() {
             </Button>
           </motion.div>
 
-          {/* Your Beautiful Day-Night Switch */}
+          {/* Your Beautiful Day-Night Switch - Now correctly controlled */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, type: "spring" }}
           >
             <DayNightSwitch 
-              defaultChecked={true}
+              checked={resolvedTheme === 'light'}
               onToggle={handleThemeToggle}
               className="border-2 border-sidebar-border hover:border-primary/50 transition-colors"
             />

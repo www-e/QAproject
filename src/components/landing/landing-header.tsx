@@ -4,19 +4,23 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch"
 import { Icons } from "@/components/ui/icons"
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes" // Corrected import
 import Link from "next/link"
 import { fadeInUp } from "@/lib/animations"
 
 export function LandingHeader() {
-  const { setTheme } = useTheme()
+  // Use the centralized theme hook
+  const { setTheme, resolvedTheme } = useTheme()
 
   const handleThemeToggle = (checked: boolean) => {
     setTheme(checked ? 'light' : 'dark')
   }
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   return (
@@ -71,7 +75,7 @@ export function LandingHeader() {
 
           {/* Right Actions - Your Day-Night-Switch Featured */}
           <div className="flex items-center gap-4">
-            {/* Your Beautiful Day-Night Switch - Star of the Show */}
+            {/* Your Beautiful Day-Night Switch - Now correctly controlled */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -80,7 +84,7 @@ export function LandingHeader() {
             >
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-sm animate-pulse" />
               <DayNightSwitch 
-                defaultChecked={true}
+                checked={resolvedTheme === 'light'}
                 onToggle={handleThemeToggle}
                 className="relative border-2 border-primary/20 hover:border-primary/50 transition-colors"
               />

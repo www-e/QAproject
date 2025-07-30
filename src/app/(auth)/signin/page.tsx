@@ -1,11 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes"; // Correct import for theme management
 import { SignInForm } from "@/components/auth/signin-form";
 import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch";
 import { pageTransitions, fadeInUp } from "@/lib/animations";
 
 export default function SignInPage() {
+  // Use the centralized theme hook
+  const { setTheme, resolvedTheme } = useTheme();
+
   return (
     <div className="min-h-screen-mobile flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated Background Pattern (using your OKLCH variables) */}
@@ -38,7 +42,7 @@ export default function SignInPage() {
         }}
       />
 
-      {/* Your Beautiful Day-Night Switch */}
+      {/* Your Beautiful Day-Night Switch (Now controlled by the theme provider) */}
       <motion.div
         className="absolute top-6 right-6 z-50"
         initial={{ opacity: 0, scale: 0.8 }}
@@ -46,11 +50,9 @@ export default function SignInPage() {
         transition={{ delay: 0.5 }}
       >
         <DayNightSwitch
-          defaultChecked={true}
+          checked={resolvedTheme === "light"}
           onToggle={(checked) => {
-            // Integrate with your theme provider
-            const theme = checked ? "light" : "dark";
-            document.documentElement.className = theme;
+            setTheme(checked ? "light" : "dark");
           }}
           className="border-2 border-border/50 hover:border-primary/50 transition-colors"
         />

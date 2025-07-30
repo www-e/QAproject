@@ -9,10 +9,10 @@ import {
 } from "framer-motion";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Corrected import path
 
 type DayNightSwitchProps = {
-  defaultChecked?: boolean;
+  checked: boolean; // Is a controlled component
   onToggle?: (checked: boolean) => void;
 } & React.HTMLAttributes<HTMLDivElement> &
   MotionProps;
@@ -63,12 +63,10 @@ const createStarVariants = (index: number): Variants => ({
 });
 
 const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
-  ({ className, defaultChecked = true, onToggle, ...restProps }, ref) => {
+  ({ className, checked, onToggle, ...restProps }, ref) => {
     const id = React.useId();
-    const [checked, setChecked] = React.useState<boolean>(defaultChecked);
 
     const handleToggle = (newValue: boolean) => {
-      setChecked(newValue);
       onToggle?.(newValue);
     };
 
@@ -83,7 +81,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
         )}
         variants={backgroundVariants}
         animate={currentMode}
-        initial={currentMode}
+        initial={false}
         {...restProps}
       >
         <div className="relative h-full w-full">
@@ -131,6 +129,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
           <AnimatePresence>{!checked && <Stars count={10} />}</AnimatePresence>
 
           <div className="absolute inset-0 flex items-center justify-center">
+            {/* This Switch component now uses the desired styling from your original file */}
             <Switch
               id={id}
               checked={checked}
