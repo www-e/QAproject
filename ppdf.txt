@@ -1,0 +1,75 @@
+📁 src/
+    📁 app/
+        📁 (auth)/
+            📁 signin/
+                1- 📄 page.tsx   (130 lines, 4.22 KB)
+        📁 (dashboard)/
+            📁 chat/
+                2- 📄 page.tsx   (312 lines, 11.78 KB)
+            📁 dashboard/
+                3- 📄 page.tsx   (322 lines, 12.22 KB)
+            📁 tests/
+                4- 📄 page.tsx   (390 lines, 15.29 KB)
+            📁 workflow/
+                5- 📄 page.tsx   (366 lines, 15.34 KB)
+            6- 📄 layout.tsx   (60 lines, 1.92 KB)
+        7- 📄 favicon.ico   (31 lines, 25.32 KB)
+        8- 📄 globals.css   (326 lines, 9.13 KB)
+        9- 📄 layout.tsx   (112 lines, 3.42 KB)
+        10- 📄 page.tsx   (45 lines, 1.35 KB)
+    📁 components/
+        📁 auth/
+            11- 📄 signin-form.tsx   (183 lines, 5.80 KB)
+        📁 landing/
+            12- 📄 cta-section.tsx   (144 lines, 6.50 KB)
+            13- 📄 features-showcase.tsx   (182 lines, 8.17 KB)
+            14- 📄 hero-section.tsx   (176 lines, 6.90 KB)
+            15- 📄 landing-footer.tsx   (146 lines, 5.57 KB)
+            16- 📄 landing-header.tsx   (111 lines, 4.09 KB)
+            17- 📄 stats-section.tsx   (149 lines, 6.13 KB)
+            18- 📄 tech-stack-section.tsx   (175 lines, 6.33 KB)
+        📁 layout/
+            19- 📄 dashboard-sidebar.tsx   (219 lines, 7.61 KB)
+            20- 📄 top-navigation.tsx   (255 lines, 9.56 KB)
+        📁 magicui/
+            21- 📄 number-ticker.tsx   (68 lines, 1.74 KB)
+        📁 shsfui/
+            📁 switch/
+                22- 📄 day-night-switch.tsx   (226 lines, 6.23 KB)
+        📁 ui/
+            23- 📄 avatar.tsx   (54 lines, 1.12 KB)
+            24- 📄 background-gradient.tsx   (73 lines, 2.46 KB)
+            25- 📄 badge.tsx   (47 lines, 1.64 KB)
+            26- 📄 bento-grid.tsx   (55 lines, 1.34 KB)
+            27- 📄 breadcrumb.tsx   (110 lines, 2.41 KB)
+            28- 📄 button.tsx   (60 lines, 2.13 KB)
+            29- 📄 card.tsx   (93 lines, 2.03 KB)
+            30- 📄 dropdown-menu.tsx   (258 lines, 8.34 KB)
+            31- 📄 flip-words.tsx   (99 lines, 2.80 KB)
+            32- 📄 floating-navbar.tsx   (83 lines, 2.49 KB)
+            33- 📄 form.tsx   (168 lines, 3.83 KB)
+            34- 📄 glowing-effect.tsx   (191 lines, 6.59 KB)
+            35- 📄 hover-border-gradient.tsx   (100 lines, 3.27 KB)        
+            36- 📄 icons.tsx   (53 lines, 0.77 KB)
+            37- 📄 input.tsx   (22 lines, 0.96 KB)
+            38- 📄 label.tsx   (25 lines, 0.62 KB)
+            39- 📄 loader.tsx   (217 lines, 5.86 KB)
+            40- 📄 page-transition.tsx   (24 lines, 0.50 KB)
+            41- 📄 progress.tsx   (32 lines, 0.75 KB)
+            42- 📄 resizable-navbar.tsx   (289 lines, 8.22 KB)
+            43- 📄 scroll-area.tsx   (59 lines, 1.66 KB)
+            44- 📄 select.tsx   (186 lines, 6.29 KB)
+            45- 📄 sheet.tsx   (140 lines, 4.13 KB)
+            46- 📄 sidebar.tsx   (192 lines, 4.97 KB)
+            47- 📄 sonner.tsx   (26 lines, 0.58 KB)
+            48- 📄 stateful-button.tsx   (137 lines, 4.06 KB)
+            49- 📄 switch.tsx   (32 lines, 1.18 KB)
+            50- 📄 table.tsx   (117 lines, 2.50 KB)
+            51- 📄 text-generate-effect.tsx   (63 lines, 1.41 KB)
+            52- 📄 theme-toggle.tsx   (54 lines, 1.51 KB)
+    📁 lib/
+        53- 📄 animations.ts   (90 lines, 2.04 KB)
+        54- 📄 theme-provider.tsx   (65 lines, 1.46 KB)
+        55- 📄 utils.ts   (7 lines, 0.17 KB)
+
+Total files in 'src': 55

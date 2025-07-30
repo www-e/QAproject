@@ -85,10 +85,10 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
               <motion.div
                 className="absolute w-6 h-6 bg-yellow-400 rounded-full"
                 style={{
-                  left: "25%",
+                  right: "75%", // Changed from left to right for RTL
                   top: "50%",
                   marginTop: -12,
-                  marginLeft: -12,
+                  marginRight: -12, // Changed from marginLeft
                 }}
                 variants={sunVariants}
                 initial="visible"
@@ -105,10 +105,10 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
               <motion.div
                 className="absolute w-5 h-5"
                 style={{
-                  left: "75%",
+                  right: "25%", // Changed from left to right for RTL
                   top: "50%",
                   marginTop: -10,
-                  marginLeft: -10,
+                  marginRight: -10, // Changed from marginLeft
                 }}
                 variants={moonVariants}
                 initial="hidden"
@@ -129,7 +129,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
               checked={checked}
               onCheckedChange={handleToggle}
               className={cn(
-                "peer data-[state=unchecked]:bg-transparent data-[state=checked]:bg-transparent absolute inset-0 h-[inherit] w-auto [&_span]:z-10 [&_span]:size-6 [&_span]:border [&_span]:shadow [&_span]:rounded-sm [&_span]:transition-transform [&_span]:duration-500 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] [&_span]:data-[state=checked]:translate-x-10 [&_span]:data-[state=unchecked]:translate-x-2 [&_span]:bg-white [&_span]:border-gray-300"
+                "peer data-[state=unchecked]:bg-transparent data-[state=checked]:bg-transparent absolute inset-0 h-[inherit] w-auto [&_span]:z-10 [&_span]:size-6 [&_span]:border [&_span]:shadow [&_span]:rounded-sm [&_span]:transition-transform [&_span]:duration-500 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] [&_span]:data-[state=checked]:-translate-x-2 [&_span]:data-[state=unchecked]:-translate-x-10 [&_span]:bg-white [&_span]:border-gray-300"
               )}
             />
           </div>
