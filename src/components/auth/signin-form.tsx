@@ -1,46 +1,57 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Icons } from "@/components/ui/icons"
-import { toast } from "sonner"
-import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/ui/icons";
+import { toast } from "sonner";
+import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 export function SignInForm() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
-  })
-  const router = useRouter()
+    password: "",
+  });
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     // Simulate authentication
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
       toast.success("تم تسجيل الدخول بنجاح!", {
-        description: "مرحباً بك في نظام إدارة الجودة"
-      })
-      
+        description: "مرحباً بك في نظام إدارة الجودة",
+        icon: <Icons.check className="w-5 h-5" />,
+        classNames: {
+          toast:
+            "bg-green-100 dark:bg-green-900 border-green-300 dark:border-green-700",
+          title: "text-green-800 dark:text-green-100",
+          description: "text-green-700 dark:text-green-200",
+          icon: "text-green-500",
+        },
+        position: "top-center",
+        animation: "slide-in-down",
+        duration: 3000,
+      });
+
       // Navigate to dashboard with smooth transition
-      router.push("/dashboard")
-    }, 2000)
-  }
+      router.push("/dashboard");
+    }, 2000);
+  };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   return (
-    <motion.form 
-      onSubmit={handleSubmit} 
+    <motion.form
+      onSubmit={handleSubmit}
       className="space-y-6"
       variants={staggerChildren}
       initial="initial"
@@ -66,7 +77,7 @@ export function SignInForm() {
             required
             dir="rtl"
           />
-          <motion.div 
+          <motion.div
             className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
             whileHover={{ scale: 1.1 }}
           >
@@ -95,7 +106,7 @@ export function SignInForm() {
             required
             dir="rtl"
           />
-          <motion.div 
+          <motion.div
             className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
             whileHover={{ scale: 1.1 }}
           >
@@ -105,19 +116,19 @@ export function SignInForm() {
       </motion.div>
 
       {/* Remember Me & Forgot Password */}
-      <motion.div 
-        variants={fadeInUp} 
+      <motion.div
+        variants={fadeInUp}
         className="flex items-center justify-between text-sm"
       >
         <label className="flex items-center space-x-2 space-x-reverse cursor-pointer">
-          <input 
-            type="checkbox" 
-            className="rounded border-input focus:ring-primary focus:ring-2" 
+          <input
+            type="checkbox"
+            className="rounded border-input focus:ring-primary focus:ring-2"
           />
           <span className="text-muted-foreground">تذكرني</span>
         </label>
-        <motion.a 
-          href="#" 
+        <motion.a
+          href="#"
           className="text-primary hover:underline"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -134,7 +145,7 @@ export function SignInForm() {
           className="w-full btn-primary h-12 text-base font-medium"
         >
           {isLoading ? (
-            <motion.div 
+            <motion.div
               className="flex items-center gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -154,7 +165,7 @@ export function SignInForm() {
       </motion.div>
 
       {/* Demo Credentials */}
-      <motion.div 
+      <motion.div
         variants={fadeInUp}
         className="p-4 bg-muted/50 rounded-lg border-dashed border-2 border-muted"
       >
@@ -167,5 +178,5 @@ export function SignInForm() {
         </div>
       </motion.div>
     </motion.form>
-  )
+  );
 }

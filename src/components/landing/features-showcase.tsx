@@ -1,11 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-import { GlowingEffect } from "@/components/ui/glowing-effect"
 import { BackgroundGradient } from "@/components/ui/background-gradient"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Icons } from "@/components/ui/icons"
@@ -95,17 +92,17 @@ export function FeaturesShowcase() {
             </p>
           </motion.div>
 
-          {/* Features Bento Grid using Your Components */}
+          {/* Features Bento Grid */}
           <motion.div variants={fadeInUp}>
-            <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[22rem]">
+            <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[24rem]">
               {features.map((feature, index) => (
                 <BentoGridItem
                   key={feature.title}
                   title={
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-3 rounded-xl bg-${feature.color === 'primary' ? 'primary' : feature.color}-500/10`}>
-                          <feature.icon className={`w-6 h-6 text-${feature.color === 'primary' ? 'primary' : feature.color}-500`} />
+                      <div className="flex items-center gap-3 shrink-0">
+                        <div className={`p-3 rounded-xl bg-${feature.color}-500/10`}>
+                          <feature.icon className={`w-6 h-6 text-${feature.color}-500`} />
                         </div>
                         <h3 className="font-bold text-xl">{feature.title}</h3>
                       </div>
@@ -115,28 +112,31 @@ export function FeaturesShowcase() {
                     </div>
                   }
                   description={
-                    <div className="space-y-6">
-                      <p className="text-muted-foreground leading-relaxed text-base">
+                    // Flex container to manage space and prevent overflow
+                    <div className="flex flex-col justify-between h-full">
+                      <p className="text-muted-foreground leading-relaxed text-base flex-shrink">
                         {feature.description}
                       </p>
                       
-                      {/* Statistics */}
-                      <div className="flex items-center gap-3 p-4 bg-sidebar-accent/30 rounded-lg">
-                        <NumberTicker 
-                          value={feature.stats.value} 
-                          className="text-2xl font-bold text-foreground" 
-                        />
-                        <span className="text-muted-foreground">{feature.stats.label}</span>
-                      </div>
+                      <div className="mt-4 space-y-4">
+                        {/* Statistics */}
+                        <div className="flex items-center gap-3 p-3 bg-sidebar-accent/30 rounded-lg">
+                          <NumberTicker 
+                            value={feature.stats.value} 
+                            className="text-2xl font-bold text-foreground" 
+                          />
+                          <span className="text-muted-foreground text-sm">{feature.stats.label}</span>
+                        </div>
 
-                      {/* Benefits */}
-                      <div className="space-y-2">
-                        {feature.benefits.map((benefit, benefitIndex) => (
-                          <div key={benefitIndex} className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                            <span className="text-sm text-muted-foreground">{benefit}</span>
-                          </div>
-                        ))}
+                        {/* Benefits */}
+                        <div className="space-y-2">
+                          {feature.benefits.map((benefit, benefitIndex) => (
+                            <div key={benefitIndex} className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                              <span className="text-sm text-muted-foreground">{benefit}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   }
@@ -159,77 +159,21 @@ export function FeaturesShowcase() {
                             delay: index * 0.5
                           }}
                         >
-                          <feature.icon className={`w-20 h-20 text-${feature.color === 'primary' ? 'primary' : feature.color}-500/80`} />
+                          <feature.icon className={`w-20 h-20 text-${feature.color}-500/80`} />
                         </motion.div>
-
-                        {/* Floating Particles */}
-                        <motion.div
-                          className="absolute top-4 right-4 w-2 h-2 bg-white/40 rounded-full"
-                          animate={{
-                            y: [0, -20, 0],
-                            opacity: [0.4, 1, 0.4]
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            delay: index * 0.3
-                          }}
-                        />
-                        <motion.div
-                          className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-white/60 rounded-full"
-                          animate={{
-                            y: [0, -15, 0],
-                            opacity: [0.6, 1, 0.6]
-                          }}
-                          transition={{
-                            duration: 2.5,
-                            repeat: Infinity,
-                            delay: index * 0.4
-                          }}
-                        />
                       </div>
                     </BackgroundGradient>
                   }
-                  className={`${index === 0 || index === 5 ? "md:col-span-2" : ""} card-hover group`}
+                  // New layout logic for the bento grid
+                  className={`${
+                    index === 0 ? "md:col-span-2" : 
+                    index === 3 ? "md:col-span-1" : 
+                    index === 4 ? "md:col-span-1" :
+                    index === 5 ? "md:col-span-2" : ""
+                  } card-hover group`}
                 />
               ))}
             </BentoGrid>
-          </motion.div>
-
-          {/* Interactive Demo CTA */}
-          <motion.div variants={fadeInUp} className="text-center">
-            <HoverBorderGradient containerClassName="rounded-2xl">
-              <Card className="bg-background border-0 p-8 text-center max-w-2xl mx-auto">
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-foreground">
-                      جرب المميزات بنفسك
-                    </h3>
-                    <p className="text-muted-foreground">
-                      اختبر جميع المميزات المتقدمة مع النسخة التجريبية المجانية
-                    </p>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <motion.button
-                      className="btn-primary px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Icons.play className="w-4 h-4" />
-                      تجربة مجانية
-                    </motion.button>
-                    <motion.button
-                      className="border border-border px-6 py-3 rounded-lg font-medium hover:bg-sidebar-accent transition-colors flex items-center justify-center gap-2"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Icons.eye className="w-4 h-4" />
-                      عرض توضيحي
-                    </motion.button>
-                  </div>
-                </CardContent>
-              </Card>
-            </HoverBorderGradient>
           </motion.div>
         </motion.div>
       </div>

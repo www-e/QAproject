@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
-import { BackgroundGradient } from "@/components/ui/background-gradient"
-import { NumberTicker } from "@/components/magicui/number-ticker"
-import { Icons } from "@/components/ui/icons"
-import Link from "next/link"
-import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { NumberTicker } from "@/components/magicui/number-ticker";
+import { Icons } from "@/components/ui/icons";
+import Link from "next/link";
+import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 export function HeroSection() {
   return (
@@ -16,7 +16,7 @@ export function HeroSection() {
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
       <div className="absolute inset-0 bg-grid-small-black/[0.02] dark:bg-grid-small-white/[0.02]" />
-      
+
       {/* Floating Orbs */}
       <motion.div
         className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
@@ -27,7 +27,7 @@ export function HeroSection() {
         transition={{
           duration: 20,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
       />
       <motion.div
@@ -39,7 +39,7 @@ export function HeroSection() {
         transition={{
           duration: 25,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
       />
 
@@ -67,11 +67,12 @@ export function HeroSection() {
           </motion.div>
 
           {/* Subtitle */}
-          <motion.p 
+          <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             variants={fadeInUp}
           >
-            حلول متطورة لإدارة اختبارات الجودة مع واجهات عربية حديثة وذكاء اصطناعي متقدم
+            حلول متطورة لإدارة اختبارات الجودة مع واجهات عربية حديثة وذكاء
+            اصطناعي متقدم
           </motion.p>
 
           {/* Stats Preview */}
@@ -80,18 +81,29 @@ export function HeroSection() {
             variants={staggerChildren}
           >
             <motion.div variants={fadeInUp} className="text-center">
-              <NumberTicker value={1247} className="text-3xl font-bold text-primary" />
+              <NumberTicker
+                value={1247}
+                className="text-3xl font-bold text-primary"
+              />
               <p className="text-sm text-muted-foreground mt-1">اختبار مكتمل</p>
             </motion.div>
             <motion.div variants={fadeInUp} className="text-center">
-              <NumberTicker value={98} className="text-3xl font-bold text-green-500" />
+              <NumberTicker
+                value={98}
+                className="text-3xl font-bold text-green-500"
+              />
               <span className="text-muted-foreground">%</span>
               <p className="text-sm text-muted-foreground mt-1">معدل النجاح</p>
             </motion.div>
             <motion.div variants={fadeInUp} className="text-center">
-              <NumberTicker value={24} className="text-3xl font-bold text-blue-500" />
+              <NumberTicker
+                value={24}
+                className="text-3xl font-bold text-blue-500"
+              />
               <span className="text-muted-foreground">h</span>
-              <p className="text-sm text-muted-foreground mt-1">توفير وقت يومي</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                توفير وقت يومي
+              </p>
             </motion.div>
           </motion.div>
 
@@ -102,15 +114,15 @@ export function HeroSection() {
           >
             <motion.div variants={fadeInUp}>
               <Link href="/signin">
-                <BackgroundGradient className="rounded-xl">
-                  <Button size="lg" className="bg-background text-foreground hover:bg-background/90 px-8 py-4 text-lg">
+                <BackgroundGradient className="rounded-xl p-0">
+                  <div className="flex items-center gap-2 bg-background text-foreground hover:bg-background/90 px-8 py-4 text-lg rounded-xl">
                     <Icons.play className="ml-2 h-5 w-5" />
                     تجربة النظام مجاناً
-                  </Button>
+                  </div>
                 </BackgroundGradient>
               </Link>
             </motion.div>
-            
+
             <motion.div variants={fadeInUp}>
               <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
                 <Icons.eye className="ml-2 h-5 w-5" />
@@ -159,5 +171,5 @@ export function HeroSection() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }

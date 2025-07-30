@@ -9,10 +9,10 @@ import {
 } from "framer-motion";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils"; // Corrected import path
+import { cn } from "@/lib/utils";
 
 type DayNightSwitchProps = {
-  checked: boolean; // Is a controlled component
+  checked: boolean;
   onToggle?: (checked: boolean) => void;
 } & React.HTMLAttributes<HTMLDivElement> &
   MotionProps;
@@ -24,10 +24,6 @@ const backgroundVariants: Variants = {
     background: "linear-gradient(to bottom, #87CEEB, #E0F7FA)",
     transition: { duration: 0.7 },
   },
-  sunset: {
-    background: "linear-gradient(to bottom, #FF7E5F, #FEB47B, #D76D77)",
-    transition: { duration: 0.7 },
-  },
   night: {
     background: "linear-gradient(to bottom, #0F2027, #203A43, #2C5364)",
     transition: { duration: 0.7 },
@@ -36,7 +32,6 @@ const backgroundVariants: Variants = {
 
 const sunVariants: Variants = {
   visible: { y: 0, opacity: 1 },
-  sunset: { y: 24, opacity: 0.9, scale: 1.2, transition: { duration: 0.7 } },
   hidden: { y: 40, opacity: 0, transition: { duration: 0.4 } },
 };
 
@@ -76,7 +71,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
       <motion.div
         ref={ref}
         className={cn(
-          "relative w-20 h-10 rounded-md overflow-hidden border shadow",
+          "relative w-20 h-10 rounded-full overflow-hidden border shadow", // Changed to rounded-full for the container
           className
         )}
         variants={backgroundVariants}
@@ -97,7 +92,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
                 }}
                 variants={sunVariants}
                 initial="visible"
-                animate={checked ? "visible" : "sunset"}
+                animate="visible"
                 exit="hidden"
               >
                 <SunRays />
@@ -117,7 +112,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
                 }}
                 variants={moonVariants}
                 initial="hidden"
-                animate={!checked ? "rising" : "hidden"}
+                animate="rising"
               >
                 <Moon />
               </motion.div>
@@ -129,7 +124,6 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
           <AnimatePresence>{!checked && <Stars count={10} />}</AnimatePresence>
 
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* This Switch component now uses the desired styling from your original file */}
             <Switch
               id={id}
               checked={checked}

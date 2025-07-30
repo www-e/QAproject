@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { BackgroundGradient } from "@/components/ui/background-gradient"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
-import { Icons } from "@/components/ui/icons"
-import Link from "next/link"
-import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { Icons } from "@/components/ui/icons";
+import Link from "next/link";
+import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 export function CTASection() {
   return (
@@ -23,20 +23,21 @@ export function CTASection() {
         >
           {/* Main CTA */}
           <motion.div variants={fadeInUp}>
-            <HoverBorderGradient containerClassName="rounded-3xl">
+            <HoverBorderGradient as="div" containerClassName="rounded-3xl">
               <div className="bg-background border-0 p-12 space-y-8">
                 <div className="space-y-6">
                   <Badge variant="secondary" className="text-sm px-4 py-2">
                     🎯 ابدأ رحلتك اليوم
                   </Badge>
-                  
+
                   <TextGenerateEffect
                     words="جاهز لتحويل إدارة الجودة في مشروعك؟"
                     className="text-3xl md:text-4xl font-bold text-foreground"
                   />
-                  
+
                   <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                    انضم إلى المئات من الشركات التي تثق في نظامنا لإدارة اختبارات الجودة بكفاءة عالية
+                    انضم إلى المئات من الشركات التي تثق في نظامنا لإدارة
+                    اختبارات الجودة بكفاءة عالية
                   </p>
                 </div>
 
@@ -47,20 +48,24 @@ export function CTASection() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Link href="/signin">
-                      <BackgroundGradient className="rounded-xl">
-                        <Button size="lg" className="bg-background text-foreground hover:bg-background/90 px-8 py-4 text-lg font-semibold">
+                      <BackgroundGradient className="rounded-xl p-0">
+                        <div className="flex items-center gap-2 bg-background text-foreground hover:bg-background/90 px-8 py-4 text-lg font-semibold rounded-xl">
                           <Icons.play className="ml-2 h-5 w-5" />
                           ابدأ التجربة المجانية
-                        </Button>
+                        </div>
                       </BackgroundGradient>
                     </Link>
                   </motion.div>
-                  
+
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="px-8 py-4 text-lg"
+                    >
                       <Icons.message className="ml-2 h-5 w-5" />
                       تحدث مع فريق المبيعات
                     </Button>
@@ -91,7 +96,7 @@ export function CTASection() {
           </motion.div>
 
           {/* Secondary CTAs */}
-          <motion.div 
+          <motion.div
             variants={staggerChildren}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
@@ -101,7 +106,9 @@ export function CTASection() {
                   <Icons.fileText className="w-6 h-6 text-blue-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">الوثائق والدلائل</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    الوثائق والدلائل
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     دلائل شاملة وتوثيق تقني مفصل
                   </p>
@@ -132,5 +139,5 @@ export function CTASection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

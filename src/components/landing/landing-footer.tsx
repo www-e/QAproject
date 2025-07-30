@@ -2,10 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch"
 import { Icons } from "@/components/ui/icons"
-import { useTheme } from "next-themes"
-import Link from "next/link"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
 
 const footerLinks = {
@@ -48,11 +45,7 @@ const footerLinks = {
 }
 
 export function LandingFooter() {
-  const { setTheme } = useTheme()
-
-  const handleThemeToggle = (checked: boolean) => {
-    setTheme(checked ? 'light' : 'dark')
-  }
+  // The useTheme hook and handleThemeToggle function have been removed.
 
   return (
     <footer className="bg-background border-t border-border">
@@ -86,15 +79,7 @@ export function LandingFooter() {
                 لتحسين كفاءة المشاريع وضمان الجودة العالية.
               </p>
 
-              {/* Your Day-Night Switch in Footer */}
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">اختر المظهر:</span>
-                <DayNightSwitch 
-                  defaultChecked={true}
-                  onToggle={handleThemeToggle}
-                  className="border border-border hover:border-primary/50 transition-colors"
-                />
-              </div>
+              {/* The DayNightSwitch has been removed from here */}
 
               {/* Social Links */}
               <div className="flex gap-4">
