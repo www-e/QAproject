@@ -24,32 +24,32 @@ const navigationItems = [
   },
   {
     label: "المحادثة الذكية", 
-    href: "/dashboard/chat",
+    href: "/chat",
     icon: <Icons.message className="w-5 h-5" />,
     badge: "جديد",
   },
   {
     label: "إدارة الاختبارات",
-    href: "/dashboard/tests",
+    href: "/tests",
     icon: <Icons.chart className="w-5 h-5" />,
     badge: "12",
   },
   {
     label: "سير العمل",
-    href: "/dashboard/workflow", 
+    href: "/workflow", 
     icon: <Icons.workflow className="w-5 h-5" />,
     badge: null,
   },
   // These routes don't exist yet, but we'll keep the paths correct
   {
     label: "التقارير",
-    href: "/dashboard/reports",
+    href: "/reports",
     icon: <Icons.fileText className="w-5 h-5" />,
     badge: null,
   },
   {
     label: "الإعدادات",
-    href: "/dashboard/settings",
+    href: "/settings",
     icon: <Icons.settings className="w-5 h-5" />,
     badge: null,
   },

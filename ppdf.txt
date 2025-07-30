@@ -5,37 +5,37 @@
                 1- 📄 page.tsx   (130 lines, 4.22 KB)
         📁 (dashboard)/
             📁 chat/
-                2- 📄 page.tsx   (312 lines, 11.78 KB)
+                2- 📄 page.tsx   (338 lines, 12.45 KB)
             📁 dashboard/
-                3- 📄 page.tsx   (322 lines, 12.22 KB)
+                3- 📄 page.tsx   (322 lines, 12.24 KB)
             📁 tests/
-                4- 📄 page.tsx   (390 lines, 15.29 KB)
+                4- 📄 page.tsx   (406 lines, 18.13 KB)
             📁 workflow/
-                5- 📄 page.tsx   (366 lines, 15.34 KB)
+                5- 📄 page.tsx   (450 lines, 17.73 KB)
             6- 📄 layout.tsx   (60 lines, 1.92 KB)
         7- 📄 favicon.ico   (31 lines, 25.32 KB)
-        8- 📄 globals.css   (326 lines, 9.13 KB)
+        8- 📄 globals.css   (398 lines, 10.58 KB)
         9- 📄 layout.tsx   (112 lines, 3.42 KB)
         10- 📄 page.tsx   (45 lines, 1.35 KB)
     📁 components/
         📁 auth/
             11- 📄 signin-form.tsx   (183 lines, 5.80 KB)
         📁 landing/
-            12- 📄 cta-section.tsx   (144 lines, 6.50 KB)
-            13- 📄 features-showcase.tsx   (182 lines, 8.17 KB)
+            12- 📄 cta-section.tsx   (158 lines, 7.17 KB)
+            13- 📄 features-showcase.tsx   (197 lines, 8.89 KB)
             14- 📄 hero-section.tsx   (176 lines, 6.90 KB)
             15- 📄 landing-footer.tsx   (146 lines, 5.57 KB)
             16- 📄 landing-header.tsx   (111 lines, 4.09 KB)
-            17- 📄 stats-section.tsx   (149 lines, 6.13 KB)
+            17- 📄 stats-section.tsx   (208 lines, 8.31 KB)
             18- 📄 tech-stack-section.tsx   (175 lines, 6.33 KB)
         📁 layout/
-            19- 📄 dashboard-sidebar.tsx   (219 lines, 7.61 KB)
+            19- 📄 dashboard-sidebar.tsx   (219 lines, 7.62 KB)
             20- 📄 top-navigation.tsx   (255 lines, 9.56 KB)
         📁 magicui/
             21- 📄 number-ticker.tsx   (68 lines, 1.74 KB)
         📁 shsfui/
             📁 switch/
-                22- 📄 day-night-switch.tsx   (226 lines, 6.23 KB)
+                22- 📄 day-night-switch.tsx   (226 lines, 6.36 KB)
         📁 ui/
             23- 📄 avatar.tsx   (54 lines, 1.12 KB)
             24- 📄 background-gradient.tsx   (73 lines, 2.46 KB)
@@ -49,7 +49,7 @@
             32- 📄 floating-navbar.tsx   (83 lines, 2.49 KB)
             33- 📄 form.tsx   (168 lines, 3.83 KB)
             34- 📄 glowing-effect.tsx   (191 lines, 6.59 KB)
-            35- 📄 hover-border-gradient.tsx   (100 lines, 3.27 KB)        
+            35- 📄 hover-border-gradient.tsx   (100 lines, 3.27 KB)
             36- 📄 icons.tsx   (53 lines, 0.77 KB)
             37- 📄 input.tsx   (22 lines, 0.96 KB)
             38- 📄 label.tsx   (25 lines, 0.62 KB)

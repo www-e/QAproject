@@ -59,14 +59,33 @@ const createStarVariants = (index: number): Variants => ({
 
 const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
   ({ className, checked, onToggle, ...restProps }, ref) => {
+    const [isMounted, setIsMounted] = React.useState(false);
     const id = React.useId();
-
+    // ADD THIS useEffect:
+    React.useEffect(() => {
+      setIsMounted(true);
+    }, []);
     const handleToggle = (newValue: boolean) => {
       onToggle?.(newValue);
     };
 
     const currentMode: AnimationMode = checked ? "day" : "night";
-
+    // ADD THIS EARLY RETURN:
+    if (!isMounted) {
+      return (
+        <div
+          ref={ref}
+          className={cn(
+            "relative w-20 h-10 rounded-full overflow-hidden border shadow bg-gray-200",
+            className
+          )}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-6 h-6 bg-white rounded-sm border shadow" />
+          </div>
+        </div>
+      );
+    }
     return (
       <motion.div
         ref={ref}
@@ -76,7 +95,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
         )}
         variants={backgroundVariants}
         animate={currentMode}
-        initial={false}
+        initial={currentMode}
         {...restProps}
       >
         <div className="relative h-full w-full">
