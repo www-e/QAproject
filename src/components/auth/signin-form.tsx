@@ -58,7 +58,7 @@ export function SignInForm() {
       description: "يرجى الانتظار قليلاً"
     });
 
-    // Simulate authentication
+    // More realistic authentication simulation
     setTimeout(() => {
       setIsLoading(false);
       
@@ -77,19 +77,13 @@ export function SignInForm() {
           localStorage.setItem('sessionExpiry', (Date.now() + 24 * 60 * 60 * 1000).toString());
         }
         
-        // Show success toast
-        setToastState({
-          isVisible: true,
-          type: "success",
-          title: "🎉 تم تسجيل الدخول بنجاح!",
-          description: formData.rememberMe ? "سيتم تذكر بياناتك للمرة القادمة" : "مرحباً بك في نظام إدارة الجودة"
-        });
+        // Store success message for dashboard
+        localStorage.setItem('showWelcomeToast', 'true');
+        localStorage.setItem('welcomeMessage', formData.rememberMe ? "سيتم تذكر بياناتك للمرة القادمة" : "مرحباً بك في نظام إدارة الجودة");
 
-        // Navigate to dashboard with smooth transition
-        setTimeout(() => {
-          setToastState(prev => ({ ...prev, isVisible: false }));
-          router.push("/dashboard");
-        }, 2000);
+        // Navigate to dashboard immediately for faster feel
+        setToastState(prev => ({ ...prev, isVisible: false }));
+        router.push("/dashboard");
       } else {
         // Show error toast
         setToastState({
@@ -103,7 +97,7 @@ export function SignInForm() {
           setToastState(prev => ({ ...prev, isVisible: false }));
         }, 5000);
       }
-    }, 2000);
+    }, 1500); // More realistic timing
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
