@@ -86,6 +86,10 @@ export function useChat() {
         return updated
       })
 
+      // Stop typing indicator immediately after adding AI message
+      setIsTyping(false)
+      setIsLoading(false)
+
     } catch (error) {
       console.error('Chat error:', error)
       
@@ -100,11 +104,10 @@ export function useChat() {
       }
 
       setMessages(prevMessages => [...prevMessages, errorMessage])
-    } finally {
-      if (isMountedRef.current) {
-        setIsTyping(false)
-        setIsLoading(false)
-      }
+      
+      // Stop typing indicator on error
+      setIsTyping(false)
+      setIsLoading(false)
     }
   }, [isLoading])
 

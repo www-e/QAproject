@@ -142,7 +142,7 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
     >
       {/* Advanced Metrics Grid */}
       <motion.div variants={fadeInUp}>
-        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem] gap-6">
+        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[22rem] gap-6">
           {metricsData.map((metric, index) => (
             <BentoGridItem
               key={metric.title}
@@ -192,7 +192,7 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
               }
               className={`${
                 index === 0 || index === 3 ? "md:col-span-2" : ""
-              } card-hover`}
+              } card-hover overflow-hidden`}
             />
           ))}
         </BentoGrid>
