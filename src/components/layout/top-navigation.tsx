@@ -1,68 +1,66 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { usePathname } from "next/navigation"
-import { useTheme } from "next-themes" // Correct import
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu"
-import { 
-  Breadcrumb, 
-  BreadcrumbItem, 
-  BreadcrumbLink, 
-  BreadcrumbList, 
-  BreadcrumbPage, 
-  BreadcrumbSeparator 
-} from "@/components/ui/breadcrumb"
-import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch"
-import { Icons } from "@/components/ui/icons"
-import { fadeInUp } from "@/lib/animations"
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes"; // Correct import
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch";
+import { Icons } from "@/components/ui/icons";
+import { fadeInUp } from "@/lib/animations";
 
 // Breadcrumb mapping for Arabic navigation
 const breadcrumbMap: Record<string, { label: string; href: string }[]> = {
-  "/dashboard": [
-    { label: "الرئيسية", href: "/dashboard" }
-  ],
+  "/dashboard": [{ label: "الرئيسية", href: "/dashboard" }],
   "/dashboard/chat": [
     { label: "الرئيسية", href: "/dashboard" },
-    { label: "المحادثة الذكية", href: "/dashboard/chat" }
+    { label: "المحادثة الذكية", href: "/dashboard/chat" },
   ],
   "/dashboard/tests": [
     { label: "الرئيسية", href: "/dashboard" },
-    { label: "إدارة الاختبارات", href: "/dashboard/tests" }
+    { label: "إدارة الاختبارات", href: "/dashboard/tests" },
   ],
   "/dashboard/workflow": [
     { label: "الرئيسية", href: "/dashboard" },
-    { label: "سير العمل", href: "/dashboard/workflow" }
+    { label: "سير العمل", href: "/dashboard/workflow" },
   ],
   "/dashboard/reports": [
     { label: "الرئيسية", href: "/dashboard" },
-    { label: "التقارير", href: "/dashboard/reports" }
+    { label: "التقارير", href: "/dashboard/reports" },
   ],
   "/dashboard/settings": [
     { label: "الرئيسية", href: "/dashboard" },
-    { label: "الإعدادات", href: "/dashboard/settings" }
-  ]
-}
+    { label: "الإعدادات", href: "/dashboard/settings" },
+  ],
+};
 
 export function TopNavigation() {
-  const pathname = usePathname()
+  const pathname = usePathname();
   // Use the centralized theme hook
-  const { setTheme, resolvedTheme } = useTheme()
-  const breadcrumbs = breadcrumbMap[pathname] || []
+  const { setTheme, resolvedTheme } = useTheme();
+  const breadcrumbs = breadcrumbMap[pathname] || [];
 
   const handleThemeToggle = (checked: boolean) => {
-    setTheme(checked ? 'light' : 'dark')
-  }
+    setTheme(checked ? "light" : "dark");
+  };
 
   return (
     <motion.header
@@ -73,7 +71,7 @@ export function TopNavigation() {
     >
       <div className="container flex h-16 items-center justify-between px-6">
         {/* Breadcrumb Navigation */}
-        <motion.div 
+        <motion.div
           className="flex items-center space-x-4 space-x-reverse"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -95,7 +93,7 @@ export function TopNavigation() {
                         {breadcrumb.label}
                       </BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink 
+                      <BreadcrumbLink
                         href={breadcrumb.href}
                         className="text-muted-foreground hover:text-foreground transition-colors"
                       >
@@ -113,7 +111,7 @@ export function TopNavigation() {
         </motion.div>
 
         {/* Center Search */}
-        <motion.div 
+        <motion.div
           className="flex-1 max-w-md mx-8"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -130,17 +128,14 @@ export function TopNavigation() {
         </motion.div>
 
         {/* Right Actions */}
-        <motion.div 
+        <motion.div
           className="flex items-center space-x-4 space-x-reverse"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
         >
           {/* Notifications */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button variant="ghost" size="icon" className="relative">
               <Icons.bell className="h-5 w-5" />
               <motion.div
@@ -149,7 +144,9 @@ export function TopNavigation() {
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.5, type: "spring" }}
               >
-                <span className="text-[10px] text-destructive-foreground font-bold">3</span>
+                <span className="text-[10px] text-destructive-foreground font-bold">
+                  3
+                </span>
               </motion.div>
             </Button>
           </motion.div>
@@ -160,8 +157,8 @@ export function TopNavigation() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, type: "spring" }}
           >
-            <DayNightSwitch 
-              checked={resolvedTheme === 'light'}
+            <DayNightSwitch
+              checked={resolvedTheme === "light"}
               onToggle={handleThemeToggle}
               className="border-2 border-sidebar-border hover:border-primary/50 transition-colors"
             />
@@ -174,11 +171,14 @@ export function TopNavigation() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-10 w-10 rounded-full"
+                >
                   <Avatar className="h-10 w-10 border-2 border-sidebar-border">
-                    <AvatarImage src="/avatar-placeholder.jpg" alt="محمد علي" />
+                    <AvatarImage src="/avatar-placeholder.jpg" alt="عمر أشرف" />
                     <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                      م ع
+                      ع أ
                     </AvatarFallback>
                   </Avatar>
                   <motion.div
@@ -189,22 +189,22 @@ export function TopNavigation() {
                     transition={{
                       duration: 2,
                       repeat: Infinity,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   />
                 </Button>
               </motion.div>
             </DropdownMenuTrigger>
-            
-            <DropdownMenuContent 
-              className="w-56 glass" 
-              align="end" 
+
+            <DropdownMenuContent
+              className="w-56 glass"
+              align="end"
               forceMount
               dir="rtl"
             >
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">محمد علي</p>
+                  <p className="text-sm font-medium leading-none">عمر أشرف</p>
                   <p className="text-xs leading-none text-muted-foreground">
                     مدير الجودة
                   </p>
@@ -213,19 +213,19 @@ export function TopNavigation() {
                   </Badge>
                 </div>
               </DropdownMenuLabel>
-              
+
               <DropdownMenuSeparator />
-              
+
               <DropdownMenuItem className="cursor-pointer">
                 <Icons.users className="ml-2 h-4 w-4" />
                 <span>الملف الشخصي</span>
               </DropdownMenuItem>
-              
+
               <DropdownMenuItem className="cursor-pointer">
                 <Icons.settings className="ml-2 h-4 w-4" />
                 <span>الإعدادات</span>
               </DropdownMenuItem>
-              
+
               <DropdownMenuItem className="cursor-pointer">
                 <Icons.bell className="ml-2 h-4 w-4" />
                 <span>الإشعارات</span>
@@ -233,14 +233,14 @@ export function TopNavigation() {
                   3
                 </Badge>
               </DropdownMenuItem>
-              
+
               <DropdownMenuSeparator />
-              
-              <DropdownMenuItem 
+
+              <DropdownMenuItem
                 className="cursor-pointer text-destructive focus:text-destructive"
                 onClick={() => {
                   // Handle logout
-                  console.log('Logout clicked')
+                  console.log("Logout clicked");
                 }}
               >
                 <Icons.close className="ml-2 h-4 w-4" />
@@ -251,5 +251,5 @@ export function TopNavigation() {
         </motion.div>
       </div>
     </motion.header>
-  )
+  );
 }

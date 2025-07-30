@@ -102,7 +102,7 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
       {message.type === "user" && (
         <Avatar className="w-10 h-10 shrink-0">
           <AvatarFallback className="bg-secondary text-secondary-foreground">
-            م ع
+            ع أ
           </AvatarFallback>
         </Avatar>
       )}

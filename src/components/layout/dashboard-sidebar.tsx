@@ -200,7 +200,7 @@ export function DashboardSidebar() {
                   whileHover={{ scale: 1.05 }}
                 >
                   <span className="text-primary-foreground font-medium text-sm">
-                    م ع
+                    ع أ
                   </span>
                 </motion.div>
 
@@ -212,7 +212,7 @@ export function DashboardSidebar() {
                     className="flex-1 min-w-0"
                   >
                     <p className="text-sm font-medium text-sidebar-foreground truncate">
-                      محمد علي
+                      عمر أشرف
                     </p>
                     <p className="text-xs text-sidebar-foreground/70 truncate">
                       مدير الجودة

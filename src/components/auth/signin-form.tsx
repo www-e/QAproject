@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
-import { toast } from "sonner";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { fadeInUp, staggerChildren } from "@/lib/animations";
 
 export function SignInForm() {
@@ -17,6 +17,17 @@ export function SignInForm() {
     password: "",
     rememberMe: false,
   });
+  const [toastState, setToastState] = useState<{
+    isVisible: boolean;
+    type: "loading" | "success" | "error";
+    title: string;
+    description?: string;
+  }>({
+    isVisible: false,
+    type: "loading",
+    title: "",
+    description: ""
+  });
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,34 +35,32 @@ export function SignInForm() {
     
     // Basic validation
     if (!formData.email || !formData.password) {
-      toast.error("يرجى ملء جميع الحقول المطلوبة", {
-        description: "البريد الإلكتروني وكلمة المرور مطلوبان",
-        icon: <Icons.alert className="w-5 h-5" />,
-        classNames: {
-          toast: "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800",
-          title: "text-red-800 dark:text-red-200",
-          description: "text-red-600 dark:text-red-300",
-          icon: "text-red-500",
-        },
-        position: "top-center",
-        duration: 4000,
+      setToastState({
+        isVisible: true,
+        type: "error",
+        title: "يرجى ملء جميع الحقول المطلوبة",
+        description: "البريد الإلكتروني وكلمة المرور مطلوبان"
       });
+      
+      setTimeout(() => {
+        setToastState(prev => ({ ...prev, isVisible: false }));
+      }, 4000);
       return;
     }
 
     setIsLoading(true);
 
     // Show loading toast
-    const loadingToast = toast.loading("جاري تسجيل الدخول...", {
-      description: "يرجى الانتظار قليلاً",
-      icon: <Icons.spinner className="w-5 h-5 animate-spin" />,
-      position: "top-center",
+    setToastState({
+      isVisible: true,
+      type: "loading",
+      title: "جاري تسجيل الدخول...",
+      description: "يرجى الانتظار قليلاً"
     });
 
     // Simulate authentication
     setTimeout(() => {
       setIsLoading(false);
-      toast.dismiss(loadingToast);
       
       // Simulate random success/failure for demo
       const isSuccess = Math.random() > 0.1; // 90% success rate
@@ -68,35 +77,31 @@ export function SignInForm() {
           localStorage.setItem('sessionExpiry', (Date.now() + 24 * 60 * 60 * 1000).toString());
         }
         
-        toast.success("🎉 تم تسجيل الدخول بنجاح!", {
-          description: formData.rememberMe ? "سيتم تذكر بياناتك للمرة القادمة" : "مرحباً بك في نظام إدارة الجودة",
-          icon: <Icons.check className="w-6 h-6" />,
-          classNames: {
-            toast: "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800 shadow-lg",
-            title: "text-green-800 dark:text-green-200 font-semibold",
-            description: "text-green-600 dark:text-green-300",
-            icon: "text-green-500",
-          },
-          position: "top-center",
-          duration: 4000,
+        // Show success toast
+        setToastState({
+          isVisible: true,
+          type: "success",
+          title: "🎉 تم تسجيل الدخول بنجاح!",
+          description: formData.rememberMe ? "سيتم تذكر بياناتك للمرة القادمة" : "مرحباً بك في نظام إدارة الجودة"
         });
 
         // Navigate to dashboard with smooth transition
-        setTimeout(() => router.push("/dashboard"), 1000);
+        setTimeout(() => {
+          setToastState(prev => ({ ...prev, isVisible: false }));
+          router.push("/dashboard");
+        }, 2000);
       } else {
         // Show error toast
-        toast.error("فشل في تسجيل الدخول", {
-          description: "يرجى التحقق من البريد الإلكتروني وكلمة المرور",
-          icon: <Icons.alert className="w-5 h-5" />,
-          classNames: {
-            toast: "bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 border-red-200 dark:border-red-800 shadow-lg",
-            title: "text-red-800 dark:text-red-200 font-semibold",
-            description: "text-red-600 dark:text-red-300",
-            icon: "text-red-500",
-          },
-          position: "top-center",
-          duration: 5000,
+        setToastState({
+          isVisible: true,
+          type: "error",
+          title: "فشل في تسجيل الدخول",
+          description: "يرجى التحقق من البريد الإلكتروني وكلمة المرور"
         });
+        
+        setTimeout(() => {
+          setToastState(prev => ({ ...prev, isVisible: false }));
+        }, 5000);
       }
     }, 2000);
   };
@@ -120,13 +125,22 @@ export function SignInForm() {
   }, []);
 
   return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="space-y-6"
-      variants={staggerChildren}
-      initial="initial"
-      animate="animate"
-    >
+    <>
+      <CustomToast
+        isVisible={toastState.isVisible}
+        type={toastState.type}
+        title={toastState.title}
+        description={toastState.description}
+        onClose={() => setToastState(prev => ({ ...prev, isVisible: false }))}
+      />
+      
+      <motion.form
+        onSubmit={handleSubmit}
+        className="space-y-6"
+        variants={staggerChildren}
+        initial="initial"
+        animate="animate"
+      >
       {/* Email Field */}
       <motion.div variants={fadeInUp} className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
@@ -250,5 +264,6 @@ export function SignInForm() {
         </div>
       </motion.div>
     </motion.form>
+    </>
   );
 }
