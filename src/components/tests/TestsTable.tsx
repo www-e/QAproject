@@ -108,11 +108,10 @@ export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest
                 </thead>
                 <tbody>
                   {tests.length > 0 ? (
-                    tests.map((test, index) => (
+                    tests.map((test) => (
                       <TestRow
                         key={test.id}
                         test={test}
-                        index={index}
                         isRunningTest={isRunningTest}
                         onRunTest={onRunTest}
                         onRowClick={handleRowClick}

@@ -20,8 +20,7 @@ export default function ReportsPage() {
       
       <ReportsStats tests={mockTests} />
       
-      <ReportsCharts tests={mockTests} />
-      
+      <ReportsCharts />
       <ReportsMetrics tests={mockTests} />
     </motion.div>
   )
