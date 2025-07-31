@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenAI } from '@google/genai'
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from '@google/genai'
 
 const genAI = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!
@@ -34,29 +34,29 @@ export async function POST(req: NextRequest) {
       console.log('Expanded prefix:', processedMessage)
     }
 
-    // Use Gemini 2.5 Flash as recommended in 2025 docs
+    // Use Gemini 2.5 Flash with proper enum values
     const response = await genAI.models.generateContent({
       model: "gemini-2.5-flash",
       contents: processedMessage,
-      safetySettings: [
-        {
-          category: "HARM_CATEGORY_HARASSMENT",
-          threshold: "BLOCK_ONLY_HIGH"
-        },
-        {
-          category: "HARM_CATEGORY_HATE_SPEECH", 
-          threshold: "BLOCK_ONLY_HIGH"
-        },
-        {
-          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-          threshold: "BLOCK_ONLY_HIGH"
-        },
-        {
-          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-          threshold: "BLOCK_ONLY_HIGH"
-        }
-      ],
-      generationConfig: {
+      config: {
+        safetySettings: [
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, 
+            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH
+          }
+        ],
         temperature: 0.7,
         topK: 40,
         topP: 0.95,
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: errorMessage, details: error.message },
+      { error: errorMessage, details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     )
   }
