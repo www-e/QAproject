@@ -18,7 +18,7 @@ interface WorkflowStep {
   progress: number
   duration: string
   assignee: string
-  icon: any
+  icon: React.ElementType
   color: string
   tasks: { name: string; completed: boolean }[]
 }

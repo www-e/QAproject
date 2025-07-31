@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { Test } from "@/types/tests"
 
 interface TestPerformanceMetricsProps {
-  test: any
+  test: Test
 }
 
 export default function TestPerformanceMetrics({ test }: TestPerformanceMetricsProps) {

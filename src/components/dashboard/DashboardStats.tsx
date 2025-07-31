@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
@@ -63,7 +62,7 @@ export default function DashboardStats() {
       animate="animate"
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
     >
-      {dashboardStats.map((stat, index) => (
+      {dashboardStats.map((stat) => (
         <motion.div key={stat.title} variants={fadeInUp}>
           <Card className="relative overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
             <CardContent className="p-6 h-full flex flex-col justify-center">

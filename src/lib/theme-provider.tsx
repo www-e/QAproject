@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { type ThemeProviderProps } from "next-themes"
+import { useTheme as useNextTheme } from "next-themes"
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
@@ -21,7 +22,8 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
 // Theme Toggle Hook (Works perfectly with your OKLCH colors)
 export function useTheme() {
-  const { theme, setTheme, resolvedTheme } = require("next-themes").useTheme()
+  const { theme, setTheme, resolvedTheme } = useNextTheme()
+
   
   const toggleTheme = React.useCallback(() => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Badge, badgeVariants } from "@/components/ui/badge" // Import badgeVariants
 import { Icons } from "@/components/ui/icons"
 import {
   DropdownMenu,
@@ -7,13 +7,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { VariantProps } from "class-variance-authority" // Import VariantProps
 
 interface TestStatusDropdownProps {
   currentStatus: string
   onStatusChange: (status: string) => void
 }
 
-const statusOptions = [
+// Define a specific type for badge variants
+type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
+
+const statusOptions: { value: string; label: string; color: BadgeVariant }[] = [
   { value: "قيد التنفيذ", label: "قيد التنفيذ", color: "secondary" },
   { value: "مكتمل", label: "مكتمل", color: "default" },
   { value: "فشل", label: "فشل", color: "destructive" },
@@ -22,14 +26,14 @@ const statusOptions = [
 ]
 
 export default function TestStatusDropdown({ currentStatus, onStatusChange }: TestStatusDropdownProps) {
+  const currentOption = statusOptions.find(s => s.value === currentStatus) || statusOptions[0];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0">
-          <Badge 
-            variant={
-              statusOptions.find(s => s.value === currentStatus)?.color as any || "secondary"
-            }
+          <Badge
+            variant={currentOption.color}
             className="cursor-pointer hover:opacity-80 transition-opacity"
           >
             {currentStatus}
@@ -44,8 +48,8 @@ export default function TestStatusDropdown({ currentStatus, onStatusChange }: Te
             onClick={() => onStatusChange(status.value)}
             className="cursor-pointer"
           >
-            <Badge 
-              variant={status.color as any}
+            <Badge
+              variant={status.color}
               className="mr-2"
             >
               {status.label}

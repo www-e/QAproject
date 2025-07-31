@@ -5,9 +5,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { Test } from "@/types/tests"
 
 interface ReportsStatsProps {
-  tests: any[]
+  tests: Test[]
 }
 
 export default function ReportsStats({ tests }: ReportsStatsProps) {
@@ -71,7 +72,7 @@ export default function ReportsStats({ tests }: ReportsStatsProps) {
       animate="animate"
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
     >
-      {stats.map((stat, index) => (
+      {stats.map((stat) => (
         <motion.div key={stat.title} variants={fadeInUp}>
           <Card className="relative overflow-hidden group hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">

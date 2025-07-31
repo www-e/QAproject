@@ -16,9 +16,10 @@ import TestErrorsTab from "./tabs/TestErrorsTab";
 import TestExternalTab from "./tabs/TestExternalTab";
 import TestMetadataTab from "./tabs/TestMetadataTab";
 import TestHistoryTab from "./tabs/TestHistoryTab";
+import { Test } from "@/types/tests"; // Correctly import the Test type
 
 interface TestDetailModalProps {
-  test: any;
+  test: Test | null; // Use the imported Test type
   isOpen: boolean;
   onClose: () => void;
 }

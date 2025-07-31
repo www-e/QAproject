@@ -3,7 +3,6 @@ import {
   Lock, 
   Eye, 
   EyeOff, 
-  CheckCircle, 
   AlertCircle,
   Loader2,
   Menu,

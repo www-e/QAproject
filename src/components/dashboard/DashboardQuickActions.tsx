@@ -43,7 +43,7 @@ export default function DashboardQuickActions() {
       animate="animate"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-        {quickActions.map((action, index) => (
+        {quickActions.map((action) => (
           <motion.div key={action.title} variants={fadeInUp} className="h-full">
             <HoverBorderGradient
               as="div"

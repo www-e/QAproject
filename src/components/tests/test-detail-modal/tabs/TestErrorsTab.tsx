@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import TestErrorsTable from "../components/TestErrorsTable"
-
+import { Test } from "@/types/tests"
 interface TestErrorsTabProps {
-  test: any
+  test: Test
 }
 
-export default function TestErrorsTab({ test }: TestErrorsTabProps) {
+export default function TestErrorsTab({}: TestErrorsTabProps) {
   return (
     <div className="space-y-6">
       {/* Errors Table */}
@@ -54,7 +54,7 @@ export default function TestErrorsTab({ test }: TestErrorsTabProps) {
               <h4 className="font-semibold">خطوات إعادة الإنتاج</h4>
               <ol className="text-sm space-y-1 list-decimal list-inside">
                 <li>فتح الصفحة الرئيسية</li>
-                <li>النقر على زر "تسجيل الدخول"</li>
+                <li>النقر على زر تسجيل الدخول</li>
                 <li>إدخال بيانات غير صحيحة</li>
                 <li>ملاحظة ظهور الخطأ</li>
               </ol>

@@ -2,12 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Icons } from "@/components/ui/icons"
+import { Test } from "@/types/tests"
+
 
 interface TestExternalTabProps {
-  test: any
+  test: Test
 }
 
-export default function TestExternalTab({ test }: TestExternalTabProps) {
+export default function TestExternalTab({}: TestExternalTabProps) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

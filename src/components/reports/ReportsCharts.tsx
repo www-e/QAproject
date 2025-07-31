@@ -7,11 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
 
-interface ReportsChartsProps {
-  tests: any[]
-}
-
-export default function ReportsCharts({ tests }: ReportsChartsProps) {
+export default function ReportsCharts() {
   return (
     <motion.div
       variants={staggerChildren}

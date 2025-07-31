@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import { DashboardSidebar } from "@/components/layout/dashboard-sidebar"
 import { TopNavigation } from "@/components/layout/top-navigation"
-import { PageTransition } from "@/components/ui/page-transition"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { pageTransitions } from "@/lib/animations"
 

@@ -1,8 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Test } from "@/types/tests"
+
 
 interface TestMetadataTabProps {
-  test: any
+  test: Test
 }
 
 export default function TestMetadataTab({ test }: TestMetadataTabProps) {

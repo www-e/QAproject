@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { TableCell, TableRow } from "@/components/ui/table"
+import { TableCell } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { StatefulButton } from "@/components/ui/stateful-button"

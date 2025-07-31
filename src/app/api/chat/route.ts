@@ -6,7 +6,7 @@ const genAI = new GoogleGenAI({
 })
 
 // Arabic prefixes mapping (as per current documentation)
-const ARABIC_PREFIXES = {
+const ARABIC_PREFIXES: Record<string, string> = {
   'تحليل الأداء الشهري': 'قم بتحليل الأداء الشهري وتقديم إحصائيات مفصلة للاختبارات والنتائج',
   'إحصائيات الفريق': 'اعرض إحصائيات الفريق والأداء العام مع تفاصيل المشاركة',
   'الاختبارات الفاشلة': 'اعرض تقرير مفصل للاختبارات الفاشلة مع أسباب الفشل والحلول',
@@ -16,7 +16,7 @@ const ARABIC_PREFIXES = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { message, history = [] } = await req.json()
+    const { message } = await req.json()
     
     console.log('Received message:', message)
     
@@ -80,14 +80,16 @@ export async function POST(req: NextRequest) {
       success: true 
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Gemini API Error:', error)
     
     let errorMessage = 'حدث خطأ في معالجة طلبك'
     
-    if (error.message?.includes('SAFETY')) {
+    const errorMessageString = error instanceof Error ? error.message : String(error);
+
+    if (errorMessageString.includes('SAFETY')) {
       errorMessage = 'تم حظر الرد لأسباب أمنية. يرجى إعادة صياغة السؤال.'
-    } else if (error.message?.includes('QUOTA_EXCEEDED')) {
+    } else if (errorMessageString.includes('QUOTA_EXCEEDED')) {
       errorMessage = 'تم تجاوز الحد المسموح للطلبات. يرجى المحاولة لاحقاً.'
     }
 

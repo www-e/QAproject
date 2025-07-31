@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import TestStatusDropdown from "./TestStatusDropdown"
+import { Test } from "@/types/tests"
+
 
 interface TestBasicInfoProps {
-  test: any
+  test: Test
   currentStatus: string
   onStatusChange: (status: string) => void
 }

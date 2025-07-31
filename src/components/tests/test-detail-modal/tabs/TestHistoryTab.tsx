@@ -1,8 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Test } from "@/types/tests"
+
 
 interface TestHistoryTabProps {
-  test: any
+  test: Test
 }
 
 const executionHistory = [
@@ -13,7 +15,7 @@ const executionHistory = [
   { date: "2024-01-11 11:15", status: "نجح", duration: "3.9s", version: "v2.0.8" },
 ]
 
-export default function TestHistoryTab({ test }: TestHistoryTabProps) {
+export default function TestHistoryTab({}: TestHistoryTabProps) {
   return (
     <div className="space-y-6">
       <Card>

@@ -1,16 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
-import TestDetailModal from "./test-detail-modal/TestDetailModal"
 import { useRouter } from "next/navigation";
+import { Test } from "@/types/tests"
+
 
 // Enhanced Test Row component with click functionality
-function TestRow({ test, index, isRunningTest, onRunTest, onRowClick }: any) {
+function TestRow({ test, onRunTest, onRowClick }: { test: Test, isRunningTest: string | null, onRunTest: (id: string) => void, onRowClick: (test: Test) => void }) {
   return (
     <tr 
       className="hover:bg-sidebar-accent/50 transition-colors border-b border-border/30 cursor-pointer"
@@ -60,7 +59,7 @@ function TestRow({ test, index, isRunningTest, onRunTest, onRowClick }: any) {
 }
 
 interface TestsTableProps {
-  tests: any[]
+  tests: Test[]
   totalTests: number
   isRunningTest: string | null
   onRunTest: (testId: string) => void
@@ -69,7 +68,7 @@ interface TestsTableProps {
 export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest }: TestsTableProps) {
   const router = useRouter();
 
-  const handleRowClick = (test: any) => {
+  const handleRowClick = (test: Test) => {
     router.push(`/tests/${test.id}`);
   };
 

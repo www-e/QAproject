@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Icons } from "@/components/ui/icons"
+import { Test } from "@/types/tests"
 
 interface TestExecutionTabProps {
-  test: any
+  test: Test
 }
 
 const executionSteps = [
@@ -24,7 +25,7 @@ const executionLogs = [
   "[2024-01-15 10:30:19] SUCCESS: اكتمل الاختبار بنجاح"
 ]
 
-export default function TestExecutionTab({ test }: TestExecutionTabProps) {
+export default function TestExecutionTab({}: TestExecutionTabProps) {
   return (
     <div className="space-y-6">
       <Card>

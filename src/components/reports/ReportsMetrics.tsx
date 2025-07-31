@@ -9,12 +9,13 @@ import { BackgroundGradient } from "@/components/ui/background-gradient"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
+import { Test } from "@/types/tests"
 
 interface ReportsMetricsProps {
-  tests: any[]
+  tests: Test[]
 }
 
-export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
+export default function ReportsMetrics({}: ReportsMetricsProps) {
   const metricsData = [
     {
       title: "تحليل الأخطاء",
@@ -211,7 +212,7 @@ export default function ReportsMetrics({ tests }: ReportsMetricsProps) {
                 { month: "فبراير", tests: 267, success: 91 },
                 { month: "مارس", tests: 289, success: 85 },
                 { month: "أبريل", tests: 312, success: 89 },
-              ].map((data, index) => (
+              ].map((data) => (
                 <div key={data.month} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <div className="font-medium">{data.month}</div>

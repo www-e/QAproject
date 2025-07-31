@@ -57,7 +57,7 @@ export function PageLoader({ isLoading, onComplete }: PageLoaderProps) {
       clearInterval(stepInterval)
       clearInterval(progressInterval)
     }
-  }, [isLoading, onComplete])
+  }, [isLoading, onComplete,journeySteps.length])
 
   return (
     <AnimatePresence>

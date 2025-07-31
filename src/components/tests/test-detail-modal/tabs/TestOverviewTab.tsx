@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import TestBasicInfo from "../components/TestBasicInfo"
 import TestPerformanceMetrics from "../components/TestPerformanceMetrics"
+import { Test } from "@/types/tests"
+
 
 interface TestOverviewTabProps {
-  test: any
+  test: Test
   currentStatus: string
   onStatusChange: (status: string) => void
 }
