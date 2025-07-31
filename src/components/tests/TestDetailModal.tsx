@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -7,6 +8,12 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Icons } from "@/components/ui/icons"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface TestDetailModalProps {
   test: any
@@ -15,7 +22,23 @@ interface TestDetailModalProps {
 }
 
 export default function TestDetailModal({ test, isOpen, onClose }: TestDetailModalProps) {
+  const [currentStatus, setCurrentStatus] = useState(test?.status || "قيد التنفيذ")
+  
   if (!test) return null
+
+  const statusOptions = [
+    { value: "قيد التنفيذ", label: "قيد التنفيذ", color: "secondary" },
+    { value: "مكتمل", label: "مكتمل", color: "default" },
+    { value: "فشل", label: "فشل", color: "destructive" },
+    { value: "معلق", label: "معلق", color: "outline" },
+    { value: "ملغي", label: "ملغي", color: "secondary" }
+  ]
+
+  const handleStatusChange = (newStatus: string) => {
+    setCurrentStatus(newStatus)
+    // Here you would typically update the test status in your data store
+    console.log(`Status changed to: ${newStatus}`)
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -28,9 +51,11 @@ export default function TestDetailModal({ test, isOpen, onClose }: TestDetailMod
         </DialogHeader>
 
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
             <TabsTrigger value="execution">التنفيذ</TabsTrigger>
+            <TabsTrigger value="errors">الأخطاء</TabsTrigger>
+            <TabsTrigger value="external">الروابط الخارجية</TabsTrigger>
             <TabsTrigger value="metadata">البيانات الوصفية</TabsTrigger>
             <TabsTrigger value="history">السجل</TabsTrigger>
           </TabsList>
@@ -51,16 +76,39 @@ export default function TestDetailModal({ test, isOpen, onClose }: TestDetailMod
                     <span className="text-muted-foreground">النوع:</span>
                     <Badge variant="outline">{test.type}</Badge>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between items-center">
                     <span className="text-muted-foreground">الحالة:</span>
-                    <Badge 
-                      variant={
-                        test.status === "نجح" ? "default" : 
-                        test.status === "فشل" ? "destructive" : "secondary"
-                      }
-                    >
-                      {test.status}
-                    </Badge>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-auto p-0">
+                          <Badge 
+                            variant={
+                              statusOptions.find(s => s.value === currentStatus)?.color as any || "secondary"
+                            }
+                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                          >
+                            {currentStatus}
+                            <Icons.chevronRight className="w-3 h-3 mr-1" />
+                          </Badge>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {statusOptions.map((status) => (
+                          <DropdownMenuItem
+                            key={status.value}
+                            onClick={() => handleStatusChange(status.value)}
+                            className="cursor-pointer"
+                          >
+                            <Badge 
+                              variant={status.color as any}
+                              className="mr-2"
+                            >
+                              {status.label}
+                            </Badge>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">الأولوية:</span>
@@ -164,6 +212,236 @@ export default function TestDetailModal({ test, isOpen, onClose }: TestDetailMod
                   <div>[2024-01-15 10:30:19] INFO: جميع الاختبارات نجحت</div>
                   <div>[2024-01-15 10:30:19] INFO: تنظيف البيئة</div>
                   <div>[2024-01-15 10:30:19] SUCCESS: اكتمل الاختبار بنجاح</div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="errors" className="space-y-6">
+            {/* Errors Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Icons.alert className="w-5 h-5 text-red-500" />
+                  جدول الأخطاء
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-border rounded-lg">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="border border-border p-3 text-right font-semibold">رقم</th>
+                        <th className="border border-border p-3 text-right font-semibold">وصف</th>
+                        <th className="border border-border p-3 text-right font-semibold">شدة</th>
+                        <th className="border border-border p-3 text-right font-semibold">الحالة</th>
+                        <th className="border border-border p-3 text-right font-semibold">التاريخ</th>
+                        <th className="border border-border p-3 text-right font-semibold">رابط الحالة</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { id: "ERR-001", desc: "فشل في تحميل الصفحة", severity: "عالية", status: "مفتوح", date: "2024-01-15", link: "#" },
+                        { id: "ERR-002", desc: "خطأ في التحقق من البيانات", severity: "متوسطة", status: "قيد المراجعة", date: "2024-01-14", link: "#" },
+                        { id: "ERR-003", desc: "مشكلة في الاتصال", severity: "منخفضة", status: "مغلق", date: "2024-01-13", link: "#" }
+                      ].map((error, index) => (
+                        <tr key={index} className="hover:bg-muted/30 transition-colors">
+                          <td className="border border-border p-3 font-mono text-sm">{error.id}</td>
+                          <td className="border border-border p-3">{error.desc}</td>
+                          <td className="border border-border p-3">
+                            <Badge variant={
+                              error.severity === "عالية" ? "destructive" :
+                              error.severity === "متوسطة" ? "secondary" : "outline"
+                            }>
+                              {error.severity}
+                            </Badge>
+                          </td>
+                          <td className="border border-border p-3">
+                            <Badge variant={
+                              error.status === "مفتوح" ? "destructive" :
+                              error.status === "قيد المراجعة" ? "secondary" : "default"
+                            }>
+                              {error.status}
+                            </Badge>
+                          </td>
+                          <td className="border border-border p-3 text-sm">{error.date}</td>
+                          <td className="border border-border p-3">
+                            <Button variant="ghost" size="sm" className="h-8">
+                              <Icons.play className="w-3 h-3 ml-1" />
+                              عرض
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Error Details Sidebar */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Icons.fileText className="w-5 h-5 text-blue-500" />
+                  تفاصيل الخطأ المحدد
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">معلومات الخطأ</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">رقم الخطأ:</span>
+                        <span className="font-mono">ERR-001</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">النوع:</span>
+                        <span>خطأ في التحميل</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">المتصفح:</span>
+                        <span>Chrome 120.0</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">خطوات إعادة الإنتاج</h4>
+                    <ol className="text-sm space-y-1 list-decimal list-inside">
+                      <li>فتح الصفحة الرئيسية</li>
+                      <li>النقر على زر "تسجيل الدخول"</li>
+                      <li>إدخال بيانات غير صحيحة</li>
+                      <li>ملاحظة ظهور الخطأ</li>
+                    </ol>
+                  </div>
+                </div>
+
+                {/* Screenshots/Logs placeholder */}
+                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+                  <Icons.fileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">صور الشاشة والسجلات</p>
+                  <p className="text-sm text-muted-foreground">سيتم عرض الصور والسجلات هنا</p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="external" className="space-y-6">
+            {/* External Tools Links */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Icons.workflow className="w-5 h-5 text-purple-500" />
+                    GitHub Integration
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.play className="w-4 h-4 ml-2" />
+                        عرض Repository
+                      </a>
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.fileText className="w-4 h-4 ml-2" />
+                        Issues المرتبطة
+                      </a>
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.workflow className="w-4 h-4 ml-2" />
+                        Pull Requests
+                      </a>
+                    </Button>
+                  </div>
+                  
+                  <div className="pt-4 border-t">
+                    <h5 className="font-medium mb-2">معلومات Repository</h5>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Branch:</span>
+                        <span className="font-mono">main</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Commit:</span>
+                        <span className="font-mono">a1b2c3d</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Icons.chart className="w-5 h-5 text-blue-500" />
+                    JIRA Integration
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.fileText className="w-4 h-4 ml-2" />
+                        عرض Ticket
+                      </a>
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.users className="w-4 h-4 ml-2" />
+                        Sprint Board
+                      </a>
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <Icons.chart className="w-4 h-4 ml-2" />
+                        Reports
+                      </a>
+                    </Button>
+                  </div>
+                  
+                  <div className="pt-4 border-t">
+                    <h5 className="font-medium mb-2">معلومات Ticket</h5>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Ticket ID:</span>
+                        <span className="font-mono">QA-123</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Status:</span>
+                        <Badge variant="secondary">In Progress</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Additional Tools */}
+            <Card>
+              <CardHeader>
+                <CardTitle>أدوات إضافية</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { name: "Slack", icon: Icons.message, color: "text-green-500" },
+                    { name: "Teams", icon: Icons.users, color: "text-blue-500" },
+                    { name: "Confluence", icon: Icons.fileText, color: "text-purple-500" },
+                    { name: "TestRail", icon: Icons.chart, color: "text-orange-500" }
+                  ].map((tool, index) => (
+                    <Button key={index} variant="outline" className="h-20 flex-col gap-2" asChild>
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <tool.icon className={`w-6 h-6 ${tool.color}`} />
+                        <span className="text-sm">{tool.name}</span>
+                      </a>
+                    </Button>
+                  ))}
                 </div>
               </CardContent>
             </Card>

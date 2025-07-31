@@ -24,6 +24,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { DayNightSwitch } from "@/components/shsfui/switch/day-night-switch";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { Icons } from "@/components/ui/icons";
 import { fadeInUp } from "@/lib/animations";
 
@@ -149,6 +150,15 @@ export function TopNavigation() {
                 </span>
               </motion.div>
             </Button>
+          </motion.div>
+
+          {/* Language Switcher */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.25, type: "spring" }}
+          >
+            <LanguageSwitcher />
           </motion.div>
 
           {/* Your Beautiful Day-Night Switch - Now correctly controlled */}

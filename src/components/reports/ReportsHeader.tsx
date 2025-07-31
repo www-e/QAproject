@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
 import { Icons } from "@/components/ui/icons"
 import { fadeInUp, staggerChildren } from "@/lib/animations"
+import Link from "next/link"
 
 export default function ReportsHeader() {
   return (
@@ -32,10 +33,12 @@ export default function ReportsHeader() {
         animate="animate"
       >
         <motion.div variants={fadeInUp}>
-          <Button className="btn-primary">
-            <Icons.fileText className="ml-2 h-4 w-4" />
-            تصدير التقرير الشامل
-          </Button>
+          <Link href="/reports/generate">
+            <Button className="btn-primary">
+              <Icons.fileText className="ml-2 h-4 w-4" />
+              إنشاء تقرير جديد
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.div variants={fadeInUp}>
