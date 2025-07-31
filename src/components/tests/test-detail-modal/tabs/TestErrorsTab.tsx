@@ -9,6 +9,7 @@ interface TestErrorsTabProps {
 export default function TestErrorsTab({ test }: TestErrorsTabProps) {
   return (
     <div className="space-y-6">
+      {/* Errors Table */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -16,11 +17,12 @@ export default function TestErrorsTab({ test }: TestErrorsTabProps) {
             جدول الأخطاء
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 md:p-6">
           <TestErrorsTable />
         </CardContent>
       </Card>
 
+      {/* Error Details */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -33,15 +35,15 @@ export default function TestErrorsTab({ test }: TestErrorsTabProps) {
             <div className="space-y-4">
               <h4 className="font-semibold">معلومات الخطأ</h4>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
+                <div className="flex justify-between flex-wrap gap-2">
                   <span className="text-muted-foreground">رقم الخطأ:</span>
                   <span className="font-mono">ERR-001</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between flex-wrap gap-2">
                   <span className="text-muted-foreground">النوع:</span>
                   <span>خطأ في التحميل</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between flex-wrap gap-2">
                   <span className="text-muted-foreground">المتصفح:</span>
                   <span>Chrome 120.0</span>
                 </div>
