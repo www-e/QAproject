@@ -123,9 +123,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-    /* Enhanced with Arabic font and better line-height (ADDED) */
-    font-family: "Tajawal", var(--font-geist-sans), system-ui, -apple-system,
+    @apply bg-background text-foreground overflow-x-hidden; /* This is the corrected fix */
+    /* Enhanced with Arabic font and better line-height */
+    font-family: var(--font-tajawal), var(--font-geist-sans), system-ui, -apple-system,
       sans-serif;
     line-height: 1.6;
     font-feature-settings: "rlig" 1, "calt" 1;

@@ -243,20 +243,6 @@ export function SignInForm() {
           )}
         </Button>
       </motion.div>
-
-      {/* Demo Credentials */}
-      <motion.div
-        variants={fadeInUp}
-        className="p-4 bg-muted/50 rounded-lg border-dashed border-2 border-muted"
-      >
-        <p className="text-xs text-muted-foreground text-center mb-2">
-          بيانات تجريبية للعرض:
-        </p>
-        <div className="text-xs space-y-1 text-center">
-          <p>البريد: admin@qa-dashboard.com</p>
-          <p>كلمة المرور: demo123</p>
-        </div>
-      </motion.div>
     </motion.form>
     </>
   );
