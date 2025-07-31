@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // Enhanced font loading with Arabic support
 const geistSans = Geist({
@@ -104,6 +106,8 @@ export default function RootLayout({
               },
             }}
           />
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

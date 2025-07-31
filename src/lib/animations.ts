@@ -6,9 +6,9 @@ export const pageTransitions = {
     exit: { opacity: 0, y: -20 },
     transition: {
       duration: 0.3,
-      ease: [0.4, 0, 0.2, 1] // Your --animation-timing from globals.css
+      ease: "easeOut"
     }
-  }
+  } as const;
   
   export const cardAnimations = {
     hover: {
