@@ -85,7 +85,7 @@ export function LandingHeader() {
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-sm animate-pulse" />
               <DayNightSwitch 
                 checked={resolvedTheme === 'light'}
-                onToggle={handleThemeToggle}
+                onToggleChange={handleThemeToggle}
                 className="relative border-2 border-primary/20 hover:border-primary/50 transition-colors"
               />
             </motion.div>

@@ -5,9 +5,9 @@ import { Test } from "@/types/tests"
 
 
 interface TestBasicInfoProps {
-  test: Test
-  currentStatus: string
-  onStatusChange: (status: string) => void
+  test: Test;
+  currentStatus: Test["status"];
+  onStatusChange: (status: Test["status"]) => void;
 }
 
 export default function TestBasicInfo({ test, currentStatus, onStatusChange }: TestBasicInfoProps) {

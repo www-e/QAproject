@@ -8,8 +8,7 @@ import { useRouter } from "next/navigation";
 import { Test } from "@/types/tests"
 
 
-// Enhanced Test Row component with click functionality
-function TestRow({ test, onRunTest, onRowClick }: { test: Test, isRunningTest: string | null, onRunTest: (id: string) => void, onRowClick: (test: Test) => void }) {
+function TestRow({ test, isRunningTest, onRunTest, onRowClick }: { test: Test, isRunningTest: string | null, onRunTest: (id: string) => void, onRowClick: (test: Test) => void }) {
   return (
     <tr 
       className="hover:bg-sidebar-accent/50 transition-colors border-b border-border/30 cursor-pointer"
@@ -23,7 +22,7 @@ function TestRow({ test, onRunTest, onRowClick }: { test: Test, isRunningTest: s
       <td className="p-3">
         <Badge 
           variant={
-            test.status === "نجح" ? "default" : 
+            test.status === "مكتمل" ? "default" : 
             test.status === "فشل" ? "destructive" : "secondary"
           }
         >

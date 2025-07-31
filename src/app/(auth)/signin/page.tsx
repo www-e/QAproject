@@ -51,7 +51,7 @@ export default function SignInPage() {
       >
         <DayNightSwitch
           checked={resolvedTheme === "light"}
-          onToggle={(checked) => {
+          onToggleChange={(checked) => {
             setTheme(checked ? "light" : "dark");
           }}
           className="border-2 border-border/50 hover:border-primary/50 transition-colors"

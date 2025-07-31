@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 type DayNightSwitchProps = {
   checked: boolean;
-  onToggle?: (checked: boolean) => void;
+  onToggleChange: (checked: boolean) => void; // Type updated here
 } & React.HTMLAttributes<HTMLDivElement> &
   MotionProps;
 
@@ -58,7 +58,7 @@ const createStarVariants = (index: number): Variants => ({
 });
 
 const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
-  ({ className, checked, onToggle, ...restProps }, ref) => {
+  ({ className, checked, onToggleChange, ...restProps }, ref) => {
     const [isMounted, setIsMounted] = React.useState(false);
     const id = React.useId();
     // ADD THIS useEffect:
@@ -66,7 +66,7 @@ const DayNightSwitch = React.forwardRef<HTMLDivElement, DayNightSwitchProps>(
       setIsMounted(true);
     }, []);
     const handleToggle = (newValue: boolean) => {
-      onToggle?.(newValue);
+      onToggleChange?.(newValue);
     };
 
     const currentMode: AnimationMode = checked ? "day" : "night";

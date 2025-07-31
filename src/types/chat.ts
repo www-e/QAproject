@@ -4,6 +4,7 @@ export interface Message {
     content: string
     timestamp: Date
     status: "delivered" | "pending" | "failed"
+    fallback?: boolean
   }
   
   export interface ChatState {

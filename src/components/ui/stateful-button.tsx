@@ -1,10 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence,HTMLMotionProps } from "framer-motion";
 
-// Interface for the button's props, making it type-safe and declarative
-interface StatefulButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface StatefulButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
   className?: string;
   isLoading?: boolean;
   isSuccess?: boolean;
@@ -12,6 +11,7 @@ interface StatefulButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
   loadingText?: string;
   successText?: string;
   children?: React.ReactNode;
+  size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
 // The main component, now using a declarative approach with AnimatePresence

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { animate } from "motion/react";
 
 interface GlowingEffectProps {
+  children?: React.ReactNode;
   blur?: number;
   inactiveZone?: number;
   proximity?: number;

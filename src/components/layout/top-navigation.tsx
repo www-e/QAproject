@@ -169,7 +169,7 @@ export function TopNavigation() {
           >
             <DayNightSwitch
               checked={resolvedTheme === "light"}
-              onToggle={handleThemeToggle}
+              onToggleChange={handleThemeToggle}
               className="border-2 border-sidebar-border hover:border-primary/50 transition-colors"
             />
           </motion.div>
@@ -210,7 +210,6 @@ export function TopNavigation() {
               className="w-56 glass"
               align="end"
               forceMount
-              dir="rtl"
             >
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">

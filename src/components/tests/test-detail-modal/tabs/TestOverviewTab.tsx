@@ -5,9 +5,9 @@ import { Test } from "@/types/tests"
 
 
 interface TestOverviewTabProps {
-  test: Test
-  currentStatus: string
-  onStatusChange: (status: string) => void
+  test: Test;
+  currentStatus: Test["status"];
+  onStatusChange: (status: Test["status"]) => void;
 }
 
 export default function TestOverviewTab({ test, currentStatus, onStatusChange }: TestOverviewTabProps) {

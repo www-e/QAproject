@@ -1,32 +1,41 @@
-import { Button } from "@/components/ui/button"
-import { Badge, badgeVariants } from "@/components/ui/badge" // Import badgeVariants
-import { Icons } from "@/components/ui/icons"
+import { Button } from "@/components/ui/button";
+import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Icons } from "@/components/ui/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { VariantProps } from "class-variance-authority" // Import VariantProps
+} from "@/components/ui/dropdown-menu";
+import { VariantProps } from "class-variance-authority";
+import { Test } from "@/types/tests"; // Import the Test type
+
+// Define the specific status type for clarity
+type TestStatus = Test["status"];
 
 interface TestStatusDropdownProps {
-  currentStatus: string
-  onStatusChange: (status: string) => void
+  currentStatus: TestStatus;
+  onStatusChange: (status: TestStatus) => void;
 }
 
 // Define a specific type for badge variants
 type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
 
-const statusOptions: { value: string; label: string; color: BadgeVariant }[] = [
+const statusOptions: { value: TestStatus; label: string; color: BadgeVariant }[] = [
   { value: "قيد التنفيذ", label: "قيد التنفيذ", color: "secondary" },
   { value: "مكتمل", label: "مكتمل", color: "default" },
   { value: "فشل", label: "فشل", color: "destructive" },
   { value: "معلق", label: "معلق", color: "outline" },
-  { value: "ملغي", label: "ملغي", color: "secondary" }
-]
+  // Assuming 'ملغي' is a possible status you might add later. 
+  // If not, you can remove it. For now, we'll keep the type strict.
+];
 
-export default function TestStatusDropdown({ currentStatus, onStatusChange }: TestStatusDropdownProps) {
-  const currentOption = statusOptions.find(s => s.value === currentStatus) || statusOptions[0];
+export default function TestStatusDropdown({
+  currentStatus,
+  onStatusChange,
+}: TestStatusDropdownProps) {
+  const currentOption =
+    statusOptions.find((s) => s.value === currentStatus) || statusOptions[0];
 
   return (
     <DropdownMenu>
@@ -48,15 +57,12 @@ export default function TestStatusDropdown({ currentStatus, onStatusChange }: Te
             onClick={() => onStatusChange(status.value)}
             className="cursor-pointer"
           >
-            <Badge
-              variant={status.color}
-              className="mr-2"
-            >
+            <Badge variant={status.color} className="mr-2">
               {status.label}
             </Badge>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

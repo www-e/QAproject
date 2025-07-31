@@ -21,11 +21,13 @@ import { Test } from "@/types/tests"; // Correctly import the Test type
 interface TestDetailModalProps {
   test: Test | null; // Use the imported Test type
   isOpen: boolean;
+  onClose: () => void;
 }
 
 export default function TestDetailModal({
   test,
   isOpen,
+  onClose,
 }: TestDetailModalProps) {
   const [currentStatus, setCurrentStatus] = useState(
     test?.status || "قيد التنفيذ"
@@ -33,7 +35,7 @@ export default function TestDetailModal({
 
   if (!test) return null;
 
-  const handleStatusChange = (newStatus: string) => {
+  const handleStatusChange = (newStatus: Test['status']) => {
     setCurrentStatus(newStatus);
     console.log(`Status changed to: ${newStatus}`);
   };

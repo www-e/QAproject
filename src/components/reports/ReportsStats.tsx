@@ -13,7 +13,7 @@ interface ReportsStatsProps {
 
 export default function ReportsStats({ tests }: ReportsStatsProps) {
   const totalTests = tests.length
-  const passedTests = tests.filter(test => test.status === "نجح").length
+  const passedTests = tests.filter(test => test.status === "مكتمل").length
   const failedTests = tests.filter(test => test.status === "فشل").length
   const successRate = Math.round((passedTests / totalTests) * 100)
 
