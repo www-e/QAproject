@@ -22,7 +22,8 @@ import {
   Send,
   Paperclip,
   Play,
-  Clock
+  Clock,
+  History
 } from "lucide-react"
 
 export const Icons = {
@@ -49,4 +50,5 @@ export const Icons = {
   paperclip: Paperclip,
   play: Play,
   clock: Clock,
+  history: History,
 } as const

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
-import TestDetailModal from "./TestDetailModal"
+import TestDetailModal from "./test-detail-modal/TestDetailModal"
 import { fadeInUp } from "@/lib/animations"
 
 // Enhanced Test Row component with click functionality
