@@ -186,7 +186,7 @@ export function TopNavigation() {
                   className="relative h-10 w-10 rounded-full"
                 >
                   <Avatar className="h-10 w-10 border-2 border-sidebar-border">
-                    <AvatarImage src="/avatar-placeholder.jpg" alt="عمر أشرف" />
+                    <AvatarImage src="/images/avatar-placeholder.jpg" alt="عمر أشرف" />
                     <AvatarFallback className="bg-primary text-primary-foreground font-bold">
                       ع أ
                     </AvatarFallback>

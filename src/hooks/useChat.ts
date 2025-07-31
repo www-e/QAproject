@@ -55,16 +55,26 @@ export function useChat() {
     setIsLoading(true)
 
     try {
+      // Prepare conversation history for API
+      const conversationHistory = messages.map(msg => ({
+        role: msg.type === 'user' ? 'user' : 'assistant',
+        content: msg.content
+      }))
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: content }),
+        body: JSON.stringify({ 
+          message: content.trim(),
+          history: conversationHistory  // Add history support
+        }),
       })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
 
       const data = await response.json()
@@ -72,12 +82,18 @@ export function useChat() {
 
       if (!isMountedRef.current) return
 
+      // Handle fallback responses for Arabic prefixes
+      if (data.fallback) {
+        console.log('Using fallback response for Arabic prefix')
+      }
+
       const aiMessage: Message = {
         id: Date.now() + 1,
         type: "ai",
-        content: data.content,
-        timestamp: new Date(data.timestamp || new Date()),
+        content: data.message,  // Changed from data.content to data.message
+        timestamp: new Date(),
         status: "delivered",
+        fallback: data.fallback || false  // Track if it's a fallback response
       }
 
       setMessages(prevMessages => {
@@ -109,7 +125,7 @@ export function useChat() {
       setIsTyping(false)
       setIsLoading(false)
     }
-  }, [isLoading])
+  }, [isLoading, messages])  // Add messages to dependency array
 
   return {
     messages,

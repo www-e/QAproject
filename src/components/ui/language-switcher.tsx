@@ -13,18 +13,15 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   const [currentLang, setCurrentLang] = useState<'ar' | 'en'>('ar')
 
   const toggleLanguage = () => {
+    // Only update visual state - no actual functionality
     const newLang = currentLang === 'ar' ? 'en' : 'ar'
     setCurrentLang(newLang)
     
-    // Update document direction and language
-    document.documentElement.setAttribute('lang', newLang)
-    document.documentElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr')
-    
-    // Store preference
-    localStorage.setItem('preferred-language', newLang)
-    
-    // Trigger a custom event for components to listen to
-    window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: newLang } }))
+    // All functional code commented out but kept for reference:
+    // document.documentElement.setAttribute('lang', newLang)
+    // document.documentElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr')
+    // localStorage.setItem('preferred-language', newLang)
+    // window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: newLang } }))
   }
 
   return (
