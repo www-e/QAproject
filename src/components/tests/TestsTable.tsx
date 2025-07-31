@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import TestDetailModal from "./test-detail-modal/TestDetailModal"
-import { fadeInUp } from "@/lib/animations"
+import { useRouter } from "next/navigation";
 
 // Enhanced Test Row component with click functionality
 function TestRow({ test, index, isRunningTest, onRunTest, onRowClick }: any) {
@@ -67,18 +67,12 @@ interface TestsTableProps {
 }
 
 export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest }: TestsTableProps) {
-  const [selectedTest, setSelectedTest] = useState<any>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const router = useRouter();
 
   const handleRowClick = (test: any) => {
-    setSelectedTest(test)
-    setIsModalOpen(true)
-  }
+    router.push(`/tests/${test.id}`);
+  };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedTest(null)
-  }
 
   console.log("TestsTable rendering with:", { tests: tests.length, totalTests })
   
@@ -140,11 +134,6 @@ export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest
       </div>
 
       {/* Test Detail Modal */}
-      <TestDetailModal 
-        test={selectedTest}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
     </>
   )
 }
