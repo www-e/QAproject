@@ -18,7 +18,7 @@ LayoutLoader.displayName = "LayoutLoader"
 // PERFORMANCE OPTIMIZATION: Memoized sidebar wrapper - NO SUSPENSE for critical UI
 const SidebarWrapper = memo(() => (
   <motion.aside
-    className="relative z-30" // ✅ UNCHANGED: Sidebar stays on the left
+    className="relative z-30 w-0 md:w-auto" // ✅ OPTIMIZED: No width on mobile, auto on desktop
     initial={{ x: -300, opacity: 0 }} // ✅ UNCHANGED: Original animation
     animate={{ x: 0, opacity: 1 }} // ✅ UNCHANGED: Original animation
     transition={{ duration: 0.3, ease: "easeOut" }} // ✅ UNCHANGED: Original timing
@@ -54,8 +54,8 @@ export default function DashboardLayout({
           {/* ✅ SIDEBAR STAYS ON THE LEFT - All animations preserved */}
           <SidebarWrapper />
 
-          {/* ✅ UNCHANGED: Main Content Area */}
-          <div className="flex-1 flex flex-col overflow-hidden"> {/* ✅ UNCHANGED: Original layout */}
+          {/* ✅ MAIN CONTENT - Full width on mobile, flex-1 on desktop */}
+          <div className="flex-1 flex flex-col overflow-hidden w-full md:w-auto"> {/* ✅ OPTIMIZED: Full width on mobile */}
             {/* ✅ UNCHANGED: Top Navigation with all original animations */}
             <HeaderWrapper />
 

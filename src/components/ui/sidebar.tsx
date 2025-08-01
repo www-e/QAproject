@@ -88,7 +88,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          // Corrected: Gradient is now applied here
+          // Desktop sidebar - hidden on mobile
           "h-full px-4 py-4 hidden md:flex md:flex-col w-[300px] shrink-0",
           // Subtle gradient classes
           "bg-gradient-to-b from-sidebar to-background dark:from-sidebar dark:to-black",
@@ -115,40 +115,52 @@ export const MobileSidebar = ({
   const { open, setOpen } = useSidebar();
   return (
     <>
-      <div
-        className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
-        )}
-        {...props}
-      >
-        <div className="flex justify-end z-20 w-full">
-          <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
-            onClick={() => setOpen(!open)}
-          />
-        </div>
+      {/* Mobile sidebar - only renders the drawer, no header space */}
+      <div className="md:hidden" {...props}>
+        {/* Backdrop */}
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ x: "-100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "-100%", opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+              onClick={() => setOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Sidebar Drawer */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
               transition={{
                 duration: 0.3,
-                ease: "easeInOut",
+                ease: [0.4, 0, 0.2, 1],
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-sidebar to-background dark:from-sidebar dark:to-black z-50 shadow-2xl border-r border-sidebar-border",
                 className
               )}
             >
-              <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
-                onClick={() => setOpen(!open)}
-              >
-                <IconX />
+              {/* Close button */}
+              <div className="absolute right-4 top-4 z-50">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-2 rounded-lg hover:bg-sidebar-accent text-sidebar-foreground transition-colors"
+                >
+                  <IconX className="w-5 h-5" />
+                </button>
               </div>
-              {children}
+              
+              {/* Sidebar content */}
+              <div className="h-full pt-16 pb-6 overflow-y-auto">
+                {children}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

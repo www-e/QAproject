@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, memo, useMemo } from "react";
+import { useState, memo, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/ui/icons";
-import { Sidebar, SidebarBody } from "@/components/ui/sidebar";
+import { Sidebar, SidebarBody, useSidebar } from "@/components/ui/sidebar";
 import { fadeInUp } from "@/lib/animations";
+import { useTouchOptimizations } from "@/lib/touch-optimizations";
 
 // 1. Corrected navigation items with full, functional paths
 const navigationItems = [
@@ -36,7 +37,6 @@ const navigationItems = [
     icon: <Icons.workflow className="w-5 h-5" />,
     badge: null,
   },
-  // These routes don't exist yet, but we'll keep the paths correct
   {
     label: "التقارير",
     href: "/reports",
@@ -97,8 +97,57 @@ const SidebarLinkContent = memo(
 );
 
 export const DashboardSidebar = memo(function DashboardSidebar() {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useSidebar();
+  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const { createTouchHandler } = useTouchOptimizations();
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Auto-close sidebar on mobile when route changes
+  useEffect(() => {
+    if (isMobile && open) {
+      setOpen(false);
+    }
+  }, [pathname, isMobile, open, setOpen]);
+
+  // Add swipe gesture support for mobile
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const touchHandler = createTouchHandler(
+      undefined, // No tap handler needed
+      (direction) => {
+        if (direction === "left" && open) {
+          setOpen(false);
+        }
+      }
+    );
+
+    const sidebarElement = document.querySelector('[data-sidebar="true"]');
+    if (sidebarElement) {
+      sidebarElement.addEventListener("touchstart", touchHandler.onTouchStart);
+      sidebarElement.addEventListener("touchend", touchHandler.onTouchEnd);
+
+      return () => {
+        sidebarElement.removeEventListener(
+          "touchstart",
+          touchHandler.onTouchStart
+        );
+        sidebarElement.removeEventListener("touchend", touchHandler.onTouchEnd);
+      };
+    }
+  }, [isMobile, open, setOpen, createTouchHandler]);
 
   // Memoize navigation items to prevent recreation on every render
   const memoizedNavigationItems = useMemo(() => navigationItems, []);
@@ -106,7 +155,10 @@ export const DashboardSidebar = memo(function DashboardSidebar() {
   return (
     <div className="h-full">
       <Sidebar open={open} setOpen={setOpen} animate={true}>
-        <SidebarBody className={cn("gap-10", !open && "items-center py-4")}>
+        <SidebarBody
+          className={cn("gap-10", !open && "items-center py-4")}
+          data-sidebar="true"
+        >
           {/* Main content container */}
           <div className="flex flex-col justify-between h-full">
             {/* Top part: Logo and Nav */}
@@ -138,12 +190,20 @@ export const DashboardSidebar = memo(function DashboardSidebar() {
                     exit={{ opacity: 0, x: -20 }}
                     className="overflow-hidden"
                   >
-                    <h2 className="text-lg font-bold text-sidebar-foreground">
-                      نظام الجودة
-                    </h2>
-                    <p className="text-sm text-sidebar-foreground/70">
-                      إدارة متقدمة
-                    </p>
+                    {isMobile ? (
+                      <h2 className="text-xl font-bold text-sidebar-foreground">
+                        QA
+                      </h2>
+                    ) : (
+                      <>
+                        <h2 className="text-lg font-bold text-sidebar-foreground">
+                          نظام الجودة
+                        </h2>
+                        <p className="text-sm text-sidebar-foreground/70">
+                          إدارة متقدمة
+                        </p>
+                      </>
+                    )}
                   </motion.div>
                 )}
               </motion.div>

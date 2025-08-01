@@ -3,10 +3,13 @@
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes"; // Correct import
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useSidebar } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,9 +58,22 @@ const breadcrumbMap: Record<string, { label: string; href: string }[]> = {
 
 export function TopNavigation() {
   const pathname = usePathname();
-  // Use the centralized theme hook
   const { setTheme, resolvedTheme } = useTheme();
+  const { setOpen } = useSidebar();
+  const [isMobile, setIsMobile] = useState(false);
   const breadcrumbs = breadcrumbMap[pathname] || [];
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleThemeToggle = (checked: boolean) => {
     setTheme(checked ? "light" : "dark");
@@ -71,13 +87,26 @@ export function TopNavigation() {
       animate="animate"
     >
       <div className="container flex h-16 items-center justify-between px-6">
-        {/* Breadcrumb Navigation */}
+        {/* Left side: Mobile menu + Breadcrumb */}
         <motion.div
           className="flex items-center space-x-4 space-x-reverse"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
         >
+          {/* Mobile Menu Button */}
+          {isMobile && (
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => setOpen(true)}
+                className="md:hidden"
+              >
+                <Icons.menu className="h-5 w-5" />
+              </Button>
+            </motion.div>
+          )}
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbs.map((breadcrumb, index) => (
@@ -111,31 +140,42 @@ export function TopNavigation() {
           </Breadcrumb>
         </motion.div>
 
-        {/* Center Search */}
-        <motion.div
-          className="flex-1 max-w-md mx-8"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <div className="relative">
-            <Icons.search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="البحث في النظام..."
-              className="w-full bg-sidebar-accent/50 border-sidebar-border pr-10 focus:bg-background transition-colors"
-              dir="rtl"
-            />
-          </div>
-        </motion.div>
+        {/* Center Search - Hidden on mobile */}
+        {!isMobile && (
+          <motion.div
+            className="flex-1 max-w-md mx-8"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="relative">
+              <Icons.search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="البحث في النظام..."
+                className="w-full bg-sidebar-accent/50 border-sidebar-border pr-10 focus:bg-background transition-colors"
+                dir="rtl"
+              />
+            </div>
+          </motion.div>
+        )}
 
         {/* Right Actions */}
         <motion.div
-          className="flex items-center space-x-4 space-x-reverse"
+          className="flex items-center space-x-2 space-x-reverse"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {/* Notifications */}
+          {/* Mobile Search Button */}
+          {isMobile && (
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="ghost" size="icon">
+                <Icons.search className="h-5 w-5" />
+              </Button>
+            </motion.div>
+          )}
+
+          {/* Notifications - Always visible */}
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button variant="ghost" size="icon" className="relative">
               <Icons.bell className="h-5 w-5" />
@@ -152,27 +192,31 @@ export function TopNavigation() {
             </Button>
           </motion.div>
 
-          {/* Language Switcher */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.25, type: "spring" }}
-          >
-            <LanguageSwitcher />
-          </motion.div>
+          {/* Language Switcher - Hidden on mobile, moved to settings */}
+          {!isMobile && (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.25, type: "spring" }}
+            >
+              <LanguageSwitcher />
+            </motion.div>
+          )}
 
-          {/* Your Beautiful Day-Night Switch - Now correctly controlled */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, type: "spring" }}
-          >
-            <DayNightSwitch
-              checked={resolvedTheme === "light"}
-              onToggleChange={handleThemeToggle}
-              className="border-2 border-sidebar-border hover:border-primary/50 transition-colors"
-            />
-          </motion.div>
+          {/* Day-Night Switch - Hidden on mobile, moved to settings */}
+          {!isMobile && (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, type: "spring" }}
+            >
+              <DayNightSwitch
+                checked={resolvedTheme === "light"}
+                onToggleChange={handleThemeToggle}
+                className="border-2 border-sidebar-border hover:border-primary/50 transition-colors"
+              />
+            </motion.div>
+          )}
 
           {/* User Menu */}
           <DropdownMenu>
@@ -230,10 +274,39 @@ export function TopNavigation() {
                 <span>الملف الشخصي</span>
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="cursor-pointer">
-                <Icons.settings className="ml-2 h-4 w-4" />
-                <span>الإعدادات</span>
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href="/settings">
+                  <Icons.settings className="ml-2 h-4 w-4" />
+                  <span>الإعدادات</span>
+                </Link>
               </DropdownMenuItem>
+
+              {/* Mobile-only settings */}
+              {isMobile && (
+                <>
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Icons.search className="ml-2 h-4 w-4" />
+                    <span>البحث</span>
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Icons.globe className="ml-2 h-4 w-4" />
+                    <span>اللغة</span>
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem 
+                    className="cursor-pointer"
+                    onClick={() => handleThemeToggle(resolvedTheme !== "light")}
+                  >
+                    {resolvedTheme === "light" ? (
+                      <Icons.moon className="ml-2 h-4 w-4" />
+                    ) : (
+                      <Icons.sun className="ml-2 h-4 w-4" />
+                    )}
+                    <span>{resolvedTheme === "light" ? "الوضع الليلي" : "الوضع النهاري"}</span>
+                  </DropdownMenuItem>
+                </>
+              )}
 
               <DropdownMenuItem className="cursor-pointer">
                 <Icons.bell className="ml-2 h-4 w-4" />

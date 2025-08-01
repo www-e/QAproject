@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Tajawal } from "next/font/google";
 import "./globals.css";
@@ -57,11 +57,12 @@ export const metadata: Metadata = {
     title: "QA Dashboard - Modern Analytics Platform",
     description: "Advanced QA automation dashboard with stunning animations",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 // PERFORMANCE OPTIMIZATION: Lazy load analytics components

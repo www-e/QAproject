@@ -22,7 +22,10 @@ import {
   Paperclip,
   Play,
   Clock,
-  History
+  History,
+  Globe,
+  Moon,
+  Sun
 } from "lucide-react"
 
 export const Icons = {
@@ -50,4 +53,7 @@ export const Icons = {
   play: Play,
   clock: Clock,
   history: History,
+  globe: Globe,
+  moon: Moon,
+  sun: Sun,
 } as const
