@@ -96,6 +96,8 @@ const SidebarLinkContent = memo(
   )
 );
 
+SidebarLinkContent.displayName = "SidebarLinkContent";
+
 export const DashboardSidebar = memo(function DashboardSidebar() {
   const { open, setOpen } = useSidebar();
   const [isMobile, setIsMobile] = useState(false);
@@ -136,15 +138,16 @@ export const DashboardSidebar = memo(function DashboardSidebar() {
 
     const sidebarElement = document.querySelector('[data-sidebar="true"]');
     if (sidebarElement) {
-      sidebarElement.addEventListener("touchstart", touchHandler.onTouchStart);
-      sidebarElement.addEventListener("touchend", touchHandler.onTouchEnd);
+      // Fix: Type cast the handlers to EventListener
+      const onTouchStart = touchHandler.onTouchStart as EventListener;
+      const onTouchEnd = touchHandler.onTouchEnd as EventListener;
+
+      sidebarElement.addEventListener("touchstart", onTouchStart);
+      sidebarElement.addEventListener("touchend", onTouchEnd);
 
       return () => {
-        sidebarElement.removeEventListener(
-          "touchstart",
-          touchHandler.onTouchStart
-        );
-        sidebarElement.removeEventListener("touchend", touchHandler.onTouchEnd);
+        sidebarElement.removeEventListener("touchstart", onTouchStart);
+        sidebarElement.removeEventListener("touchend", onTouchEnd);
       };
     }
   }, [isMobile, open, setOpen, createTouchHandler]);

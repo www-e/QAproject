@@ -124,14 +124,14 @@ class TouchOptimizer {
   }
 
   // Debounced event handler
-  debounce<T extends (...args: any[]) => void>(
+  debounce<T extends (...args: unknown[]) => void>(
     key: string,
     func: T,
     delay?: number
   ): T {
     const actualDelay = delay || this.config.debounceDelay
     
-    return ((...args: any[]) => {
+    return ((...args: unknown[]) => {
       const existingTimer = this.debounceTimers.get(key)
       if (existingTimer) {
         clearTimeout(existingTimer)
@@ -225,7 +225,7 @@ export function useTouchOptimizations(config?: Partial<TouchOptimizationConfig>)
   const optimizer = TouchOptimizer.getInstance(config)
   
   return {
-    debounce: <T extends (...args: any[]) => void>(key: string, func: T, delay?: number) => 
+    debounce: <T extends (...args: unknown[]) => void>(key: string, func: T, delay?: number) => 
       optimizer.debounce(key, func, delay),
     createTouchHandler: (
       onTap?: (event: TouchEvent) => void,

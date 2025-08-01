@@ -2,6 +2,23 @@
 
 // Mobile animation optimization utilities
 
+// Type definitions for navigator extensions
+interface NavigatorWithMemory extends Navigator {
+  deviceMemory?: number
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType: string
+  }
+  mozConnection?: {
+    effectiveType: string
+  }
+  webkitConnection?: {
+    effectiveType: string
+  }
+}
+
 interface DeviceCapabilities {
   isMobile: boolean
   isLowEnd: boolean
@@ -27,7 +44,7 @@ export function getDeviceCapabilities(): DeviceCapabilities {
   // Detect low-end devices
   const isLowEnd = (
     // Low memory devices
-    (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4 ||
+    (navigator as NavigatorWithMemory).deviceMemory && (navigator as NavigatorWithMemory).deviceMemory < 4 ||
     // Slow CPU
     navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4 ||
     // Old mobile devices
@@ -38,7 +55,9 @@ export function getDeviceCapabilities(): DeviceCapabilities {
   )
 
   // Detect connection speed
-  const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+  const connection = (navigator as NavigatorWithConnection).connection || 
+                    (navigator as NavigatorWithConnection).mozConnection || 
+                    (navigator as NavigatorWithConnection).webkitConnection
   const connectionSpeed = connection ? 
     (connection.effectiveType === '4g' ? 'fast' : 'slow') : 
     'unknown'
@@ -88,8 +107,16 @@ export function getOptimizedAnimationConfig(capabilities?: DeviceCapabilities) {
   }
 }
 
+// Animation variant interface
+interface AnimationVariant {
+  transition?: {
+    duration?: number
+  }
+  animate?: Record<string, unknown>
+}
+
 // Create adaptive animation variants
-export function createAdaptiveAnimation(baseAnimation: any, capabilities?: DeviceCapabilities) {
+export function createAdaptiveAnimation(baseAnimation: AnimationVariant, capabilities?: DeviceCapabilities) {
   const config = getOptimizedAnimationConfig(capabilities)
   
   return {
@@ -115,7 +142,7 @@ export function useAdaptiveAnimations() {
   return {
     capabilities,
     config,
-    createAnimation: (baseAnimation: any) => createAdaptiveAnimation(baseAnimation, capabilities)
+    createAnimation: (baseAnimation: AnimationVariant) => createAdaptiveAnimation(baseAnimation, capabilities)
   }
 }
 

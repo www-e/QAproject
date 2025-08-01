@@ -11,10 +11,7 @@ import WorkflowStats from "@/components/workflow/WorkflowStats";
 // LAZY: Only heavy components
 const WorkflowSteps = lazy(() => import("@/components/workflow/WorkflowSteps"));
 
-// Loading fallback for workflow components
-const WorkflowLoader = () => (
-  <div className="h-32 bg-muted rounded-lg animate-pulse" />
-);
+
 
 // Workflow steps data
 const workflowSteps = [

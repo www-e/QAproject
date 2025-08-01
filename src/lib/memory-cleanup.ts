@@ -155,13 +155,18 @@ export function useMemoryCleanup(componentId: string) {
   }
 }
 
+// Animation interface for type safety
+interface Animation {
+  stop?: () => void
+}
+
 // Framer Motion animation cleanup utilities
 export function createAnimationCleanup() {
-  const activeAnimations = new Set<any>()
+  const activeAnimations = new Set<Animation>()
   
   return {
     // Register an animation for cleanup
-    registerAnimation: (animation: any) => {
+    registerAnimation: (animation: Animation) => {
       activeAnimations.add(animation)
     },
     
@@ -176,7 +181,7 @@ export function createAnimationCleanup() {
     },
     
     // Remove specific animation
-    removeAnimation: (animation: any) => {
+    removeAnimation: (animation: Animation) => {
       activeAnimations.delete(animation)
     }
   }

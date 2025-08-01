@@ -13,10 +13,6 @@ import TestsFilters from "@/components/tests/TestsFilters"
 // LAZY: Only the heavy table component
 const TestsTable = lazy(() => import("@/components/tests/TestsTable"))
 
-// Loading fallback for tests components
-const TestsLoader = () => (
-  <div className="h-32 bg-muted rounded-lg animate-pulse" />
-)
 
 export default function TestsPage() {
   const [isRunningTest, setIsRunningTest] = useState<string | null>(null)

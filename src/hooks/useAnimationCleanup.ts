@@ -117,15 +117,16 @@ export function useTimerCleanup() {
   }
 
   useEffect(() => {
+    const timers = timersRef.current
     return () => {
       // Cleanup all timers when component unmounts
-      timersRef.current.timeouts.forEach(timer => globalThis.clearTimeout(timer))
-      timersRef.current.intervals.forEach(interval => globalThis.clearInterval(interval))
-      timersRef.current.animationFrames.forEach(frame => globalThis.cancelAnimationFrame(frame))
+      timers.timeouts.forEach(timer => globalThis.clearTimeout(timer))
+      timers.intervals.forEach(interval => globalThis.clearInterval(interval))
+      timers.animationFrames.forEach(frame => globalThis.cancelAnimationFrame(frame))
       
-      timersRef.current.timeouts.clear()
-      timersRef.current.intervals.clear()
-      timersRef.current.animationFrames.clear()
+      timers.timeouts.clear()
+      timers.intervals.clear()
+      timers.animationFrames.clear()
     }
   }, [])
 

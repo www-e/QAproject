@@ -3,6 +3,14 @@
 import { lazy, Suspense, ComponentType } from "react"
 import { motion } from "framer-motion"
 
+// Type definition for requestIdleCallback
+interface WindowWithIdleCallback extends Window {
+  requestIdleCallback(
+    callback: (deadline: IdleDeadline) => void,
+    options?: IdleRequestOptions
+  ): number
+}
+
 // Loading fallback component that preserves layout
 const PageLoader = () => (
   <div className="container mx-auto p-6 space-y-8 animate-pulse">
@@ -17,13 +25,13 @@ const PageLoader = () => (
 )
 
 // Enhanced dynamic import with preloading
-export function createDynamicPage<T extends ComponentType<any>>(
+export function createDynamicPage<T extends ComponentType<Record<string, unknown>>>(
   importFn: () => Promise<{ default: T }>,
   fallback?: ComponentType
 ) {
   const LazyComponent = lazy(importFn)
   
-  const DynamicPage = (props: any) => {
+  const DynamicPage = (props: Record<string, unknown>) => {
     // Fix: Capitalize the fallback component for proper React rendering
     const FallbackComponent = fallback || PageLoader
     
@@ -36,7 +44,7 @@ export function createDynamicPage<T extends ComponentType<any>>(
           style={{ transform: 'translate3d(0, 0, 0)' }} // GPU acceleration
           className="will-change-transform"
         >
-          <LazyComponent {...props} />
+          <LazyComponent {...(props as Parameters<T>[0])} />
         </motion.div>
       </Suspense>
     )
@@ -49,11 +57,11 @@ export function createDynamicPage<T extends ComponentType<any>>(
 }
 
 // Enhanced preload function with better error handling and performance
-export function preloadPage(importFn: () => Promise<any>) {
+export function preloadPage(importFn: () => Promise<unknown>) {
   // Use requestIdleCallback for better performance
   if (typeof window !== 'undefined') {
     if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(
+      (window as WindowWithIdleCallback).requestIdleCallback(
         () => {
           importFn().catch((error) => {
             // Optional: Add subtle error logging for debugging
@@ -80,7 +88,7 @@ export function preloadPage(importFn: () => Promise<any>) {
 // Bonus: Enhanced preload with intersection observer for tabs
 export function preloadOnHover(
   element: HTMLElement | null,
-  importFn: () => Promise<any>
+  importFn: () => Promise<unknown>
 ) {
   if (!element || typeof window === 'undefined') return
 

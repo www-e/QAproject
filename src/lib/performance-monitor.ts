@@ -2,6 +2,44 @@
 
 // Performance monitoring utilities
 
+// Type definitions for performance APIs
+interface PerformanceWithMemory extends Performance {
+  memory: {
+    usedJSHeapSize: number
+  }
+}
+
+interface NavigatorWithMemory extends Navigator {
+  deviceMemory?: number
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType: string
+  }
+  mozConnection?: {
+    effectiveType: string
+  }
+  webkitConnection?: {
+    effectiveType: string
+  }
+}
+
+interface NavigatorWithBattery extends Navigator {
+  getBattery(): Promise<{
+    level: number
+  }>
+}
+
+interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart?: number
+}
+
+interface LayoutShift extends PerformanceEntry {
+  hadRecentInput: boolean
+  value: number
+}
+
 interface PerformanceMetrics {
   navigationTiming: number
   renderTime: number
@@ -91,7 +129,7 @@ class PerformanceMonitor {
 
   private measureMemoryUsage() {
     if ('memory' in performance) {
-      const memory = (performance as any).memory
+      const memory = (performance as PerformanceWithMemory).memory
       this.metrics.memoryUsage = memory.usedJSHeapSize
     }
   }
@@ -101,7 +139,7 @@ class PerformanceMonitor {
     
     // Detect low-end devices
     const isLowEnd = (
-      (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4 ||
+      (navigator as NavigatorWithMemory).deviceMemory && (navigator as NavigatorWithMemory).deviceMemory < 4 ||
       navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4 ||
       (isMobile && (
         /Android [1-6]/.test(navigator.userAgent) ||
@@ -110,7 +148,9 @@ class PerformanceMonitor {
     )
 
     // Detect connection speed
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+    const connection = (navigator as NavigatorWithConnection).connection || 
+                      (navigator as NavigatorWithConnection).mozConnection || 
+                      (navigator as NavigatorWithConnection).webkitConnection
     const connectionSpeed = connection ? 
       (connection.effectiveType === '4g' ? 'fast' : 'slow') : 
       'unknown'
@@ -118,7 +158,7 @@ class PerformanceMonitor {
     // Get battery level if available
     let batteryLevel: number | undefined
     if ('getBattery' in navigator) {
-      (navigator as any).getBattery().then((battery: any) => {
+      (navigator as NavigatorWithBattery).getBattery().then((battery) => {
         batteryLevel = battery.level
       })
     }
@@ -142,7 +182,7 @@ class PerformanceMonitor {
         })
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
         this.observers.push(lcpObserver)
-      } catch (e) {
+      } catch {
         // Ignore if not supported
       }
 
@@ -150,15 +190,16 @@ class PerformanceMonitor {
       try {
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries()
-          entries.forEach((entry: any) => {
-            if (entry.processingStart && entry.startTime) {
-              console.log('FID:', entry.processingStart - entry.startTime)
+          entries.forEach((entry) => {
+            const fidEntry = entry as PerformanceEventTiming
+            if (fidEntry.processingStart && fidEntry.startTime) {
+              console.log('FID:', fidEntry.processingStart - fidEntry.startTime)
             }
           })
         })
         fidObserver.observe({ entryTypes: ['first-input'] })
         this.observers.push(fidObserver)
-      } catch (e) {
+      } catch {
         // Ignore if not supported
       }
 
@@ -167,16 +208,17 @@ class PerformanceMonitor {
         const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0
           const entries = list.getEntries()
-          entries.forEach((entry: any) => {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value
+          entries.forEach((entry) => {
+            const clsEntry = entry as LayoutShift
+            if (!clsEntry.hadRecentInput) {
+              clsValue += clsEntry.value
             }
           })
           console.log('CLS:', clsValue)
         })
         clsObserver.observe({ entryTypes: ['layout-shift'] })
         this.observers.push(clsObserver)
-      } catch (e) {
+      } catch {
         // Ignore if not supported
       }
     }

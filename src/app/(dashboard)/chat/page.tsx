@@ -12,10 +12,6 @@ import ChatInput from "@/components/chat/ChatInput"
 const MessagesList = lazy(() => import("@/components/chat/MessagesList"))
 const QuickReplies = lazy(() => import("@/components/chat/QuickReplies"))
 
-// Loading fallback for chat components
-const ChatLoader = () => (
-  <div className="h-16 bg-muted rounded-lg animate-pulse" />
-)
 
 export default function ChatPage() {
   const {

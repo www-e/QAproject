@@ -2,6 +2,30 @@
 
 // Device detection and capability assessment
 
+// Type definitions for navigator extensions
+interface NavigatorWithMemory extends Navigator {
+  deviceMemory?: number
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType: string
+  }
+  mozConnection?: {
+    effectiveType: string
+  }
+  webkitConnection?: {
+    effectiveType: string
+  }
+}
+
+interface NavigatorWithBattery extends Navigator {
+  getBattery(): Promise<{
+    level: number
+    charging: boolean
+  }>
+}
+
 export interface DeviceCapabilities {
   // Device type
   isMobile: boolean
@@ -91,7 +115,7 @@ class DeviceDetector {
     const isDesktop = !isMobile && !isTablet
 
     // Performance indicators
-    const memoryGB = (navigator as any).deviceMemory || 4
+    const memoryGB = (navigator as NavigatorWithMemory).deviceMemory || 4
     const cpuCores = navigator.hardwareConcurrency || 4
     const isLowEnd = memoryGB < 4 || cpuCores < 4 || (isMobile && (
       /Android [1-6]/.test(userAgent) ||
@@ -99,7 +123,9 @@ class DeviceDetector {
     ))
 
     // Network detection
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+    const connection = (navigator as NavigatorWithConnection).connection || 
+                      (navigator as NavigatorWithConnection).mozConnection || 
+                      (navigator as NavigatorWithConnection).webkitConnection
     const connectionSpeed = connection ? 
       (connection.effectiveType === '4g' ? 'fast' : 'slow') : 
       'unknown'
@@ -111,10 +137,10 @@ class DeviceDetector {
     
     if ('getBattery' in navigator) {
       try {
-        const battery = await (navigator as any).getBattery()
+        const battery = await (navigator as NavigatorWithBattery).getBattery()
         batteryLevel = battery.level
         isCharging = battery.charging
-      } catch (e) {
+      } catch {
         // Battery API not available
       }
     }
@@ -160,7 +186,7 @@ class DeviceDetector {
       const canvas = document.createElement('canvas')
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
       return !!gl
-    } catch (e) {
+    } catch {
       return false
     }
   }

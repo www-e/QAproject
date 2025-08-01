@@ -6,7 +6,7 @@ import { useAnimationCleanup, useEventListenerCleanup, useTimerCleanup } from '@
 
 // Example component showing proper memory cleanup
 const MemoryOptimizedComponent = memo(function MemoryOptimizedComponent() {
-  const { registerAnimation, cleanupAnimations } = useAnimationCleanup()
+  const { cleanupAnimations } = useAnimationCleanup()
   const { addEventListener, removeEventListener } = useEventListenerCleanup()
   const { setTimeout, clearTimeout, requestAnimationFrame } = useTimerCleanup()
 
@@ -22,10 +22,6 @@ const MemoryOptimizedComponent = memo(function MemoryOptimizedComponent() {
       console.log('Timer executed')
     }, 1000)
 
-    // Example: Animation frame with automatic cleanup
-    const frame = requestAnimationFrame(() => {
-      console.log('Animation frame executed')
-    })
 
     // Manual cleanup if needed (automatic cleanup happens on unmount)
     return () => {
@@ -41,9 +37,9 @@ const MemoryOptimizedComponent = memo(function MemoryOptimizedComponent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onAnimationStart={(animation) => {
-        // Register animation for cleanup
-        registerAnimation(animation)
+      onAnimationStart={() => {
+        // Animation started - could register for cleanup if needed
+        // Note: Framer Motion handles its own cleanup automatically
       }}
       className="p-4 bg-card rounded-lg"
     >

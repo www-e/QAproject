@@ -27,7 +27,7 @@ export function useChat() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
   // Cleanup effect - prevent memory leaks
   useEffect(() => {
@@ -66,7 +66,7 @@ export function useChat() {
 
       try {
         // Use functional update to get latest messages
-        const conversationHistory = await new Promise<any[]>((resolve) => {
+        const conversationHistory = await new Promise<Array<{ role: string; content: string }>>((resolve) => {
           setMessages((currentMessages) => {
             const history = currentMessages.map((msg) => ({
               role: msg.type === "user" ? "user" : "assistant",
