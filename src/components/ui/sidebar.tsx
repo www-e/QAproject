@@ -146,6 +146,7 @@ export const MobileSidebar = ({
                 "fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-sidebar to-background dark:from-sidebar dark:to-black z-50 shadow-2xl border-r border-sidebar-border",
                 className
               )}
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
               <div className="absolute right-4 top-4 z-50">
@@ -156,7 +157,7 @@ export const MobileSidebar = ({
                   <IconX className="w-5 h-5" />
                 </button>
               </div>
-              
+
               {/* Sidebar content */}
               <div className="h-full pt-16 pb-6 overflow-y-auto">
                 {children}
