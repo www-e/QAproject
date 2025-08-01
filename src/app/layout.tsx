@@ -1,30 +1,35 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Tajawal } from "next/font/google"; // Import Tajawal font
+import { Tajawal } from "next/font/google";
 import "./globals.css";
+import "../styles/mobile-animations.css";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Suspense } from "react";
 
+// PERFORMANCE OPTIMIZATION: Font loading with display swap
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: true, // Preload primary font
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-geist-mono", 
   subsets: ["latin"],
   display: "swap",
+  preload: false, // Don't preload secondary font
 });
 
-// Instantiate the Tajawal font
 const tajawal = Tajawal({
   variable: "--font-tajawal",
   subsets: ["arabic"],
-  weight: ["200", "300", "400", "500", "700", "800", "900"],
+  weight: ["300", "400", "500", "700"], // PERFORMANCE: Load only needed weights
   display: "swap",
+  preload: true, // Preload Arabic font
 });
 
 export const metadata: Metadata = {
@@ -41,7 +46,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "ar_EG",
+    locale: "ar_EG", 
     url: "https://qa-dashboard.com",
     title: "QA Dashboard - Modern Analytics Platform",
     description: "Advanced QA automation dashboard with stunning animations",
@@ -59,6 +64,14 @@ export const metadata: Metadata = {
   },
 };
 
+// PERFORMANCE OPTIMIZATION: Lazy load analytics components
+const LazyAnalytics = () => (
+  <Suspense fallback={null}>
+    <Analytics />
+    <SpeedInsights />
+  </Suspense>
+);
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,11 +82,12 @@ export default function RootLayout({
       lang="ar"
       dir="rtl"
       suppressHydrationWarning
-      // Add the new font variable here
       className={`${geistSans.variable} ${geistMono.variable} ${tajawal.variable}`}
     >
       <head>
-        {/* The manual <link> tag for the font is no longer needed */}
+        {/* PERFORMANCE OPTIMIZATION: Preload critical resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -92,18 +106,23 @@ export default function RootLayout({
             <div className="fixed inset-0 bg-gradient-to-br from-background via-background to-primary/5 pointer-events-none" />
             <div className="relative z-10">{children}</div>
           </div>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              style: {
-                background: "oklch(var(--card))",
-                color: "oklch(var(--card-foreground))",
-                border: "1px solid oklch(var(--border))",
-              },
-            }}
-          />
-          <Analytics />
-          <SpeedInsights />
+          
+          {/* PERFORMANCE OPTIMIZATION: Async Toaster */}
+          <Suspense fallback={null}>
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                style: {
+                  background: "oklch(var(--card))",
+                  color: "oklch(var(--card-foreground))",
+                  border: "1px solid oklch(var(--border))",
+                },
+              }}
+            />
+          </Suspense>
+          
+          {/* PERFORMANCE OPTIMIZATION: Lazy loaded analytics */}
+          <LazyAnalytics />
         </ThemeProvider>
       </body>
     </html>

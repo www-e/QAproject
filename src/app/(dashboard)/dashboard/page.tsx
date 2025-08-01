@@ -1,40 +1,58 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import DashboardStats from "@/components/dashboard/DashboardStats";
-import DashboardQuickActions from "@/components/dashboard/DashboardQuickActions";
-import DashboardRecentTests from "@/components/dashboard/DashboardRecentTests";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { staggerChildren } from "@/lib/animations";
+import { preloadPage } from "@/lib/dynamic-imports";
+
+// CRITICAL: Load essential components immediately for smooth UX
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardStats from "@/components/dashboard/DashboardStats";
+
+// LAZY: Only truly heavy/optional components
+const DashboardQuickActions = lazy(
+  () => import("@/components/dashboard/DashboardQuickActions")
+);
+const DashboardRecentTests = lazy(
+  () => import("@/components/dashboard/DashboardRecentTests")
+);
+
+// Loading fallback for components
+const ComponentLoader = () => (
+  <div className="h-32 bg-muted rounded-lg animate-pulse" />
+);
 
 export default function DashboardPage() {
   const [welcomeToast, setWelcomeToast] = useState({
     isVisible: false,
-    message: ""
+    message: "",
   });
 
   useEffect(() => {
     // Check for welcome toast from sign-in
-    const showWelcome = localStorage.getItem('showWelcomeToast');
-    const welcomeMessage = localStorage.getItem('welcomeMessage');
-    
-    if (showWelcome === 'true' && welcomeMessage) {
+    const showWelcome = localStorage.getItem("showWelcomeToast");
+    const welcomeMessage = localStorage.getItem("welcomeMessage");
+
+    if (showWelcome === "true" && welcomeMessage) {
       setWelcomeToast({
         isVisible: true,
-        message: welcomeMessage
+        message: welcomeMessage,
       });
-      
+
       // Clean up localStorage
-      localStorage.removeItem('showWelcomeToast');
-      localStorage.removeItem('welcomeMessage');
-      
+      localStorage.removeItem("showWelcomeToast");
+      localStorage.removeItem("welcomeMessage");
+
       // Auto-hide after 4 seconds
       setTimeout(() => {
-        setWelcomeToast(prev => ({ ...prev, isVisible: false }));
+        setWelcomeToast((prev) => ({ ...prev, isVisible: false }));
       }, 4000);
     }
+
+    // Preload adjacent tabs for faster navigation
+    preloadPage(() => import("../chat/page"));
+    preloadPage(() => import("../tests/page"));
   }, []);
 
   return (
@@ -44,9 +62,11 @@ export default function DashboardPage() {
         type="success"
         title="🎉 مرحباً بك في لوحة التحكم!"
         description={welcomeToast.message}
-        onClose={() => setWelcomeToast(prev => ({ ...prev, isVisible: false }))}
+        onClose={() =>
+          setWelcomeToast((prev) => ({ ...prev, isVisible: false }))
+        }
       />
-      
+
       <motion.div
         variants={staggerChildren}
         initial="initial"
@@ -56,10 +76,14 @@ export default function DashboardPage() {
         <DashboardHeader />
         
         <DashboardStats />
-        
-        <DashboardQuickActions />
-        
-        <DashboardRecentTests />
+
+        <Suspense fallback={<ComponentLoader />}>
+          <DashboardQuickActions />
+        </Suspense>
+
+        <Suspense fallback={<ComponentLoader />}>
+          <DashboardRecentTests />
+        </Suspense>
       </motion.div>
     </>
   );

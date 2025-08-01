@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { NumberTicker } from "@/components/magicui/number-ticker"
@@ -54,7 +55,7 @@ const dashboardStats = [
   }
 ]
 
-export default function DashboardStats() {
+const DashboardStats = memo(function DashboardStats() {
   return (
     <motion.div
       variants={staggerChildren}
@@ -63,7 +64,11 @@ export default function DashboardStats() {
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
     >
       {dashboardStats.map((stat) => (
-        <motion.div key={stat.title} variants={fadeInUp}>
+        <motion.div 
+          key={stat.title} 
+          variants={fadeInUp}
+          whileTap={{ scale: 0.95 }}
+        >
           <Card className="relative overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
             <CardContent className="p-6 h-full flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
@@ -90,7 +95,6 @@ export default function DashboardStats() {
                 <p className="text-xs text-muted-foreground">{stat.description}</p>
               </div>
 
-              {/* Decorative gradient */}
               <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-${stat.color}-500/10 to-transparent rounded-full -translate-y-10 translate-x-10 group-hover:scale-110 transition-transform duration-300`} />
             </CardContent>
           </Card>
@@ -98,4 +102,6 @@ export default function DashboardStats() {
       ))}
     </motion.div>
   )
-}
+})
+
+export default DashboardStats

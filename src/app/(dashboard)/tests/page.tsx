@@ -1,12 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, Suspense, lazy } from "react"
+import { useTestFilters } from "@/hooks/useTestFilters"
+import { mockTests } from "@/data/mockTests"
+import { preloadPage } from "@/lib/dynamic-imports"
+
+// CRITICAL: Load essential UI immediately
 import TestsPageHeader from "@/components/tests/TestsPageHeader"
 import TestsStats from "@/components/tests/TestsStats"
 import TestsFilters from "@/components/tests/TestsFilters"
-import TestsTable from "@/components/tests/TestsTable"
-import { useTestFilters } from "@/hooks/useTestFilters"
-import { mockTests } from "@/data/mockTests"
+
+// LAZY: Only the heavy table component
+const TestsTable = lazy(() => import("@/components/tests/TestsTable"))
+
+// Loading fallback for tests components
+const TestsLoader = () => (
+  <div className="h-32 bg-muted rounded-lg animate-pulse" />
+)
 
 export default function TestsPage() {
   const [isRunningTest, setIsRunningTest] = useState<string | null>(null)
@@ -19,6 +29,12 @@ export default function TestsPage() {
     }, 3000)
   }
 
+  useEffect(() => {
+    // Preload adjacent tabs
+    preloadPage(() => import("../dashboard/page"))
+    preloadPage(() => import("../workflow/page"))
+  }, [])
+
   return (
     <div className="container mx-auto p-6 space-y-8">
       <TestsPageHeader />
@@ -30,12 +46,14 @@ export default function TestsPage() {
         onFiltersChange={setFilters} 
       />
       
-      <TestsTable 
-        tests={filteredTests}
-        totalTests={mockTests.length}
-        isRunningTest={isRunningTest}
-        onRunTest={handleRunTest}
-      />
+      <Suspense fallback={<div className="h-64 bg-muted/30 rounded-lg animate-pulse" />}>
+        <TestsTable 
+          tests={filteredTests}
+          totalTests={mockTests.length}
+          isRunningTest={isRunningTest}
+          onRunTest={handleRunTest}
+        />
+      </Suspense>
     </div>
   )
 }

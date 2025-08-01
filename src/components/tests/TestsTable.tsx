@@ -1,5 +1,6 @@
 "use client"
 
+import { memo, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -8,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { Test } from "@/types/tests"
 
 
-function TestRow({ test, isRunningTest, onRunTest, onRowClick }: { test: Test, isRunningTest: string | null, onRunTest: (id: string) => void, onRowClick: (test: Test) => void }) {
+const TestRow = memo(function TestRow({ test, isRunningTest, onRunTest, onRowClick }: { test: Test, isRunningTest: string | null, onRunTest: (id: string) => void, onRowClick: (test: Test) => void }) {
   return (
     <tr 
       className="hover:bg-sidebar-accent/50 transition-colors border-b border-border/30 cursor-pointer"
@@ -55,7 +56,7 @@ function TestRow({ test, isRunningTest, onRunTest, onRowClick }: { test: Test, i
       </td>
     </tr>
   )
-}
+})
 
 interface TestsTableProps {
   tests: Test[]
@@ -64,12 +65,12 @@ interface TestsTableProps {
   onRunTest: (testId: string) => void
 }
 
-export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest }: TestsTableProps) {
+const TestsTable = memo(function TestsTable({ tests, totalTests, isRunningTest, onRunTest }: TestsTableProps) {
   const router = useRouter();
 
-  const handleRowClick = (test: Test) => {
+  const handleRowClick = useCallback((test: Test) => {
     router.push(`/tests/${test.id}`);
-  };
+  }, [router]);
 
 
   console.log("TestsTable rendering with:", { tests: tests.length, totalTests })
@@ -133,4 +134,6 @@ export default function TestsTable({ tests, totalTests, isRunningTest, onRunTest
       {/* Test Detail Modal */}
     </>
   )
-}
+})
+
+export default TestsTable

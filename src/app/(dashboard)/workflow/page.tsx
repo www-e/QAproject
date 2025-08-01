@@ -1,10 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { Icons } from "@/components/ui/icons";
+import { preloadPage } from "@/lib/dynamic-imports";
+
+// CRITICAL: Load essential UI immediately
 import WorkflowHeader from "@/components/workflow/WorkflowHeader";
 import WorkflowStats from "@/components/workflow/WorkflowStats";
-import WorkflowSteps from "@/components/workflow/WorkflowSteps";
-import { Icons } from "@/components/ui/icons";
+
+// LAZY: Only heavy components
+const WorkflowSteps = lazy(() => import("@/components/workflow/WorkflowSteps"));
+
+// Loading fallback for workflow components
+const WorkflowLoader = () => (
+  <div className="h-32 bg-muted rounded-lg animate-pulse" />
+);
 
 // Workflow steps data
 const workflowSteps = [
@@ -123,6 +133,12 @@ export default function WorkflowPage() {
   const totalSteps = workflowSteps.length;
   const overallProgress = Math.round((completedSteps / totalSteps) * 100);
 
+  useEffect(() => {
+    // Preload adjacent tabs
+    preloadPage(() => import("../tests/page"))
+    preloadPage(() => import("../reports/page"))
+  }, [])
+
   return (
     <div className="container mx-auto container-responsive space-y-6 sm:space-y-8">
       <WorkflowHeader />
@@ -133,11 +149,13 @@ export default function WorkflowPage() {
         overallProgress={overallProgress}
       />
       
-      <WorkflowSteps 
-        workflowSteps={workflowSteps}
-        isExecuting={isExecuting}
-        onExecuteStep={handleExecuteStep}
-      />
+      <Suspense fallback={<div className="h-96 bg-muted rounded-lg animate-pulse" />}>
+        <WorkflowSteps 
+          workflowSteps={workflowSteps}
+          isExecuting={isExecuting}
+          onExecuteStep={handleExecuteStep}
+        />
+      </Suspense>
     </div>
   );
 }

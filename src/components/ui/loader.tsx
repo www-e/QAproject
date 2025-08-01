@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import React from "react";
+import React, { useMemo } from "react";
 
 export const LoaderOne = () => {
   const transition = (x: number) => {
@@ -12,6 +12,7 @@ export const LoaderOne = () => {
       ease: "easeInOut" as const,
     };
   };
+  
   return (
     <div className="flex items-center gap-2">
       <motion.div
@@ -22,7 +23,8 @@ export const LoaderOne = () => {
           y: [0, 10, 0],
         }}
         transition={transition(0)}
-        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300"
+        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
       <motion.div
         initial={{
@@ -32,7 +34,8 @@ export const LoaderOne = () => {
           y: [0, 10, 0],
         }}
         transition={transition(1)}
-        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300"
+        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
       <motion.div
         initial={{
@@ -42,7 +45,8 @@ export const LoaderOne = () => {
           y: [0, 10, 0],
         }}
         transition={transition(2)}
-        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300"
+        className="h-4 w-4 rounded-full border border-neutral-300 bg-gradient-to-b from-neutral-400 to-neutral-300 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
     </div>
   );
@@ -58,6 +62,7 @@ export const LoaderTwo = () => {
       ease: "easeInOut" as const,
     };
   };
+  
   return (
     <div className="flex items-center">
       <motion.div
@@ -68,7 +73,8 @@ export const LoaderTwo = () => {
         animate={{
           x: [0, 20, 0],
         }}
-        className="h-4 w-4 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500"
+        className="h-4 w-4 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
       <motion.div
         initial={{
@@ -78,7 +84,8 @@ export const LoaderTwo = () => {
           x: [0, 20, 0],
         }}
         transition={transition(0.4)}
-        className="h-4 w-4 -translate-x-2 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500"
+        className="h-4 w-4 -translate-x-2 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
       <motion.div
         initial={{
@@ -88,7 +95,8 @@ export const LoaderTwo = () => {
           x: [0, 20, 0],
         }}
         transition={transition(0.8)}
-        className="h-4 w-4 -translate-x-4 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500"
+        className="h-4 w-4 -translate-x-4 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500 will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       />
     </div>
   );
@@ -106,7 +114,8 @@ export const LoaderThree = () => {
       strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-20 w-20 stroke-neutral-500 [--fill-final:var(--color-yellow-300)] [--fill-initial:var(--color-neutral-50)] dark:stroke-neutral-100 dark:[--fill-final:var(--color-yellow-500)] dark:[--fill-initial:var(--color-neutral-800)]"
+      className="h-20 w-20 stroke-neutral-500 [--fill-final:var(--color-yellow-300)] [--fill-initial:var(--color-neutral-50)] dark:stroke-neutral-100 dark:[--fill-final:var(--color-yellow-500)] dark:[--fill-initial:var(--color-neutral-800)] will-change-transform"
+      style={{ transform: 'translate3d(0, 0, 0)' }}
     >
       <motion.path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <motion.path
@@ -126,10 +135,10 @@ export const LoaderThree = () => {
 
 export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
   return (
-    <div className="relative font-bold text-black [perspective:1000px] dark:text-white">
+    <div className="relative font-bold text-black [perspective:1000px] dark:text-white will-change-transform">
       <motion.span
         animate={{
-          skewX: [0, -40, 0], // Corrected from 'skew' to 'skewX'
+          skewX: [0, -40, 0],
           scaleX: [1, 2, 1],
         }}
         transition={{
@@ -140,12 +149,13 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
           ease: "linear" as const,
           times: [0, 0.2, 0.5, 0.8, 1],
         }}
-        className="relative z-20 inline-block"
+        className="relative z-20 inline-block will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       >
         {text}
       </motion.span>
       <motion.span
-        className="absolute inset-0 text-[#00e571]/50 blur-[0.5px] dark:text-[#00e571]"
+        className="absolute inset-0 text-[#00e571]/50 blur-[0.5px] dark:text-[#00e571] will-change-transform"
         animate={{
           x: [-2, 4, -3, 1.5, -2],
           y: [-2, 4, -3, 1.5, -2],
@@ -158,11 +168,12 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
           ease: "linear" as const,
           times: [0, 0.2, 0.5, 0.8, 1],
         }}
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       >
         {text}
       </motion.span>
       <motion.span
-        className="absolute inset-0 text-[#8b00ff]/50 dark:text-[#8b00ff]"
+        className="absolute inset-0 text-[#8b00ff]/50 dark:text-[#8b00ff] will-change-transform"
         animate={{
           x: [0, 1, -1.5, 1.5, -1, 0],
           y: [0, -1, 1.5, -0.5, 0],
@@ -175,6 +186,7 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
           ease: "linear" as const,
           times: [0, 0.3, 0.6, 0.8, 1],
         }}
+        style={{ transform: 'translate3d(0, 0, 0)' }}
       >
         {text}
       </motion.span>
@@ -183,12 +195,15 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
 };
 
 export const LoaderFive = ({ text }: { text: string }) => {
+  // Memoize character splitting for performance
+  const characters = useMemo(() => text.split(""), [text]);
+  
   return (
-    <div className="font-sans font-bold [--shadow-color:var(--color-neutral-500)] dark:[--shadow-color:var(--color-neutral-100)]">
-      {text.split("").map((char, i) => (
+    <div className="font-sans font-bold [--shadow-color:var(--color-neutral-500)] dark:[--shadow-color:var(--color-neutral-100)] will-change-transform">
+      {characters.map((char, i) => (
         <motion.span
           key={i}
-          className="inline-block"
+          className="inline-block will-change-transform"
           initial={{ scale: 1, opacity: 0.5 }}
           animate={{
             scale: [1, 1.1, 1],
@@ -207,6 +222,7 @@ export const LoaderFive = ({ text }: { text: string }) => {
             ease: "easeInOut" as const,
             repeatDelay: 2,
           }}
+          style={{ transform: 'translate3d(0, 0, 0)' }}
         >
           {char === " " ? "\u00A0" : char}
         </motion.span>

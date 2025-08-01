@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, memo, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -52,51 +52,56 @@ const navigationItems = [
 ];
 
 // A new, separate component for the link content to better handle the badge
-const SidebarLinkContent = ({
-  link,
-  open,
-  isActive,
-}: {
-  link: (typeof navigationItems)[0];
-  open: boolean;
-  isActive: boolean;
-}) => (
-  <div
-    className={cn(
-      "flex items-center justify-start gap-2 group/sidebar py-2 w-full",
-      !open && "justify-center"
-    )}
-  >
-    {link.icon}
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="flex-1 flex items-center justify-between"
-        >
-          <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre">
-            {link.label}
-          </span>
-          {link.badge && (
-            <Badge
-              variant={isActive ? "secondary" : "default"}
-              className="text-xs font-medium"
-            >
-              {link.badge}
-            </Badge>
-          )}
-        </motion.div>
+const SidebarLinkContent = memo(
+  ({
+    link,
+    open,
+    isActive,
+  }: {
+    link: (typeof navigationItems)[0];
+    open: boolean;
+    isActive: boolean;
+  }) => (
+    <div
+      className={cn(
+        "flex items-center justify-start gap-2 group/sidebar py-2 w-full",
+        !open && "justify-center"
       )}
-    </AnimatePresence>
-  </div>
+    >
+      {link.icon}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="flex-1 flex items-center justify-between"
+          >
+            <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre">
+              {link.label}
+            </span>
+            {link.badge && (
+              <Badge
+                variant={isActive ? "secondary" : "default"}
+                className="text-xs font-medium"
+              >
+                {link.badge}
+              </Badge>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
 );
 
-export function DashboardSidebar() {
+export const DashboardSidebar = memo(function DashboardSidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  // Memoize navigation items to prevent recreation on every render
+  const memoizedNavigationItems = useMemo(() => navigationItems, []);
 
   return (
     <div className="h-full">
@@ -145,7 +150,7 @@ export function DashboardSidebar() {
 
               {/* Navigation Links */}
               <div className="flex flex-col gap-2 px-4 py-4">
-                {navigationItems.map((item, idx) => {
+                {memoizedNavigationItems.map((item, idx) => {
                   const isActive =
                     item.href === "/dashboard"
                       ? pathname === item.href
@@ -226,4 +231,4 @@ export function DashboardSidebar() {
       </Sidebar>
     </div>
   );
-}
+});

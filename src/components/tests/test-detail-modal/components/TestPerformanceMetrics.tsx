@@ -1,12 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Test } from "@/types/tests"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Test } from "@/types/tests";
 
 interface TestPerformanceMetricsProps {
-  test: Test
+  test: Test;
 }
 
-export default function TestPerformanceMetrics({ test }: TestPerformanceMetricsProps) {
+export default function TestPerformanceMetrics({
+  test,
+}: TestPerformanceMetricsProps) {
   return (
     <Card>
       <CardHeader>
@@ -34,5 +36,5 @@ export default function TestPerformanceMetrics({ test }: TestPerformanceMetricsP
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

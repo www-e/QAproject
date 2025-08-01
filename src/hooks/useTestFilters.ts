@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { Test, TestFilters } from "@/types/tests"
 
 export function useTestFilters(tests: Test[]) {
@@ -19,9 +19,14 @@ export function useTestFilters(tests: Test[]) {
     })
   }, [tests, filters])
 
-  return {
+  // Memoize setFilters to prevent unnecessary re-renders
+  const memoizedSetFilters = useCallback((newFilters: TestFilters) => {
+    setFilters(newFilters)
+  }, [])
+
+  return useMemo(() => ({
     filters,
-    setFilters,
+    setFilters: memoizedSetFilters,
     filteredTests
-  }
+  }), [filters, memoizedSetFilters, filteredTests])
 }

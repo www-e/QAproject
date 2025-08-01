@@ -1,10 +1,21 @@
 "use client"
 
-import ChatHeader from "@/components/chat/ChatHeader"
-import MessagesList from "@/components/chat/MessagesList"
-import QuickReplies from "@/components/chat/QuickReplies"
-import ChatInput from "@/components/chat/ChatInput"
+import { Suspense, lazy, useEffect } from "react"
 import { useChat } from "@/hooks/useChat"
+import { preloadPage } from "@/lib/dynamic-imports"
+
+// CRITICAL: Load essential chat UI immediately
+import ChatHeader from "@/components/chat/ChatHeader"
+import ChatInput from "@/components/chat/ChatInput"
+
+// LAZY: Only heavy components
+const MessagesList = lazy(() => import("@/components/chat/MessagesList"))
+const QuickReplies = lazy(() => import("@/components/chat/QuickReplies"))
+
+// Loading fallback for chat components
+const ChatLoader = () => (
+  <div className="h-16 bg-muted rounded-lg animate-pulse" />
+)
 
 export default function ChatPage() {
   const {
@@ -23,20 +34,30 @@ export default function ChatPage() {
     sendMessage(message)
   }
 
+  useEffect(() => {
+    // Preload adjacent tabs
+    preloadPage(() => import("../dashboard/page"))
+    preloadPage(() => import("../tests/page"))
+  }, [])
+
   return (
     <div className="flex flex-col h-full bg-background">
       <ChatHeader messageCount={messages.length} />
       
-      <MessagesList 
-        messages={messages}
-        isTyping={isTyping}
-        messagesEndRef={messagesEndRef}
-      />
+      <Suspense fallback={<div className="flex-1 bg-muted/30 rounded-lg animate-pulse" />}>
+        <MessagesList 
+          messages={messages}
+          isTyping={isTyping}
+          messagesEndRef={messagesEndRef}
+        />
+      </Suspense>
       
-      <QuickReplies 
-        onQuickReply={handleQuickReply}
-        isLoading={isLoading}
-      />
+      <Suspense fallback={<div className="h-12 bg-muted/30 rounded-lg animate-pulse" />}>
+        <QuickReplies 
+          onQuickReply={handleQuickReply}
+          isLoading={isLoading}
+        />
+      </Suspense>
       
       <ChatInput 
         onSendMessage={handleSendMessage}

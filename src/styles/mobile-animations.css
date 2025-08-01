@@ -1,0 +1,186 @@
+/* Mobile-optimized animation utilities */
+
+/* GPU acceleration for all animated elements */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth scrolling optimizations */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Touch-optimized interactions */
+.touch-optimized {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Reduce animation complexity on mobile */
+  .mobile-optimized {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Disable hover effects on mobile */
+  .no-mobile-hover:hover {
+    transform: none !important;
+    scale: 1 !important;
+  }
+  
+  /* Optimize shadows for mobile performance */
+  .mobile-shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* Low-end device optimizations */
+@media (max-width: 480px) {
+  /* Minimal animations for very small screens */
+  .minimal-animation {
+    animation: none !important;
+    transition: opacity 0.1s ease !important;
+  }
+  
+  /* Disable complex transforms */
+  .no-transform {
+    transform: none !important;
+  }
+}
+
+/* High refresh rate display optimizations */
+@media (min-resolution: 120dpi) {
+  .high-refresh {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Battery optimization classes */
+.battery-optimized {
+  animation-play-state: paused;
+  transition: none;
+}
+
+/* Performance monitoring classes */
+.perf-monitor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  background: red;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Intersection observer optimization */
+.lazy-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lazy-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile-specific Framer Motion optimizations */
+.framer-mobile {
+  /* Ensure hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  
+  /* Optimize for mobile rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Prevent layout shifts */
+  contain: layout style paint;
+}
+
+/* Touch feedback optimizations */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+  pointer-events: none;
+}
+
+.touch-feedback:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Scroll performance optimizations */
+.optimized-scroll {
+  /* Enable hardware acceleration for scrolling */
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
+  
+  /* Optimize scroll performance */
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+}
+
+/* Animation performance classes */
+.animate-fade-in-mobile {
+  animation: fadeInMobile 0.2s ease-out forwards;
+}
+
+.animate-slide-up-mobile {
+  animation: slideUpMobile 0.2s ease-out forwards;
+}
+
+@keyframes fadeInMobile {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpMobile {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
