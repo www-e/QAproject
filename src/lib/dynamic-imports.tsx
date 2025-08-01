@@ -25,37 +25,37 @@ const PageLoader = () => (
 )
 
 // Enhanced dynamic import with preloading
-export function createDynamicPage<T extends ComponentType<Record<string, unknown>>>(
-  importFn: () => Promise<{ default: T }>,
-  fallback?: ComponentType
-) {
-  const LazyComponent = lazy(importFn)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createDynamicPage<T extends ComponentType<any>>(
+    importFn: () => Promise<{ default: T }>,
+    fallback?: ComponentType
+  ) {
+    const LazyComponent = lazy(importFn);
   
-  const DynamicPage = (props: Record<string, unknown>) => {
-    // Fix: Capitalize the fallback component for proper React rendering
-    const FallbackComponent = fallback || PageLoader
-    
-    return (
-      <Suspense fallback={<FallbackComponent />}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          style={{ transform: 'translate3d(0, 0, 0)' }} // GPU acceleration
-          className="will-change-transform"
-        >
-          <LazyComponent {...(props as Parameters<T>[0])} />
-        </motion.div>
-      </Suspense>
-    )
+    const DynamicPage = (props: React.ComponentProps<T>) => {
+      // Fix: Capitalize the fallback component for proper React rendering
+      const FallbackComponent = fallback || PageLoader;
+  
+      return (
+        <Suspense fallback={<FallbackComponent />}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            style={{ transform: "translate3d(0, 0, 0)" }} // GPU acceleration
+            className="will-change-transform"
+          >
+            <LazyComponent {...props} />
+          </motion.div>
+        </Suspense>
+      );
+    };
+  
+    // Add preload method for prefetching
+    DynamicPage.preload = importFn;
+  
+    return DynamicPage;
   }
-  
-  // Add preload method for prefetching
-  DynamicPage.preload = importFn
-  
-  return DynamicPage
-}
-
 // Enhanced preload function with better error handling and performance
 export function preloadPage(importFn: () => Promise<unknown>) {
   // Use requestIdleCallback for better performance

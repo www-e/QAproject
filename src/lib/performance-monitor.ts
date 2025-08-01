@@ -136,16 +136,14 @@ class PerformanceMonitor {
 
   private detectDeviceInfo() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    
-    // Detect low-end devices
+    const deviceMemory = (navigator as NavigatorWithMemory).deviceMemory;
     const isLowEnd = (
-      (navigator as NavigatorWithMemory).deviceMemory && (navigator as NavigatorWithMemory).deviceMemory < 4 ||
-      navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4 ||
-      (isMobile && (
-        /Android [1-6]/.test(navigator.userAgent) ||
-        /iPhone OS [1-9]_/.test(navigator.userAgent)
-      ))
-    )
+      (deviceMemory && deviceMemory < 4) ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) ||
+      (isMobile &&
+        (/Android [1-6]/.test(navigator.userAgent) ||
+          /iPhone OS [1-9]_/.test(navigator.userAgent)))
+    );
 
     // Detect connection speed
     const connection = (navigator as NavigatorWithConnection).connection || 

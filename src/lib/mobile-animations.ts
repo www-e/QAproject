@@ -42,17 +42,17 @@ export function getDeviceCapabilities(): DeviceCapabilities {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   
   // Detect low-end devices
+  const deviceMemory = (navigator as NavigatorWithMemory).deviceMemory;
   const isLowEnd = (
     // Low memory devices
-    (navigator as NavigatorWithMemory).deviceMemory && (navigator as NavigatorWithMemory).deviceMemory < 4 ||
+    (deviceMemory && deviceMemory < 4) ||
     // Slow CPU
-    navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4 ||
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) ||
     // Old mobile devices
-    (isMobile && (
-      /Android [1-6]/.test(navigator.userAgent) ||
-      /iPhone OS [1-9]_/.test(navigator.userAgent)
-    ))
-  )
+    (isMobile &&
+      (/Android [1-6]/.test(navigator.userAgent) ||
+        /iPhone OS [1-9]_/.test(navigator.userAgent)))
+  );
 
   // Detect connection speed
   const connection = (navigator as NavigatorWithConnection).connection || 
